@@ -239,6 +239,31 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;border-ra
   .sp-code{min-height:90px}
 }
 
+/* ---------- about / how-sourced ---------- */
+.info-btn{width:38px;height:38px;flex-shrink:0;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--txt2);display:grid;place-items:center;transition:var(--ease)}
+.info-btn svg{width:20px;height:20px}
+.info-btn:hover{color:var(--cyan);border-color:var(--line-h);background:rgba(255,107,26,.06);transform:translateY(-2px)}
+.about-overlay{position:fixed;inset:0;z-index:9000;background:rgba(4,3,2,.82);backdrop-filter:blur(6px);display:grid;place-items:center;padding:20px}
+.about{width:min(680px,100%);max-height:88vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:26px 28px}
+.about-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
+.about-head h2{font-size:1.4rem;color:var(--txt)}
+.about-close{width:34px;height:34px;border:none;background:transparent;color:var(--muted);font-size:1.8rem;line-height:1;border-radius:8px;transition:.2s}
+.about-close:hover{color:var(--txt);background:rgba(255,255,255,.06)}
+.about-body p{color:var(--txt2);margin-bottom:12px;font-size:.92rem;max-width:none}
+.about-body b{color:var(--txt)}
+.about-body code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.82em;color:var(--cyan);background:rgba(255,107,26,.08);padding:1px 5px;border-radius:5px}
+.about-note{font-size:.78rem;color:var(--muted)}
+.cov{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:16px 0}
+.cov-row{display:grid;grid-template-columns:1fr auto 120px;gap:12px;align-items:center;padding:8px 14px;font-size:.84rem;border-bottom:1px solid var(--line)}
+.cov-row:last-child{border-bottom:none}
+.cov-row.head{background:rgba(255,255,255,.03);color:var(--muted);text-transform:uppercase;font-size:.66rem;letter-spacing:.1em}
+.cov-row.total{background:rgba(255,107,26,.07);font-weight:700}
+.cov-cat{color:var(--txt)}
+.cov-num{font-family:'JetBrains Mono',monospace;color:var(--txt2);text-align:right}
+.cov-bar{height:7px;border-radius:5px;background:rgba(255,255,255,.08);overflow:hidden}
+.cov-bar i{display:block;height:100%;background:var(--grad-wave);box-shadow:0 0 8px var(--cyan-glow)}
+.cov-bar.done i{background:var(--green);box-shadow:0 0 8px rgba(63,224,138,.4)}
+
 /* ---------- responsive ---------- */
 @media(max-width:920px){
   .dock-meta{max-width:200px}

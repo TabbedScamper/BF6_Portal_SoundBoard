@@ -22,6 +22,10 @@ let spScope = '';           // '', 'player', 'squad', 'team'
 let spSound = null;         // sound shown in the spatial panel
 let spPx = 0, spPy = -60;   // sound position on the radar, pixels from centre (top = forward)
 let spWorld = { x: 0, z: -10, dist: 10, ang: 0 }; // derived world offset for the panner
+// the authoritative SFX set for the current Portal SDK (RuntimeSpawn_Common enum, verified from index.d.ts)
+const SDK_VERSION = '1.3.2.0';
+const SDK_CATS = { UI: 331, Soldier: 200, Levels: 138, Gadgets: 103, Destruction: 68, GameModes: 61, Projectiles: 31, Gamemodes: 4, VOModule: 1, Alarm: 1 };
+const SDK_TOTAL = Object.values(SDK_CATS).reduce((a, b) => a + b, 0); // 938
 
 /* ---------- helpers ---------- */
 const is3D = (name) => /3D$/i.test(name);
@@ -309,6 +313,27 @@ $('#dockPlay').addEventListener('click', () => { if (!active) return; if (active
 $('#dockLoop').addEventListener('click', () => { loopOn = !loopOn; reflectLoop(); applyLoop(); toast(loopOn ? 'Loop on' : 'Loop off'); });
 $('#dockSpatial').addEventListener('click', () => { if (active && active.sound) openSpatial(active.sound); else toast('Play a sound first'); });
 $('#vol').addEventListener('input', (e) => { volume = +e.target.value; applyGain(); });
+
+/* ---------- about / coverage ---------- */
+function buildAbout() {
+  $('#sdkVer').textContent = SDK_VERSION;
+  $('#sdkTotal').textContent = SDK_TOTAL;
+  $('#sdkCats').textContent = Object.keys(SDK_CATS).length;
+  const cap = {}; SOUNDS.forEach(s => cap[s.cat] = (cap[s.cat] || 0) + 1);
+  const rows = ['<div class="cov-row head"><span>Category</span><span>captured / SDK</span><span>coverage</span></div>'];
+  let capTotal = 0;
+  Object.keys(SDK_CATS).sort((a, b) => SDK_CATS[b] - SDK_CATS[a]).forEach(c => {
+    const got = cap[c] || 0, tot = SDK_CATS[c]; capTotal += Math.min(got, tot);
+    const pct = Math.min(100, Math.round(100 * got / tot)), done = got >= tot ? ' done' : '';
+    rows.push(`<div class="cov-row"><span class="cov-cat">${c}</span><span class="cov-num">${got} / ${tot}</span><span class="cov-bar${done}"><i style="width:${pct}%"></i></span></div>`);
+  });
+  const tp = Math.round(100 * capTotal / SDK_TOTAL);
+  rows.push(`<div class="cov-row total"><span class="cov-cat">All</span><span class="cov-num">${capTotal} / ${SDK_TOTAL}</span><span class="cov-bar${capTotal >= SDK_TOTAL ? ' done' : ''}"><i style="width:${tp}%"></i></span></div>`);
+  $('#coverage').innerHTML = rows.join('');
+}
+$('#aboutBtn').addEventListener('click', () => { buildAbout(); $('#aboutOverlay').hidden = false; });
+$('#aboutClose').addEventListener('click', () => { $('#aboutOverlay').hidden = true; });
+$('#aboutOverlay').addEventListener('click', (e) => { if (e.target.id === 'aboutOverlay') $('#aboutOverlay').hidden = true; });
 
 /* ---------- search ---------- */
 const search = $('#search');

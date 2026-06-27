@@ -38,8 +38,28 @@
       </div>
     </div>
     <div class="header-stats" id="headerStats"></div>
+    <button class="info-btn" id="aboutBtn" title="How these sounds are sourced" aria-label="About">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor"/></svg>
+    </button>
   </div>
 </header>
+
+<!-- about / how-sourced modal -->
+<div class="about-overlay" id="aboutOverlay" hidden>
+  <div class="about" role="dialog" aria-label="How these sounds are sourced">
+    <div class="about-head">
+      <h2>How these sounds are sourced</h2>
+      <button id="aboutClose" class="about-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="about-body">
+      <p>Every sound here comes straight from the game's own asset list &mdash; nothing hand-picked. Battlefield&nbsp;6 Portal ships a generated SDK whose <code>RuntimeSpawn_Common</code> enum lists every spawnable asset; the entries beginning with <code>SFX_</code> are the sound effects the <code>PlaySound</code> function can play.</p>
+      <p>An in-game tool reads that enum at runtime (<code>Object.keys(mod.RuntimeSpawn_Common)</code>), keeps the <code>SFX_</code> ones, and plays each at an isolated point while the audio is recorded &mdash; then the recording is split back into one clip per sound by the game-time it played.</p>
+      <p>Because the list is read <b>directly from the SDK enum</b> (which DICE auto-generates from the game build), it <b>is</b> the complete, authoritative set for this version. For <b>Portal SDK v<span id="sdkVer">?</span></b> that's <b id="sdkTotal">?</b> SFX across <b id="sdkCats">?</b> categories. A category is "complete" once every SFX in it has a clip; when the game/SDK updates, re-running the tool re-reads the enum and any added/removed sounds change the count.</p>
+      <div class="cov" id="coverage"></div>
+      <p class="about-note">Some assets are silent or only sound under specific in-game conditions; they still appear in the list for completeness and are flagged when they capture no audio.</p>
+    </div>
+  </div>
+</div>
 
 <main class="container">
 
