@@ -138,11 +138,12 @@ function cardHTML(s, i) {
   const title = pretty(s.name);
   const dimTag = is3D(s.name) ? '<span class="tag tag-3d">3D</span>' : '<span class="tag tag-2d">2D</span>';
   const loopTag = s.loop ? '<span class="tag tag-loop">Loop</span>' : '';
+  const silentTag = s.silent ? '<span class="tag tag-silent" title="No audio in-game (placeholder/conditional asset)">silent</span>' : '';
   return `
   <article class="card" data-file="${s.file}" data-name="${s.name}" data-cat="${s.cat}" data-loop="${s.loop}" style="animation-delay:${Math.min(i * 18, 360)}ms">
     <div class="card-head">
       <div class="card-title">${title}</div>
-      <div class="card-tags">${dimTag}${loopTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
+      <div class="card-tags">${dimTag}${loopTag}${silentTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
     </div>
     <div class="card-wave" data-wave>
       <div class="ph"><i style="height:10px"></i><i style="height:24px"></i><i style="height:16px"></i><i style="height:32px"></i><i style="height:12px"></i><i style="height:26px"></i><i style="height:18px"></i></div>

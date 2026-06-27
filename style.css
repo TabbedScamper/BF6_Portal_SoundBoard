@@ -127,6 +127,7 @@ button{font-family:inherit;cursor:pointer}
 .tag-loop{background:rgba(39,224,138,.14);color:var(--green);border:1px solid rgba(39,224,138,.3)}
 .tag-3d{background:rgba(58,160,255,.16);color:var(--blue);border:1px solid rgba(58,160,255,.5);box-shadow:0 0 10px rgba(58,160,255,.3)}
 .tag-2d{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--line)}
+.tag-silent{background:rgba(255,90,77,.12);color:var(--red);border:1px solid rgba(255,90,77,.35)}
 .tag-dur{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--line)}
 .card-wave{height:64px;margin:6px 0 14px;border-radius:var(--r-sm);background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .card-wave .ph{display:flex;gap:3px;align-items:center;height:40px;opacity:.4}
