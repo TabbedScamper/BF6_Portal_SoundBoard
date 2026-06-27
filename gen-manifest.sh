@@ -14,7 +14,8 @@ for cat in $(ls "$SB/sounds" 2>/dev/null); do
     [ -e "$f" ] || continue
     bn=$(basename "$f")
     asset=$(echo "$bn" | sed -E 's/^[0-9]+_//; s/\.ogg$//')
-    loop=$(echo "$asset" | grep -qi "loop" && echo true || echo false)
+    # loop = has a "Loop" suffix OR is a known behaviour-loop without one (e.g. SFX_Alarm)
+    loop=$(echo "$asset" | grep -qiE "loop|^SFX_Alarm$" && echo true || echo false)
     # decode the real length (some OGGs have a bogus duration header; format=duration is unreliable)
     t=$("$FFMPEG" -nostdin -hide_banner -i "$f" -f null - 2>&1 | grep -oE 'time=[0-9:.]+' | tail -1 | sed 's/time=//')
     dur=$(awk -F: -v t="$t" 'BEGIN{n=split(t,a,":"); if(n==3) printf "%.2f", a[1]*3600+a[2]*60+a[3]; else printf "%.2f", (t==""?0:t)}')

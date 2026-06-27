@@ -18,6 +18,9 @@ const path = require('path');
 const SB = __dirname;
 const FFMPEG  = process.env.FFMPEG  || 'ffmpeg';
 const FFPROBE = process.env.FFPROBE || 'ffprobe';
+// sounds that loop by BEHAVIOUR but lack a "Loop" suffix in their name (observed as a long continuous capture)
+const FORCE_LOOP = ['SFX_Alarm'];
+const isLoopName = (f) => /loop/i.test(f) || FORCE_LOOP.some(n => f.includes(n));
 const SR = 16000;                       // analysis sample rate (mono)
 const ENV_WIN = Math.round(0.030 * SR); // RMS window for the envelope (~30ms)
 const EW = Math.round(0.30 * SR);       // envelope-match window leading into the seam (~300ms)
@@ -76,12 +79,14 @@ function cut(file, tS, tE) {
 }
 
 function listLoops() {
+  const only = process.argv[2];   // optional: limit to one category (avoids re-trimming already-matched ones)
   const out = [];
   const sounds = path.join(SB, 'sounds');
   for (const cat of fs.readdirSync(sounds)) {
+    if (only && cat.toLowerCase() !== only.toLowerCase()) continue;
     const dir = path.join(sounds, cat);
     if (!fs.statSync(dir).isDirectory()) continue;
-    for (const f of fs.readdirSync(dir)) if (/loop/i.test(f) && f.endsWith('.ogg')) out.push(path.join(dir, f));
+    for (const f of fs.readdirSync(dir)) if (f.endsWith('.ogg') && isLoopName(f)) out.push(path.join(dir, f));
   }
   return out;
 }

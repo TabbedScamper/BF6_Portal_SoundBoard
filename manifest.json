@@ -1,4 +1,5 @@
 [
+  {"file":"sounds/Alarm/000_SFX_Alarm.ogg","name":"SFX_Alarm","cat":"Alarm","loop":true,"dur":6.08},
   {"file":"sounds/Projectiles/000_SFX_Projectiles_FlyBys_Large_GrenadeLauncher_40mm_Close_SimpleLoop3D.ogg","name":"SFX_Projectiles_FlyBys_Large_GrenadeLauncher_40mm_Close_SimpleLoop3D","cat":"Projectiles","loop":true,"dur":3.96},
   {"file":"sounds/Projectiles/001_SFX_Projectiles_FlyBys_Large_GrenadeLauncher_40mm_OneShot3D.ogg","name":"SFX_Projectiles_FlyBys_Large_GrenadeLauncher_40mm_OneShot3D","cat":"Projectiles","loop":false,"dur":0.72},
   {"file":"sounds/Projectiles/002_SFX_Projectiles_FlyBys_Shells_Artillery_Incoming_OneShot3D.ogg","name":"SFX_Projectiles_FlyBys_Shells_Artillery_Incoming_OneShot3D","cat":"Projectiles","loop":false,"dur":1.57},
