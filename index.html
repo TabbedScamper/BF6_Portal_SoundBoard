@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BF6 Portal &mdash; SFX Library</title>
+<meta name="description" content="Battlefield 6 Portal sound effects library &mdash; browse, audition and download game SFX." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23ff6b1a'/%3E%3Cg fill='%23140a04'%3E%3Crect x='5' y='9' width='2' height='6' rx='1'/%3E%3Crect x='9' y='5' width='2' height='14' rx='1'/%3E%3Crect x='13' y='8' width='2' height='8' rx='1'/%3E%3Crect x='17' y='6' width='2' height='12' rx='1'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- loading screen -->
+<div class="loader" id="loader">
+  <div class="loader-bars" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="loader-text">LOADING SOUND LIBRARY</div>
+</div>
+
+<!-- animated background -->
+<div class="bg-fx" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow--1"></div>
+  <div class="bg-glow bg-glow--2"></div>
+  <div class="bg-noise"></div>
+</div>
+
+<!-- header -->
+<header class="header" id="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark"><span class="brand-wave"><i></i><i></i><i></i><i></i><i></i></span></div>
+      <div class="brand-text">
+        <h1>SFX&nbsp;LIBRARY</h1>
+        <p>Battlefield&nbsp;6 Portal &middot; sound&nbsp;effects</p>
+      </div>
+    </div>
+    <div class="header-stats" id="headerStats"></div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- toolbar -->
+  <section class="toolbar">
+    <div class="search">
+      <svg viewBox="0 0 24 24" class="search-ico" aria-hidden="true"><path d="M21 21l-4.3-4.3M11 19a8 8 0 110-16 8 8 0 010 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="search" type="search" placeholder="Search sounds&hellip;  (e.g. rocket, sniper, loop)" autocomplete="off" spellcheck="false" />
+      <button id="searchClear" class="search-clear" title="Clear" aria-label="Clear search">&times;</button>
+    </div>
+    <div class="tool-actions">
+      <button id="dlCat" class="btn btn-ghost" title="Download the current category as a .zip">
+        <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Download category</span>
+      </button>
+      <button id="dlAll" class="btn btn-accent" title="Download every sound as a .zip">
+        <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Download all</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- category chips -->
+  <nav class="chips" id="chips" aria-label="Categories"></nav>
+
+  <!-- type filter -->
+  <div class="typefilter" id="typeFilter" aria-label="Filter by type">
+    <span class="tf-label">Type</span>
+    <button class="tpill active" data-type="all">All</button>
+    <button class="tpill" data-type="3d">3D</button>
+    <button class="tpill" data-type="2d">2D</button>
+    <button class="tpill" data-type="loop">Loop</button>
+  </div>
+
+  <!-- results -->
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>No sounds match &ldquo;<span id="emptyTerm"></span>&rdquo;.</div>
+
+</main>
+
+<!-- spatial preview panel -->
+<aside class="spatial" id="spatial" hidden aria-label="Spatial preview">
+  <div class="sp-head">
+    <span class="sp-title">SPATIAL PREVIEW</span>
+    <button id="spClose" class="sp-close" aria-label="Close">&times;</button>
+  </div>
+  <div class="sp-name" id="spName">&mdash;</div>
+  <div class="sp-mode" id="spMode"></div>
+  <div class="radar-wrap">
+    <canvas id="radar" width="340" height="340" aria-label="Radar: click to place the sound; centre is the player"></canvas>
+    <div class="radar-hint">click / drag to place the sound &middot; centre = you</div>
+  </div>
+  <div class="sp-row">
+    <label class="sp-label">Distance <b id="distVal">0 m</b></label>
+  </div>
+  <div class="sp-row">
+    <label class="sp-label">Attenuation range (ring) <b id="rangeVal">40 m</b></label>
+    <input id="rangeSlider" type="range" min="2" max="200" step="1" value="40" />
+  </div>
+  <div class="sp-row">
+    <label class="sp-label">Amplitude <b id="ampVal">1.0&times;</b></label>
+    <input id="ampSlider" type="range" min="0" max="5" step="0.1" value="1" />
+  </div>
+  <div class="sp-row sp-scope">
+    <label class="sp-label">Scope</label>
+    <select id="scopeSel">
+      <option value="">Everyone</option>
+      <option value="player">player</option>
+      <option value="squad">squad</option>
+      <option value="team">team</option>
+    </select>
+  </div>
+  <button id="spPlay" class="btn btn-accent sp-play">
+    <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+    <span>Play from position</span>
+  </button>
+  <div class="sp-codewrap">
+    <pre class="sp-code" id="spCode"></pre>
+    <button id="spCopy" class="sp-copy" title="Copy code">copy</button>
+  </div>
+  <p class="sp-note">Attenuation is approximate &mdash; in-game falloff differs per sound (per Aryo/Post). This is a preview.</p>
+</aside>
+
+<!-- now-playing dock -->
+<div class="dock" id="dock" aria-hidden="true">
+  <div class="dock-inner">
+    <button class="dock-play" id="dockPlay" aria-label="Play/Pause">
+      <svg class="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+      <svg class="ico-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>
+    </button>
+    <div class="dock-meta">
+      <div class="dock-title" id="dockTitle">&mdash;</div>
+      <div class="dock-sub" id="dockSub"></div>
+    </div>
+    <div class="dock-wave" id="dockWave"></div>
+    <div class="dock-time"><span id="dockCur">0:00</span> / <span id="dockDur">0:00</span></div>
+    <button class="dock-toggle" id="dockLoop" title="Loop" aria-pressed="false">
+      <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 014-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 01-4 4H3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="dock-toggle" id="dockSpatial" title="Spatial preview (radar)" aria-label="Spatial preview">
+      <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>
+    </button>
+    <div class="dock-vol">
+      <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 010 7M18 6a8 8 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="vol" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" />
+    </div>
+    <a class="dock-dl" id="dockDl" title="Download this sound" download>
+      <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- download overlay -->
+<div class="dl-overlay" id="dlOverlay" hidden>
+  <div class="dl-box">
+    <div class="dl-spin"></div>
+    <div class="dl-label" id="dlLabel">Zipping&hellip;</div>
+    <div class="dl-bar"><i id="dlBar"></i></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://unpkg.com/wavesurfer.js@7"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
