@@ -19,7 +19,7 @@ const SB = __dirname;
 const FFMPEG  = process.env.FFMPEG  || 'ffmpeg';
 const FFPROBE = process.env.FFPROBE || 'ffprobe';
 // sounds that loop by BEHAVIOUR but lack a "Loop" suffix in their name (observed as a long continuous capture)
-const FORCE_LOOP = ['SFX_Alarm'];
+const FORCE_LOOP = ['SFX_Alarm', 'Switchblade_Engine_Propellar'];
 const isLoopName = (f) => /loop/i.test(f) || FORCE_LOOP.some(n => f.includes(n));
 const SR = 16000;                       // analysis sample rate (mono)
 const ENV_WIN = Math.round(0.030 * SR); // RMS window for the envelope (~30ms)
