@@ -63,6 +63,7 @@ async function init() {
   buildChips();
   buildTypeFilter();
   render();
+  initAnalytics();
   hideLoader();
 }
 function hideLoader() { setTimeout(() => $('#loader').classList.add('hide'), 350); }
@@ -313,6 +314,45 @@ $('#dockPlay').addEventListener('click', () => { if (!active) return; if (active
 $('#dockLoop').addEventListener('click', () => { loopOn = !loopOn; reflectLoop(); applyLoop(); toast(loopOn ? 'Loop on' : 'Loop off'); });
 $('#dockSpatial').addEventListener('click', () => { if (active && active.sound) openSpatial(active.sound); else toast('Play a sound first'); });
 $('#vol').addEventListener('input', (e) => { volume = +e.target.value; applyGain(); });
+
+/* ---------- visitor counters (GoatCounter total/history + Firebase live "online now") ---------- */
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.async = true; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
+function initAnalytics() {
+  const cfg = window.SB_CONFIG || {};
+  const hasGC = !!cfg.goatcounter, hasFB = !!(cfg.firebase && cfg.firebase.databaseURL);
+  if (!hasGC && !hasFB) return;                 // nothing configured -> keep the chip hidden
+  $('#siteStat').hidden = false;
+  if (!hasFB) { $('#ssOnlineWrap').hidden = true; $('#ssSep').hidden = true; }
+  if (!hasGC) { $('#ssTotalWrap').hidden = true; $('#ssSep').hidden = true; }
+
+  // GoatCounter: send the pageview + read the public total counter
+  if (hasGC) {
+    const code = cfg.goatcounter;
+    const s = document.createElement('script');
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    s.setAttribute('data-goatcounter', `https://${code}.goatcounter.com/count`);
+    document.body.appendChild(s);
+    fetch(`https://${code}.goatcounter.com/counter/TOTAL.json`)
+      .then(r => r.json()).then(d => { if (d && d.count != null) $('#ssTotal').textContent = ('' + d.count).trim(); })
+      .catch(() => { $('#ssTotalWrap').hidden = true; });
+  }
+
+  // Firebase Realtime DB presence: each open tab adds a node that auto-removes on disconnect; count = online now
+  if (hasFB) {
+    loadScript('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js')
+      .then(() => loadScript('https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js'))
+      .then(() => {
+        firebase.initializeApp(cfg.firebase);
+        const db = firebase.database();
+        const ref = db.ref('online');
+        const me = ref.push();
+        const conn = db.ref('.info/connected');
+        conn.on('value', (s) => { if (s.val()) { me.onDisconnect().remove(); me.set(true); } });
+        ref.on('value', (snap) => { $('#ssOnline').textContent = snap.numChildren() || 1; });
+      })
+      .catch(() => { $('#ssOnlineWrap').hidden = true; $('#ssSep').hidden = true; });
+  }
+}
 
 /* ---------- about / coverage ---------- */
 function buildAbout() {
