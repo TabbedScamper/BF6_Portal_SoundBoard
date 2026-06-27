@@ -34,8 +34,11 @@ function pretty(name) {
   s = s.replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
   return s || name;
 }
-function fmt(t) {
+// format a time; for sub-second clips (dur < 1) show decimals like "0.50s" instead of "0:00".
+// `dur` is the clip length that decides the style (defaults to the value itself).
+function fmt(t, dur) {
   if (!isFinite(t) || t < 0) t = 0;
+  if ((dur === undefined ? t : dur) < 1) return t.toFixed(2) + 's';
   const m = Math.floor(t / 60), s = Math.floor(t % 60);
   return m + ':' + String(s).padStart(2, '0');
 }
@@ -134,7 +137,7 @@ function cardHTML(s, i) {
   <article class="card" data-file="${s.file}" data-name="${s.name}" data-cat="${s.cat}" data-loop="${s.loop}" style="animation-delay:${Math.min(i * 18, 360)}ms">
     <div class="card-head">
       <div class="card-title">${title}</div>
-      <div class="card-tags">${dimTag}${loopTag}<span class="tag tag-dur">${fmt(s.dur)}</span></div>
+      <div class="card-tags">${dimTag}${loopTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
     </div>
     <div class="card-wave" data-wave>
       <div class="ph"><i style="height:10px"></i><i style="height:24px"></i><i style="height:16px"></i><i style="height:32px"></i><i style="height:12px"></i><i style="height:26px"></i><i style="height:18px"></i></div>
@@ -282,8 +285,8 @@ function setDock(sound) {
   const dock = $('#dock'); dock.classList.add('show'); dock.setAttribute('aria-hidden', 'false');
   $('#dockTitle').textContent = pretty(sound.name);
   $('#dockSub').textContent = sound.cat + (sound.loop ? ' · loop' : '') + ' · ' + sound.name;
-  $('#dockDur').textContent = fmt(sound.dur);
-  $('#dockCur').textContent = '0:00';
+  $('#dockDur').textContent = fmt(sound.dur, sound.dur);
+  $('#dockCur').textContent = fmt(0, sound.dur);
   const dl = $('#dockDl'); dl.href = sound.file; dl.download = sound.name + '.ogg';
   // build/refresh seek bar
   const w = $('#dockWave');
@@ -296,7 +299,7 @@ function setDock(sound) {
   });
 }
 function updateDockTime(t, dur) {
-  $('#dockCur').textContent = fmt(t);
+  $('#dockCur').textContent = fmt(t, dur);
   const fill = $('#dockWave .pgfill');
   if (fill && dur) fill.style.width = (100 * t / dur) + '%';
 }
