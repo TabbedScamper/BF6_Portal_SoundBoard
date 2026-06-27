@@ -5,7 +5,7 @@ window.SB_CONFIG = {
   // 1. Make a free site at https://www.goatcounter.com/  (pick a code, e.g. "bf6sfx").
   // 2. In its Settings, enable the visitor counter ("Allow visitors to see the count").
   // 3. Put your code (the subdomain part) here:  e.g.  bf6sfx.goatcounter.com  ->  'bf6sfx'
-  goatcounter: '',
+  goatcounter: 'tabbedscamper',
 
   // ---- Live "online now" count (Firebase Realtime Database) ----
   // 1. Create a free Firebase project at https://console.firebase.google.com/
