@@ -183,7 +183,7 @@ function ensureWave(card) {
   wsByFile.set(file, ws);
   ws._file = file;
   // wavesurfer is DISPLAY-ONLY; playback goes through the Web Audio engine (gapless loops).
-  ws.on('interaction', (t) => { const c = cardFor(file) || card; if (!active || active.sound.file !== file) playFromCard(c); else engSeek(t); });
+  ws.on('interaction', (t) => { const c = cardFor(file) || card; if (!active || active.sound.file !== file) playFromCard(c); else { const wd = active.ws.getDuration() || active.dur; engSeek((t / wd) * active.dur); } });
   return ws;
 }
 function cardFor(file) { return $(`.card[data-file="${CSS.escape(file)}"]`); }
@@ -208,11 +208,19 @@ function engCurTime() {
   if (active.src && active.src.loop && active.dur) t = t % active.dur;
   return t;
 }
+function setWaveProgress(t, full) {  // map engine time -> wavesurfer cursor by FRACTION (durations can differ slightly)
+  if (!active || !active.ws) return;
+  const wd = active.ws.getDuration();
+  if (wd > 0 && active.dur > 0) {
+    const frac = full ? 1 : Math.max(0, Math.min(1, t / active.dur));
+    try { active.ws.setTime(frac >= 1 ? wd - 0.001 : frac * wd); } catch (e) {}
+  }
+}
 function engTick() {
   if (!active || !active.playing) return;
   const t = engCurTime();
   updateDockTime(t, active.dur);
-  if (active.ws && active.ws.getDuration() > 0) { try { active.ws.setTime(Math.min(t, active.dur - 0.01)); } catch (e) {} }
+  setWaveProgress(t);
   active.raf = requestAnimationFrame(engTick);
 }
 async function engPlay(fromOffset) {
@@ -233,13 +241,13 @@ async function engPlay(fromOffset) {
   const off = (((fromOffset || 0) % buf.duration) + buf.duration) % buf.duration;
   active.src = src; active.gain = gain; active.dur = buf.duration;
   active.offset = off; active.startedAt = AC.currentTime; active.playing = true; active._manualStop = false;
-  src.onended = () => { if (active && active.src === src && !active._manualStop) { active.playing = false; active.offset = 0; cancelAnimationFrame(active.raf); setPlayingUI(cardFor(sound.file), false); updateDockTime(0, active.dur); } };
+  src.onended = () => { if (active && active.src === src && !active._manualStop) { active.playing = false; active.offset = 0; cancelAnimationFrame(active.raf); setPlayingUI(cardFor(sound.file), false); updateDockTime(active.dur, active.dur); setWaveProgress(0, true); } };
   src.start(0, off);
   setPlayingUI(cardFor(sound.file), true);
   engTick();
 }
 function engPause() { if (!active || !active.playing) return; active.offset = engCurTime(); active.playing = false; engStop(); setPlayingUI(cardFor(active.sound.file), false); }
-function engSeek(t) { if (!active) return; if (active.playing) engPlay(t); else { active.offset = t; updateDockTime(t, active.dur); if (active.ws) try { active.ws.setTime(t); } catch (e) {} } }
+function engSeek(t) { if (!active) return; if (active.playing) engPlay(t); else { active.offset = t; updateDockTime(t, active.dur); setWaveProgress(t); } }
 function applyLoop() { if (active && active.src) active.src.loop = loopOn; }
 function applyGain() { if (active && active.gain) active.gain.gain.value = volume * ampParam; }
 

@@ -86,41 +86,49 @@
     <span class="sp-title">SPATIAL PREVIEW</span>
     <button id="spClose" class="sp-close" aria-label="Close">&times;</button>
   </div>
-  <div class="sp-name" id="spName">&mdash;</div>
-  <div class="sp-mode" id="spMode"></div>
-  <div class="radar-wrap">
-    <canvas id="radar" width="340" height="340" aria-label="Radar: click to place the sound; centre is the player"></canvas>
-    <div class="radar-hint">click / drag to place the sound &middot; centre = you</div>
+  <div class="sp-body">
+    <div class="sp-left">
+      <div class="sp-name" id="spName">&mdash;</div>
+      <div class="sp-mode" id="spMode"></div>
+      <div class="radar-wrap">
+        <canvas id="radar" width="340" height="340" aria-label="Radar: click to place the sound; centre is the player"></canvas>
+        <div class="radar-hint">click / drag to place the sound &middot; centre = you</div>
+        <div class="sp-dist"><label class="sp-label">Distance <b id="distVal">0 m</b></label></div>
+      </div>
+    </div>
+    <div class="sp-right">
+      <div class="sp-controls">
+        <div class="sp-row">
+          <label class="sp-label">Attenuation range (ring) <b id="rangeVal">40 m</b></label>
+          <input id="rangeSlider" type="range" min="2" max="200" step="1" value="40" />
+        </div>
+        <div class="sp-row">
+          <label class="sp-label">Amplitude <b id="ampVal">1.0&times;</b></label>
+          <input id="ampSlider" type="range" min="0" max="5" step="0.1" value="1" />
+        </div>
+        <div class="sp-row sp-scope">
+          <label class="sp-label">Scope</label>
+          <select id="scopeSel">
+            <option value="">Everyone</option>
+            <option value="player">player</option>
+            <option value="squad">squad</option>
+            <option value="team">team</option>
+          </select>
+        </div>
+        <button id="spPlay" class="btn btn-accent sp-play">
+          <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+          <span>Play from position</span>
+        </button>
+      </div>
+      <div class="sp-codecol">
+        <div class="sp-codewrap">
+          <pre class="sp-code" id="spCode"></pre>
+          <button id="spCopy" class="sp-copy" title="Copy code">copy</button>
+        </div>
+        <p class="sp-note">Attenuation is approximate &mdash; in-game falloff differs per sound (per Aryo/Post). This is a preview.</p>
+      </div>
+    </div>
   </div>
-  <div class="sp-row">
-    <label class="sp-label">Distance <b id="distVal">0 m</b></label>
-  </div>
-  <div class="sp-row">
-    <label class="sp-label">Attenuation range (ring) <b id="rangeVal">40 m</b></label>
-    <input id="rangeSlider" type="range" min="2" max="200" step="1" value="40" />
-  </div>
-  <div class="sp-row">
-    <label class="sp-label">Amplitude <b id="ampVal">1.0&times;</b></label>
-    <input id="ampSlider" type="range" min="0" max="5" step="0.1" value="1" />
-  </div>
-  <div class="sp-row sp-scope">
-    <label class="sp-label">Scope</label>
-    <select id="scopeSel">
-      <option value="">Everyone</option>
-      <option value="player">player</option>
-      <option value="squad">squad</option>
-      <option value="team">team</option>
-    </select>
-  </div>
-  <button id="spPlay" class="btn btn-accent sp-play">
-    <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
-    <span>Play from position</span>
-  </button>
-  <div class="sp-codewrap">
-    <pre class="sp-code" id="spCode"></pre>
-    <button id="spCopy" class="sp-copy" title="Copy code">copy</button>
-  </div>
-  <p class="sp-note">Attenuation is approximate &mdash; in-game falloff differs per sound (per Aryo/Post). This is a preview.</p>
 </aside>
 
 <!-- now-playing dock -->
