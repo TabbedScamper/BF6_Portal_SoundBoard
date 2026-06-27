@@ -69,13 +69,18 @@ function findLoop(x) {
   return { S, E, quality: 1 - Math.min(1, matchRms / meanEnv) };  // 1.0 = envelope matches perfectly
 }
 
+function sleep(ms) { const t = Date.now() + ms; while (Date.now() < t) { /* spin: Dropbox lock is brief */ } }
 function cut(file, tS, tE) {
   const tmp = path.join(SB, '.looptmp.ogg');
   const r = spawnSync(FFMPEG, ['-nostdin','-hide_banner','-loglevel','error','-y','-i',file,
     '-af', `atrim=${tS.toFixed(4)}:${tE.toFixed(4)},asetpts=PTS-STARTPTS`,
     '-vn','-ac','2','-c:a','libvorbis','-q:a','5', tmp], { maxBuffer: 1 << 30 });
   if (r.status !== 0) throw new Error('cut failed: ' + (r.stderr || ''));
-  fs.renameSync(tmp, file);
+  // retry the overwrite — Dropbox/AV can briefly lock the target (EPERM on rename)
+  for (let i = 0; i < 10; i++) {
+    try { fs.renameSync(tmp, file); return; }
+    catch (e) { if (i === 9) { try { fs.copyFileSync(tmp, file); fs.unlinkSync(tmp); return; } catch (e2) { throw e2; } } sleep(300); }
+  }
 }
 
 function listLoops() {
