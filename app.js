@@ -71,8 +71,12 @@ function hideLoader() { setTimeout(() => $('#loader').classList.add('hide'), 350
 function buildStats() {
   const cats = new Set(SOUNDS.map(s => s.cat));
   const loops = SOUNDS.filter(s => s.loop).length;
+  const n3 = SOUNDS.filter(s => is3D(s.name)).length;
+  const n2 = SOUNDS.length - n3;
   const stat = (n, l) => `<div class="stat"><b data-count="${n}">0</b><span>${l}</span></div>`;
-  $('#headerStats').innerHTML = stat(SOUNDS.length, 'sounds') + stat(cats.size, 'categories') + stat(loops, 'loops');
+  $('#headerStats').innerHTML =
+    stat(SOUNDS.length, 'sounds') + stat(cats.size, 'categories') +
+    stat(n2, '2D') + stat(n3, '3D') + stat(loops, 'loops');
   animateCounts($('#headerStats'));
 }
 // eased count-up for any [data-count] numbers (SEC-style)

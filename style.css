@@ -99,11 +99,11 @@ button{font-family:inherit;cursor:pointer}
 .discord-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,107,26,.7);filter:brightness(1.06)}
 /* stat band under the header — big animated numbers */
 .statband{border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,107,26,.07),rgba(8,8,12,.3))}
-.statband-inner{max-width:1440px;margin:0 auto;padding:16px clamp(14px,3vw,28px);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
-.statband .header-stats{gap:clamp(28px,6vw,72px)}
-.statband .header-stats .stat{text-align:left}
-.statband .header-stats .stat b{font-family:'BF Headline','Oswald',sans-serif;font-size:clamp(2.2rem,5vw,3.4rem);
-  color:#ff8a2a;line-height:.9;text-shadow:0 0 22px rgba(255,107,26,.4)}
+.statband-inner{max-width:1440px;margin:0 auto;padding:18px clamp(14px,3vw,28px);display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+.statband .header-stats{gap:clamp(26px,5vw,68px);flex:1;justify-content:center;flex-wrap:wrap}
+.statband .header-stats .stat{text-align:center}
+.statband .header-stats .stat b{font-family:'BF Headline','Oswald',sans-serif;font-size:clamp(2.6rem,5.4vw,4.2rem);
+  color:#ff8a2a;line-height:.9;text-shadow:0 0 24px rgba(255,107,26,.42)}
 .statband .header-stats .stat span{font-family:'BF Sub','Oswald',sans-serif;font-size:.74rem;letter-spacing:.18em;color:var(--txt2)}
 
 /* ---------- container / toolbar ---------- */
