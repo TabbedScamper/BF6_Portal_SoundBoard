@@ -316,6 +316,7 @@ function playFromCard(card) {
   reflectLoop();
   setDock(sound);
   engPlay(0);
+  if (!$('#spatial').hidden) openSpatial(sound); // keep the radar panel + its options in sync with the playing sound
 }
 function setPlayingUI(card, playing) {
   $$('.card.playing').forEach(c => { if (c !== card) c.classList.remove('playing'); });
