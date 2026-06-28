@@ -10,9 +10,6 @@
 [ext_resource type="PackedScene" path="res://static/MP_Portal_Sand_Assets.tscn" id="8_3bsb7"]
 [ext_resource type="PackedScene" path="res://objects/gameplay/ai/AI_Spawner.tscn" id="9_3nsvq"]
 [ext_resource type="PackedScene" path="res://objects/gameplay/common/FixedCamera.tscn" id="10_5mm14"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Conquest/CapturePoint.tscn" id="11_cppt"]
-[ext_resource type="PackedScene" path="res://objects/gameplay/rush/MCOM.tscn" id="12_mcom"]
-[ext_resource type="PackedScene" path="res://objects/Gameplay/Common/Sector.tscn" id="13_sectr"]
 
 [node name="MP_Portal_Sand" type="Node3D" unique_id=419618217]
 
@@ -108,64 +105,3 @@ ObjId = 100
 
 [node name="FixedCamera" parent="." unique_id=432160102 instance=ExtResource("10_5mm14")]
 ObjId = 200
-
-[node name="Objectives" type="Node3D" parent="." unique_id=900000300]
-
-[node name="CapturePointA" parent="Objectives" unique_id=900000301 node_paths=PackedStringArray("CaptureArea") instance=ExtResource("11_cppt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 32.6, -40)
-ObjId = 300
-CaptureArea = NodePath("CapturePointArea")
-
-[node name="CapturePointArea" parent="Objectives/CapturePointA" unique_id=900000302 instance=ExtResource("3_nefn2")]
-points = PackedVector2Array(8, 8, 8, -8, -8, -8, -8, 8)
-height = 20.0
-
-[node name="CapturePointB" parent="Objectives" unique_id=900000303 node_paths=PackedStringArray("CaptureArea") instance=ExtResource("11_cppt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 32.6, -40)
-ObjId = 301
-CaptureArea = NodePath("CapturePointArea")
-
-[node name="CapturePointArea" parent="Objectives/CapturePointB" unique_id=900000304 instance=ExtResource("3_nefn2")]
-points = PackedVector2Array(8, 8, 8, -8, -8, -8, -8, 8)
-height = 20.0
-
-[node name="CapturePointC" parent="Objectives" unique_id=900000305 node_paths=PackedStringArray("CaptureArea") instance=ExtResource("11_cppt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32.6, 0)
-ObjId = 302
-CaptureArea = NodePath("CapturePointArea")
-
-[node name="CapturePointArea" parent="Objectives/CapturePointC" unique_id=900000306 instance=ExtResource("3_nefn2")]
-points = PackedVector2Array(8, 8, 8, -8, -8, -8, -8, 8)
-height = 20.0
-
-[node name="CapturePointD" parent="Objectives" unique_id=900000307 node_paths=PackedStringArray("CaptureArea") instance=ExtResource("11_cppt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 32.6, 40)
-ObjId = 303
-CaptureArea = NodePath("CapturePointArea")
-
-[node name="CapturePointArea" parent="Objectives/CapturePointD" unique_id=900000308 instance=ExtResource("3_nefn2")]
-points = PackedVector2Array(8, 8, 8, -8, -8, -8, -8, 8)
-height = 20.0
-
-[node name="CapturePointE" parent="Objectives" unique_id=900000309 node_paths=PackedStringArray("CaptureArea") instance=ExtResource("11_cppt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40, 32.6, 40)
-ObjId = 304
-CaptureArea = NodePath("CapturePointArea")
-
-[node name="CapturePointArea" parent="Objectives/CapturePointE" unique_id=900000310 instance=ExtResource("3_nefn2")]
-points = PackedVector2Array(8, 8, 8, -8, -8, -8, -8, 8)
-height = 20.0
-
-[node name="MCOM_1" parent="Objectives" unique_id=900000311 instance=ExtResource("12_mcom")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 32.6, 0)
-ObjId = 310
-
-[node name="MCOM_2" parent="Objectives" unique_id=900000312 instance=ExtResource("12_mcom")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 32.6, 0)
-ObjId = 311
-
-[node name="Sector_1" parent="Objectives" unique_id=900000313 node_paths=PackedStringArray("CapturePoints", "MCOMs") instance=ExtResource("13_sectr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 32.6, 0)
-ObjId = 320
-CapturePoints = [NodePath("../CapturePointA"), NodePath("../CapturePointB"), NodePath("../CapturePointC"), NodePath("../CapturePointD"), NodePath("../CapturePointE")]
-MCOMs = [NodePath("../MCOM_1"), NodePath("../MCOM_2")]

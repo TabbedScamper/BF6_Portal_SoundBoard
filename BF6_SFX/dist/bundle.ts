@@ -4760,17 +4760,12 @@ const CAP_GAP_SEC = 0.6;          // real-time silence gap between sounds
 const MATCH_EXTEND_SEC = 20;      // every sound played pushes the match time limit this far ahead
 const CAPTURE_POS = (): mod.Vector => M.CreateVector(0, 150, 0); // high & isolated; (0,0,0) is UNDERGROUND here
 
-// ---- VO OBJECTIVE CONTEXT (optional 2nd-pass; makes Objective/MCom/Sector announcer lines audible) ----
-// Many VoiceOverEvents2D are context-gated: the announcer only speaks "objective A captured" etc. if a real
-// objective EXISTS to reference. There is no runtime "spawn objective" — you PLACE them in Godot, then we drive
-// their state by ObjId before each VO. Leave these EMPTY and the layer is OFF (objective VO lines stay silent,
-// nothing else changes). To enable: in BF_Undead.tscn place CapturePoints (order = A,B,C,...) + optionally MCOMs,
-// set their ObjIds here, re-publish the level in Godot, redeploy, then run REC VO LINES again.
-// NOTE: even fully set up, the engine has a CONFIRMED bug (Discord bug-report, still broken 1.1.1.0) where several
-// Objective* events mis-cache the VoiceOverFlags, so some will still misfire. This is best-effort.
-const VO_CP_IDS: number[] = [300, 301, 302, 303, 304]; // CapturePoint ObjIds (A,B,C,D,E) -> Objective*/CheckPoint* lines
-const VO_MCOM_IDS: number[] = [310, 311]; // MCOM ObjIds                     -> MCom* lines
-const VO_SECTOR_IDS: number[] = [320]; // Sector ObjIds                     -> SectorTaken*/CheckPoint* lines
+// ---- VO ANNOUNCER (objective + MCom lines, A-I) ----
+// Recipe proven by a Portal creator (block code): the engine's VoiceOverFlags-caching bug only bites a SHARED VO
+// carrier (it replays the PREVIOUS call's flag). Fix: spawn ONE DEDICATED carrier per flag (Alpha..India) and always
+// pair carrier[i] with flag[i] -> each carrier only ever plays its one flag, so every objective letter A-I speaks.
+// No placed objectives/capture points are needed (his spatials had none). So Objective*/MCom* events capture all 9
+// letter variants; the rest play once.
 
 // ---- vehicles (in-car RADIO) ----
 const VEHICLE_SPAWNER_IDS: number[] = [];
@@ -4826,9 +4821,12 @@ const recQueue: number[] = [];
 
 // VO announcer capture (PlayVO of every VoiceOverEvents2D)
 let voCapturing = false;
-let voIdx = 0;
+let voIdx = 0;        // index into voList (current event)
+let voLetter = 0;     // current objective-letter index (0-8) for flag-sensitive events
+let voPlay = 0;       // running play counter (each letter variant is one play)
+let voTotalPlays = 0; // total plays this run (flag9 events count 9x)
 let voList: { name: string; val: number }[] = [];
-let voObj: mod.Object | undefined;
+let voCarriers: mod.Object[] = []; // 9 dedicated VO carriers, one per flag Alpha..India
 
 let musicEvtIdx = 0;
 let radioChannel = 0;
@@ -5033,7 +5031,7 @@ function stopEverything(): void {
   stopAllSfx();
   for (const evt of MUSIC_STOP_EVENTS) playME(evt);
   capturing = false; voCapturing = false;
-  if (voObj) { try { M.UnspawnObject(voObj); } catch (e) { /* */ } voObj = undefined; }
+  for (const o of voCarriers) { try { M.UnspawnObject(o); } catch (e) { /* */ } } voCarriers = [];
   if (con) con.show(); else assertBooth(); // stay in the booth + reopen the panel; never strand the operator
   console.log("[SND] STOP EVERYTHING");
   if (con) con.logc("** STOP EVERYTHING **", LOG.STOP);
@@ -5219,79 +5217,68 @@ function buildVoList(): void {
   add("SectorTakenDefender", mod.VoiceOverEvents2D.SectorTakenDefender);
   console.log("[VO] " + voList.length + " announcer events (first val=" + (voList.length ? voList[0].val : "?") + ")");
 }
-// Objective-context layer. All no-ops when the *_IDS lists above are empty.
+// 9 flags Alpha..India + their letters; one dedicated VO carrier per flag is spawned per run.
 const VO_FLAGS: mod.VoiceOverFlags[] = [
-  mod.VoiceOverFlags.Alpha, mod.VoiceOverFlags.Bravo, mod.VoiceOverFlags.Charlie,
-  mod.VoiceOverFlags.Delta, mod.VoiceOverFlags.Echo, mod.VoiceOverFlags.Foxtrot, mod.VoiceOverFlags.Golf,
+  mod.VoiceOverFlags.Alpha, mod.VoiceOverFlags.Bravo, mod.VoiceOverFlags.Charlie, mod.VoiceOverFlags.Delta,
+  mod.VoiceOverFlags.Echo, mod.VoiceOverFlags.Foxtrot, mod.VoiceOverFlags.Golf, mod.VoiceOverFlags.Hotel, mod.VoiceOverFlags.India,
 ];
-function voTeam(n: number): mod.Team | undefined { try { return M.GetTeam(n); } catch (e) { return undefined; } }
-/** Place + enable the objectives once at the start of a VO run, owned by team 1. */
-function voSetupObjectives(): void {
-  if (!M) return;
-  const t1 = voTeam(1);
-  for (const id of VO_CP_IDS) { try { const cp = M.GetCapturePoint(id); if (cp) { M.EnableGameModeObjective(cp as unknown as mod.CapturePoint, true); if (t1) M.SetCapturePointOwner(cp, t1); } } catch (e) { /* */ } }
-  for (const id of VO_MCOM_IDS) { try { const m = M.GetMCOM(id); if (m) { M.EnableGameModeObjective(m as unknown as mod.MCOM, true); if (t1) M.SetMCOMOwner(m, t1); } } catch (e) { /* */ } }
-  for (const id of VO_SECTOR_IDS) { try { const s = M.GetSector(id); if (s) M.EnableGameModeObjective(s as unknown as mod.Sector, true); } catch (e) { /* */ } }
-  if (VO_CP_IDS.length + VO_MCOM_IDS.length + VO_SECTOR_IDS.length > 0) console.log("[CAP] VO objective context: " + VO_CP_IDS.length + " CP, " + VO_MCOM_IDS.length + " MCOM, " + VO_SECTOR_IDS.length + " sector");
-}
-/** Before a VO event, put its referenced objective into the matching (gain/loss) state and return the flag to use. */
-function voContext(name: string, i: number): mod.VoiceOverFlags {
-  if (VO_CP_IDS.length === 0 && VO_MCOM_IDS.length === 0) return mod.VoiceOverFlags.Alpha;
-  const loss = /Lost|Neutralis|Contested|Enemy|Defuse/.test(name); // enemy/loss-flavoured events flip the owner
-  try {
-    const team = loss ? voTeam(2) : voTeam(1);
-    if (VO_CP_IDS.length && (name.indexOf("Objective") === 0 || name.indexOf("CheckPoint") === 0)) {
-      const cp = M.GetCapturePoint(VO_CP_IDS[i % VO_CP_IDS.length]);
-      if (cp && team) M.SetCapturePointOwner(cp, team);
-    } else if (VO_MCOM_IDS.length && name.indexOf("MCom") === 0) {
-      const m = M.GetMCOM(VO_MCOM_IDS[i % VO_MCOM_IDS.length]);
-      if (m && team) M.SetMCOMOwner(m, team);
-    }
-  } catch (e) { /* */ }
-  // cycle the objective letter across the placed capture points so different callouts are attempted
-  const n = VO_CP_IDS.length > 0 ? Math.min(VO_CP_IDS.length, VO_FLAGS.length) : 1;
-  return VO_FLAGS[i % n];
+const VO_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+/** Objective/MCom (and experimentally CheckPoint/SectorTaken) speak an objective LETTER -> capture all 9 (A-I).
+ *  "Generic" variants have no letter. CheckPoint/Sector are unproven (creator only did Objective+MCom) but harmless
+ *  to try — they sit last in the run, so silent ones are easy to skip. */
+function isFlag9(name: string): boolean { return /^(Objective|MCom|CheckPoint|SectorTaken)/.test(name) && name.indexOf("Generic") < 0; }
+/** Spawn the 9 dedicated VO carriers (one per flag) at the booth. */
+function spawnVoCarriers(): void {
+  voCarriers = [];
+  const pos = capturePos ?? playerPos();
+  const voVal = (mod.RuntimeSpawn_Common as unknown as Record<string, number>).SFX_VOModule_OneShot2D;
+  for (let i = 0; i < VO_FLAGS.length; i++) {
+    try { voCarriers.push(M.SpawnObject(voVal as unknown as mod.RuntimeSpawn_Common, pos, M.CreateVector(0, 0, 0), M.CreateVector(1, 1, 1)) as unknown as mod.Object); } catch (e) { /* */ }
+  }
 }
 
 function startVoCapture(): void {
   buildVoList();
   if (voList.length === 0) { if (con) con.logc("no VO events found", LOG.WARN); return; }
-  capturing = false; voCapturing = true; voIdx = 0; capLastCat = "";
+  capturing = false; voCapturing = true; voIdx = 0; voLetter = 0; voPlay = 0; capLastCat = "";
+  voTotalPlays = 0; for (const e of voList) voTotalPlays += isFlag9(e.name) ? VO_FLAGS.length : 1;
   if (con) con.close();
-  assertBooth(); // FixedCamera at the capture point, viewing through it
-  voSetupObjectives(); // enable any placed CapturePoints/MCOMs/Sectors so objective lines have a referent
-  voObj = undefined; // a fresh VO carrier is spawned per event in voCaptureTick (matches vip_escort_script)
+  assertBooth();        // FixedCamera at the capture point, viewing through it
+  spawnVoCarriers();    // 9 dedicated carriers (one per flag) — the proven fix for the flag-caching bug
   capStartGt = M.GetMatchTimeElapsed();
   capNextTime = capStartGt + 1.0;
   capCurGt = capStartGt;
   playMarker();
   console.log("[CAP] MARKER SFX_Alarm gt=" + gt3(capStartGt) + "  (audio-sync anchor)");
   extendMatch();
-  console.log("[CAP] ===== RECORDING START (VO announcers) " + voList.length + " events =====");
-  if (con) con.logc("REC " + voList.length + " VO lines - start OBS now", LOG.REC);
+  console.log("[CAP] ===== RECORDING START (VO announcers) " + voTotalPlays + " plays / " + voList.length + " events =====");
+  if (con) con.logc("REC " + voTotalPlays + " VO lines - start OBS now", LOG.REC);
 }
 function voCaptureTick(): void {
   const now = M.GetMatchTimeElapsed();
   if (!voCapturing || now < capNextTime) return;
   if (voIdx >= voList.length) { stopVoCapture(); return; }
   const e = voList[voIdx];
+  const f9 = isFlag9(e.name);
+  const li = f9 ? voLetter : 0;                       // flag/carrier index (objective letter for flag9 events)
   if (capLastCat !== "Announcer") { capLastCat = "Announcer"; console.log("[CAP] === CATEGORY Announcer ==="); }
-  console.log("[CAP] " + (voIdx + 1) + "/" + voList.length + " gt=" + gt3(now) + " dt=" + gt3(now - capStartGt) + " [Announcer] VO_" + e.name);
+  const nm = f9 ? ("VO_" + e.name + "_" + VO_LETTERS[li]) : ("VO_" + e.name);
+  voPlay++;
+  console.log("[CAP] " + voPlay + "/" + voTotalPlays + " gt=" + gt3(now) + " dt=" + gt3(now - capStartGt) + " [Announcer] " + nm);
   capCurGt = now;
-  if (con) con.logc("rec VO " + (voIdx + 1) + "/" + voList.length + " " + e.name, LOG.REC);
-  if (voObj) { try { M.UnspawnObject(voObj); } catch (e2) { /* */ } }
-  const voPos = capturePos ?? playerPos();
-  const voVal = (mod.RuntimeSpawn_Common as unknown as Record<string, number>).SFX_VOModule_OneShot2D;
-  try { voObj = M.SpawnObject(voVal as unknown as mod.RuntimeSpawn_Common, voPos, M.CreateVector(0, 0, 0), M.CreateVector(1, 1, 1)) as unknown as mod.Object; } catch (e2) { voObj = undefined; }
-  try { if (voObj) M.PlayVO(voObj as unknown as mod.VO, e.val as unknown as mod.VoiceOverEvents2D, voContext(e.name, voIdx)); } catch (err) { console.log("[CAP] VO ERR " + e.name); }
+  if (con) con.logc("rec VO " + voPlay + "/" + voTotalPlays + " " + (f9 ? e.name + " " + VO_LETTERS[li] : e.name), LOG.REC);
+  // dedicated carrier per flag: carrier[i] only ever plays flag[i] -> no flag-cache contamination
+  const carrier = voCarriers[li] ?? voCarriers[0];
+  try { if (carrier) M.PlayVO(carrier as unknown as mod.VO, e.val as unknown as mod.VoiceOverEvents2D, VO_FLAGS[li]); } catch (err) { console.log("[CAP] VO ERR " + nm); }
   extendMatch();
   capNextTime = now + CAP_ONESHOT_SEC + CAP_GAP_SEC;
-  voIdx++;
+  if (f9) { voLetter++; if (voLetter >= VO_FLAGS.length) { voLetter = 0; voIdx++; } } else { voIdx++; }
 }
 function stopVoCapture(): void {
   voCapturing = false;
   stopAllSfx();
-  if (voObj) { try { M.UnspawnObject(voObj); } catch (e) { /* */ } voObj = undefined; }
+  for (const o of voCarriers) { try { M.UnspawnObject(o); } catch (e) { /* */ } }
+  voCarriers = [];
   if (con) con.show(); else assertBooth(); // back to the booth + reopen the panel
   console.log("[CAP] ===== RECORDING STOPPED =====");
   if (con) con.logc("VO recording stopped", LOG.REC);
@@ -5513,7 +5500,7 @@ class SoundConsole {
     let s1: string;
     let c1: mod.Vector;
     if (capturing) { s1 = "REC " + capPtr + "/" + capList.length + "  gt " + Math.round(capCurGt - capStartGt) + "s  [" + capLabel + "]"; c1 = T_REC; }
-    else if (voCapturing) { s1 = "REC VO " + voIdx + "/" + voList.length + "  gt " + Math.round(capCurGt - capStartGt) + "s"; c1 = T_REC; }
+    else if (voCapturing) { s1 = "REC VO " + voPlay + "/" + voTotalPlays + "  gt " + Math.round(capCurGt - capStartGt) + "s"; c1 = T_REC; }
     else { s1 = "sfx " + (sfxIdx + 1) + "/" + allSfx.length + "   cat " + (curCatIndex() + 1) + "/" + catNames.length + "   queue " + recQueue.length + "   " + r1(rate * 100) + "%"; c1 = T_INFO; }
     if (s0 !== this.lastS0) { this.lastS0 = s0; this.status.logcAt(s0, 0, capturing || voCapturing ? T_REC : T_PLAY); }
     if (s1 !== this.lastS1) { this.lastS1 = s1; this.status.logcAt(s1, 1, c1); }
