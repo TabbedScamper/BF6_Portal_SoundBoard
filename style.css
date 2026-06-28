@@ -339,7 +339,9 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;border-ra
 }
 @media(max-width:520px){
   .header-inner{gap:12px}
-  .header-stats{display:none}
+  .statband .header-stats{gap:14px 22px}
+  .statband .header-stats .stat b{font-size:clamp(1.9rem,9vw,2.6rem)}
+  .statband-inner{padding:14px clamp(10px,3vw,18px)}
   .brand-mark{width:44px;height:44px}
   .brand-text h1{font-size:1.3rem}
   .tool-actions{flex-direction:column}
