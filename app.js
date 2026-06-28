@@ -229,6 +229,12 @@ function ensureWave(card) {
 function cardFor(file) { return $(`.card[data-file="${CSS.escape(file)}"]`); }
 /* ---------- Web Audio playback engine (sample-accurate gapless loops; clips pre-matched to seamless points) ---------- */
 const AC = new (window.AudioContext || window.webkitAudioContext)();
+// global loudness: game SFX are recorded at the default in-game amplitude (quiet), so lift everything
+// and route through a limiter to catch peaks (no harsh clipping on the few loud ones).
+const GAIN_BOOST = 2.6;
+const LIMITER = AC.createDynamicsCompressor();
+LIMITER.threshold.value = -8; LIMITER.knee.value = 6; LIMITER.ratio.value = 12; LIMITER.attack.value = 0.003; LIMITER.release.value = 0.25;
+LIMITER.connect(AC.destination);
 const bufCache = new Map(); // file -> AudioBuffer
 async function getBuffer(file) {
   if (bufCache.has(file)) return bufCache.get(file);
@@ -270,14 +276,14 @@ async function engPlay(fromOffset) {
   if (!active || active.sound !== sound) return; // selection changed while decoding
   engStop();
   const src = AC.createBufferSource(); src.buffer = buf; src.loop = loopOn;
-  const gain = AC.createGain(); gain.gain.value = volume * ampParam;
+  const gain = AC.createGain(); gain.gain.value = volume * ampParam * GAIN_BOOST;
   if (active.spatial) {                       // 3D: route through a positional panner (radar)
     const p = AC.createPanner();
     p.panningModel = 'HRTF'; p.distanceModel = 'linear';
     p.refDistance = 1; p.rolloffFactor = 1; p.maxDistance = Math.max(2, attenRange);
     p.positionX.value = spWorld.x; p.positionY.value = 0; p.positionZ.value = spWorld.z;
-    active.panner = p; src.connect(p); p.connect(gain).connect(AC.destination);
-  } else { active.panner = null; src.connect(gain).connect(AC.destination); }
+    active.panner = p; src.connect(p); p.connect(gain).connect(LIMITER);
+  } else { active.panner = null; src.connect(gain).connect(LIMITER); }
   const off = (((fromOffset || 0) % buf.duration) + buf.duration) % buf.duration;
   active.src = src; active.gain = gain; active.dur = buf.duration;
   active.offset = off; active.startedAt = AC.currentTime; active.playing = true; active._manualStop = false;
@@ -289,7 +295,7 @@ async function engPlay(fromOffset) {
 function engPause() { if (!active || !active.playing) return; active.offset = engCurTime(); active.playing = false; engStop(); setPlayingUI(cardFor(active.sound.file), false); }
 function engSeek(t) { if (!active) return; if (active.playing) engPlay(t); else { active.offset = t; updateDockTime(t, active.dur); setWaveProgress(t); } }
 function applyLoop() { if (active && active.src) active.src.loop = loopOn; }
-function applyGain() { if (active && active.gain) active.gain.gain.value = volume * ampParam; }
+function applyGain() { if (active && active.gain) active.gain.gain.value = volume * ampParam * GAIN_BOOST; }
 
 /* ---------- playback ---------- */
 function wireCard(card) {
