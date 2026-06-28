@@ -37,17 +37,29 @@
         <p>Battlefield&nbsp;6 Portal &middot; sound&nbsp;effects</p>
       </div>
     </div>
+    <div class="ver" title="Library version"><span class="v100">V1.00</span></div>
+    <nav class="topnav" aria-label="Site">
+      <button class="topnav-tab" id="creditsBtn">Credits</button>
+      <button class="topnav-tab" id="aboutBtn">Info</button>
+      <a class="discord-btn" href="https://discord.gg/qFJU3PadJG" target="_blank" rel="noopener" title="Join the Battlefield Portal Hub Discord">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.27 5.33A16.6 16.6 0 0 0 15.1 4l-.2.4a14.9 14.9 0 0 1 3.7 1.2 13.3 13.3 0 0 0-11.3 0A14.9 14.9 0 0 1 11 4.4L10.8 4a16.6 16.6 0 0 0-4.16 1.33C3.6 9.9 2.77 14.36 3.18 18.74a16.7 16.7 0 0 0 5.07 2.56l.4-.55a11 11 0 0 1-1.74-.83l.43-.34a11.9 11.9 0 0 0 10.13 0l.43.34c-.55.32-1.13.6-1.74.83l.4.55a16.7 16.7 0 0 0 5.07-2.56c.48-5.06-.82-9.48-2.86-13.41ZM9.5 16c-.95 0-1.74-.88-1.74-1.96 0-1.08.77-1.96 1.74-1.96.97 0 1.76.89 1.74 1.96 0 1.08-.78 1.96-1.74 1.96Zm5 0c-.95 0-1.74-.88-1.74-1.96 0-1.08.77-1.96 1.74-1.96.97 0 1.76.89 1.74 1.96 0 1.08-.77 1.96-1.74 1.96Z"/></svg>
+        <span>Portal Hub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- live stat band (animated count-up) -->
+<section class="statband" id="statband">
+  <div class="statband-inner">
     <div class="header-stats" id="headerStats"></div>
     <div class="sitestat" id="siteStat" hidden>
       <span class="ss-online" id="ssOnlineWrap" title="People viewing right now"><i></i><b id="ssOnline">&ndash;</b> online</span>
       <span class="ss-sep" id="ssSep">&middot;</span>
       <span class="ss-total" id="ssTotalWrap" title="Total visits"><b id="ssTotal">&ndash;</b> visits</span>
     </div>
-    <button class="info-btn" id="aboutBtn" title="How these sounds are sourced" aria-label="About">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1.2" fill="currentColor"/></svg>
-    </button>
   </div>
-</header>
+</section>
 
 <!-- about / how-sourced modal -->
 <div class="about-overlay" id="aboutOverlay" hidden>
@@ -62,6 +74,23 @@
       <p>Because the list is read <b>directly from the SDK enum</b> (which DICE auto-generates from the game build), it <b>is</b> the complete, authoritative set for this version. For <b>Portal SDK v<span id="sdkVer">?</span></b> that's <b id="sdkTotal">?</b> SFX across <b id="sdkCats">?</b> categories. A category is "complete" once every SFX in it has a clip; when the game/SDK updates, re-running the tool re-reads the enum and any added/removed sounds change the count.</p>
       <div class="cov" id="coverage"></div>
       <p class="about-note">Some assets are silent or only sound under specific in-game conditions; they still appear in the list for completeness and are flagged when they capture no audio.</p>
+    </div>
+  </div>
+</div>
+
+<!-- credits modal -->
+<div class="about-overlay" id="creditsOverlay" hidden>
+  <div class="about" role="dialog" aria-label="Credits">
+    <div class="about-head">
+      <h2>Credits</h2>
+      <button id="creditsClose" class="about-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="about-body">
+      <p><b>Sounds</b> &mdash; all audio is from <b>Battlefield&nbsp;6</b> / Portal (&copy; EA &amp; DICE), captured for reference and modding use.</p>
+      <p><b>Capture tool</b> &mdash; <b>BF6_SFX</b>, an in-game Portal harness that reads the SDK asset list and records each sound. It ships in this repo so anyone can reproduce the set.</p>
+      <p><b>Built by</b> &mdash; TabbedScamper.</p>
+      <p><b>Thanks</b> &mdash; the <b>Battlefield Portal Hub</b> community for the SDK research and testing this relies on (sound behaviour, announcer-VO quirks, attenuation notes).</p>
+      <p class="about-note">Fonts are Battlefield brand typefaces, used for presentation only.</p>
     </div>
   </div>
 </div>

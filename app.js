@@ -71,10 +71,24 @@ function hideLoader() { setTimeout(() => $('#loader').classList.add('hide'), 350
 function buildStats() {
   const cats = new Set(SOUNDS.map(s => s.cat));
   const loops = SOUNDS.filter(s => s.loop).length;
-  $('#headerStats').innerHTML =
-    `<div class="stat"><b>${SOUNDS.length}</b><span>sounds</span></div>` +
-    `<div class="stat"><b>${cats.size}</b><span>categories</span></div>` +
-    `<div class="stat"><b>${loops}</b><span>loops</span></div>`;
+  const stat = (n, l) => `<div class="stat"><b data-count="${n}">0</b><span>${l}</span></div>`;
+  $('#headerStats').innerHTML = stat(SOUNDS.length, 'sounds') + stat(cats.size, 'categories') + stat(loops, 'loops');
+  animateCounts($('#headerStats'));
+}
+// eased count-up for any [data-count] numbers (SEC-style)
+function animateCounts(root) {
+  root.querySelectorAll('[data-count]').forEach(el => {
+    const target = +el.dataset.count, dur = 1100;
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    let t0 = null;
+    function step(now) {
+      if (t0 === null) t0 = now;
+      const p = Math.min(1, (now - t0) / dur);
+      el.textContent = Math.round(target * ease(p)).toLocaleString();
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
 }
 
 function catList() {
@@ -110,6 +124,8 @@ function buildTypeFilter() {
 }
 
 /* ---------- render grid ---------- */
+// sort rank: working sounds first, then silent ("didn't play"), then game-crashers last.
+function sortRank(s) { return s.crash ? 2 : (s.silent ? 1 : 0); }
 function filtered() {
   return SOUNDS.filter(s => {
     if (curCat !== 'All' && s.cat !== curCat) return false;
@@ -118,7 +134,7 @@ function filtered() {
     if (curType === 'loop' && !s.loop) return false;
     if (curTerm && !(s.name.toLowerCase().includes(curTerm) || pretty(s.name).toLowerCase().includes(curTerm))) return false;
     return true;
-  });
+  }).sort((a, b) => sortRank(a) - sortRank(b)); // Array.sort is stable -> keeps category/name order within each rank
 }
 function render() {
   const grid = $('#grid');
@@ -385,6 +401,10 @@ function buildAbout() {
 $('#aboutBtn').addEventListener('click', () => { buildAbout(); $('#aboutOverlay').hidden = false; });
 $('#aboutClose').addEventListener('click', () => { $('#aboutOverlay').hidden = true; });
 $('#aboutOverlay').addEventListener('click', (e) => { if (e.target.id === 'aboutOverlay') $('#aboutOverlay').hidden = true; });
+$('#creditsBtn').addEventListener('click', () => { $('#creditsOverlay').hidden = false; });
+$('#creditsClose').addEventListener('click', () => { $('#creditsOverlay').hidden = true; });
+$('#creditsOverlay').addEventListener('click', (e) => { if (e.target.id === 'creditsOverlay') $('#creditsOverlay').hidden = true; });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('#aboutOverlay').hidden = true; $('#creditsOverlay').hidden = true; } });
 
 /* ---------- search ---------- */
 const search = $('#search');
