@@ -128,6 +128,23 @@ button{font-family:inherit;cursor:pointer}
 .tag-3d{background:rgba(58,160,255,.16);color:var(--blue);border:1px solid rgba(58,160,255,.5);box-shadow:0 0 10px rgba(58,160,255,.3)}
 .tag-2d{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--line)}
 .tag-silent{background:rgba(255,90,77,.12);color:var(--red);border:1px solid rgba(255,90,77,.35)}
+.tag-crash{background:rgba(255,90,77,.22);color:#fff;border:1px solid var(--red);box-shadow:0 0 10px rgba(255,90,77,.45)}
+.tag-unreliable{background:rgba(255,178,77,.18);color:var(--amber);border:1px solid rgba(255,178,77,.55);box-shadow:0 0 10px rgba(255,178,77,.3)}
+/* caution-tape banner: full-bleed top ribbon w/ diagonal stripes + readable chip */
+.caution{height:24px;margin:-18px -18px 14px;display:flex;align-items:center;justify-content:center;overflow:hidden;font:700 .62rem/1 'Oswald',sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.caution span{padding:3px 11px;border-radius:4px;background:rgba(8,11,11,.74)}
+.caution--crash{background:repeating-linear-gradient(45deg,#ff5a4d 0 14px,#160807 14px 28px)}
+.caution--crash span{color:#ff9a91;text-shadow:0 1px 2px #000}
+.caution--warn{background:repeating-linear-gradient(45deg,#ffb24d 0 14px,#161205 14px 28px)}
+.caution--warn span{color:#ffd9a0;text-shadow:0 1px 2px #000}
+/* flagged-card body theming */
+.card--crash{border-color:rgba(255,90,77,.55);background:linear-gradient(180deg,rgba(255,90,77,.06),var(--card))}
+.card--crash:hover{box-shadow:0 10px 30px rgba(255,90,77,.25)}
+.card--crash .card-title{color:#ffb3ab}
+.card--crash .play-btn{background:linear-gradient(135deg,#ff5a4d,#b3160c);color:#fff;box-shadow:0 6px 16px rgba(255,90,77,.35)}
+.card--unreliable{border-color:rgba(255,178,77,.5);background:linear-gradient(180deg,rgba(255,178,77,.05),var(--card))}
+.card--unreliable:hover{box-shadow:0 10px 30px rgba(255,178,77,.22)}
+.card--unreliable .play-btn{background:linear-gradient(135deg,#ffb24d,#b3700c);color:#161205}
 .tag-dur{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--line)}
 .card-wave{height:64px;margin:6px 0 14px;border-radius:var(--r-sm);background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .card-wave .ph{display:flex;gap:3px;align-items:center;height:40px;opacity:.4}

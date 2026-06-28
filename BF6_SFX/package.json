@@ -1,0 +1,21 @@
+{
+  "name": "bf6-sfx",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "BF6 Portal sound-capture harness — auditions and records every RuntimeSpawn SFX / announcer VO that powers the BF6 Portal Soundboard.",
+  "author": "TabbedScamper",
+  "license": "MIT",
+  "engines": { "node": ">=20.0.0" },
+  "scripts": {
+    "build": "bf6-portal-bundler --entrypoint ./src/index.ts --outDir ./dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "bf6-portal-bundler": "^1.4.1",
+    "bf6-portal-utils": "^9.2.0",
+    "bf6-portal-mod-types": "^3.1.0",
+    "quickjs-types": "^1.1.0",
+    "typescript": "^5.9.3"
+  }
+}

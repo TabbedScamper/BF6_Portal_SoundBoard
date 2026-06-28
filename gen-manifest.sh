@@ -18,15 +18,21 @@ for dir in $(ls "$SB/sounds" 2>/dev/null); do
     asset=$(echo "$bn" | sed -E 's/^[0-9]+_//; s/_SILENT\.ogg$//; s/\.ogg$//')
     # category = token after SFX_ in the asset name (NOT the folder: GameModes/Gamemodes collide on
     # case-insensitive Windows, so both casings live in one folder and are split here by their real name).
-    cat=$(echo "$asset" | sed -E 's/^SFX_//; s/_.*//')
+    # VO_* clips are PlayVO announcer events -> the "Announcer" category.
+    case "$asset" in VO_*) cat="Announcer";; *) cat=$(echo "$asset" | sed -E 's/^SFX_//; s/_.*//');; esac
+    # CrashSounds folder = assets that CRASH the game when played; kept out of their SDK category and flagged.
+    # (Audio here is whatever was captured right before the crash, so it may be cut short or absent.)
+    crash=false; case "$dir" in CrashSounds) cat="Crash Sounds"; crash=true;; esac
+    # Announcer (PlayVO) lines fire randomly / often silent on the live build -> flag as unreliable (yellow on site).
+    unreliable=false; case "$cat" in Announcer) unreliable=true;; esac
     # loop = has a "Loop" suffix OR is a known behaviour-loop without one (e.g. SFX_Alarm)
     loop=$(echo "$asset" | grep -qiE "loop|^SFX_Alarm$|Switchblade_Engine_Propellar" && echo true || echo false)
     # decode the real length (some OGGs have a bogus duration header; format=duration is unreliable)
     t=$("$FFMPEG" -nostdin -hide_banner -i "$f" -f null - 2>&1 | grep -oE 'time=[0-9:.]+' | tail -1 | sed 's/time=//')
     dur=$(awk -F: -v t="$t" 'BEGIN{n=split(t,a,":"); if(n==3) printf "%.2f", a[1]*3600+a[2]*60+a[3]; else printf "%.2f", (t==""?0:t)}')
     [ $first -eq 0 ] && echo "," >> "$MAN"; first=0
-    printf '  {"file":"sounds/%s/%s","name":"%s","cat":"%s","loop":%s,"silent":%s,"dur":%.2f}' \
-      "$dir" "$bn" "$asset" "$cat" "$loop" "$silent" "${dur:-0}" >> "$MAN"
+    printf '  {"file":"sounds/%s/%s","name":"%s","cat":"%s","loop":%s,"silent":%s,"crash":%s,"unreliable":%s,"dur":%.2f}' \
+      "$dir" "$bn" "$asset" "$cat" "$loop" "$silent" "$crash" "$unreliable" "${dur:-0}" >> "$MAN"
   done
 done
 echo "" >> "$MAN"; echo "]" >> "$MAN"

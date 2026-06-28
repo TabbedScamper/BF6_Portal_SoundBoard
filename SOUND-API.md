@@ -19,6 +19,16 @@ Pitch / repitch, reverb, EQ / low-pass / occlusion, stereo panning width, dopple
 - `*_OneShot2D` / `*_OneShot3D` — play once. 2D = non-positional (UI/global); 3D = positional, needs location+range.
 - `*_SimpleLoop2D` / `*_SimpleLoop3D` — loop until `StopSound`.
 
+## Voice-over / announcer (separate system)
+`PlayVO(voObject, event, flag [, team|squad|player])` — the match announcer. `voObject` = a spawned
+`SFX_VOModule_OneShot2D` (the single VOModule sound is just this carrier; `GetVO` is useless). `event` =
+`VoiceOverEvents2D` (61 game-action callouts: objective captured/contested/lost, MCOM arm/defuse, round
+start/sudden-death/switch-sides, progress winning/losing, time 120/60/30/overtime, sector taken, vehicle spawns,
+EOM victory/defeat, …). `flag` = `VoiceOverFlags` Alpha–India (the objective letter spoken; round/time/progress
+events ignore it). Quirks: historically always said "Alpha" (patched 1.1.3.0), a few Generic events are silent,
+Hotel/India support only some events. The harness "Record VO announcers" mode PlayVO's all 61 events so they land
+on the board as the **Announcer** category (clips named `VO_<Event>`).
+
 ## Music (separate system)
 `LoadMusic(pkg)` → `PlayMusic(evt[,scope])` / `SetMusicParam(param,val[,scope])` → `UnloadMusic(pkg)`. Params include `*_Amplitude` (default ~0, must set), `Core_Urgency` (0–3), and the Radio_* queue. Per-scope is buggy (often applies globally); per-squad most reliable. Don't update every tick.
 
