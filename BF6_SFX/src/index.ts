@@ -46,12 +46,14 @@ const CAP_GAP_SEC = 0.6;          // real-time silence gap between sounds
 const MATCH_EXTEND_SEC = 20;      // every sound played pushes the match time limit this far ahead
 const CAPTURE_POS = (): mod.Vector => M.CreateVector(0, 150, 0); // high & isolated; (0,0,0) is UNDERGROUND here
 
-// ---- VO ANNOUNCER (objective + MCom lines, A-I) ----
-// Recipe proven by a Portal creator (block code): the engine's VoiceOverFlags-caching bug only bites a SHARED VO
-// carrier (it replays the PREVIOUS call's flag). Fix: spawn ONE DEDICATED carrier per flag (Alpha..India) and always
-// pair carrier[i] with flag[i] -> each carrier only ever plays its one flag, so every objective letter A-I speaks.
-// No placed objectives/capture points are needed (his spatials had none). So Objective*/MCom* events capture all 9
-// letter variants; the rest play once.
+// ---- VO ANNOUNCER ----
+// Two things make VO actually play (from the user's working TDM playVO + a creator's block mod):
+//  1) SPAWN A FRESH SFX_VOModule carrier for EVERY PlayVO call — a new object has no cached previous flag, so the
+//     flag is always correct (the cache bug only bites a REUSED carrier).
+//  2) PLAY IT TO THE TESTER PLAYER (PlayVO 4th arg = player). Many lines are TEAM-RELATIVE (winning/losing,
+//     objective friendly/enemy) and are SILENT when played global; scoping to the recorder makes them audible.
+// Objective*/MCom*/CheckPoint*/Sector* (non-Generic) loop the flag Alpha..India to capture all 9 letter variants;
+// the rest play once. No placed objectives/capture points needed.
 
 // ---- vehicles (in-car RADIO) ----
 const VEHICLE_SPAWNER_IDS: number[] = [];
@@ -112,7 +114,7 @@ let voLetter = 0;     // current objective-letter index (0-8) for flag-sensitive
 let voPlay = 0;       // running play counter (each letter variant is one play)
 let voTotalPlays = 0; // total plays this run (flag9 events count 9x)
 let voList: { name: string; val: number }[] = [];
-let voCarriers: mod.Object[] = []; // 9 dedicated VO carriers, one per flag Alpha..India
+let voCarrier: mod.Object | undefined; // a FRESH VO carrier spawned per play (no cached flag) — matches the TDM pattern
 
 let musicEvtIdx = 0;
 let radioChannel = 0;
@@ -317,7 +319,7 @@ function stopEverything(): void {
   stopAllSfx();
   for (const evt of MUSIC_STOP_EVENTS) playME(evt);
   capturing = false; voCapturing = false;
-  for (const o of voCarriers) { try { M.UnspawnObject(o); } catch (e) { /* */ } } voCarriers = [];
+  if (voCarrier) { try { M.UnspawnObject(voCarrier); } catch (e) { /* */ } voCarrier = undefined; }
   if (con) con.show(); else assertBooth(); // stay in the booth + reopen the panel; never strand the operator
   console.log("[SND] STOP EVERYTHING");
   if (con) con.logc("** STOP EVERYTHING **", LOG.STOP);
@@ -513,14 +515,16 @@ const VO_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
  *  "Generic" variants have no letter. CheckPoint/Sector are unproven (creator only did Objective+MCom) but harmless
  *  to try — they sit last in the run, so silent ones are easy to skip. */
 function isFlag9(name: string): boolean { return /^(Objective|MCom|CheckPoint|SectorTaken)/.test(name) && name.indexOf("Generic") < 0; }
-/** Spawn the 9 dedicated VO carriers (one per flag) at the booth. */
-function spawnVoCarriers(): void {
-  voCarriers = [];
+/** Play one VO to the TESTER player with a FRESH carrier (no cached flag, audible incl. team-relative lines). */
+function playVoOne(val: number, flag: mod.VoiceOverFlags): void {
+  if (voCarrier) { try { M.UnspawnObject(voCarrier); } catch (e) { /* */ } }
   const pos = capturePos ?? playerPos();
   const voVal = (mod.RuntimeSpawn_Common as unknown as Record<string, number>).SFX_VOModule_OneShot2D;
-  for (let i = 0; i < VO_FLAGS.length; i++) {
-    try { voCarriers.push(M.SpawnObject(voVal as unknown as mod.RuntimeSpawn_Common, pos, M.CreateVector(0, 0, 0), M.CreateVector(1, 1, 1)) as unknown as mod.Object); } catch (e) { /* */ }
-  }
+  try { voCarrier = M.SpawnObject(voVal as unknown as mod.RuntimeSpawn_Common, pos, M.CreateVector(0, 0, 0), M.CreateVector(1, 1, 1)) as unknown as mod.Object; } catch (e) { voCarrier = undefined; }
+  try {
+    if (voCarrier && tester) M.PlayVO(voCarrier as unknown as mod.VO, val as unknown as mod.VoiceOverEvents2D, flag, tester);
+    else if (voCarrier) M.PlayVO(voCarrier as unknown as mod.VO, val as unknown as mod.VoiceOverEvents2D, flag);
+  } catch (err) { /* logged by caller */ }
 }
 
 function startVoCapture(): void {
@@ -530,7 +534,7 @@ function startVoCapture(): void {
   voTotalPlays = 0; for (const e of voList) voTotalPlays += isFlag9(e.name) ? VO_FLAGS.length : 1;
   if (con) con.close();
   assertBooth();        // FixedCamera at the capture point, viewing through it
-  spawnVoCarriers();    // 9 dedicated carriers (one per flag) — the proven fix for the flag-caching bug
+  voCarrier = undefined; // a fresh carrier is spawned per play in voCaptureTick
   capStartGt = M.GetMatchTimeElapsed();
   capNextTime = capStartGt + 1.0;
   capCurGt = capStartGt;
@@ -553,9 +557,8 @@ function voCaptureTick(): void {
   console.log("[CAP] " + voPlay + "/" + voTotalPlays + " gt=" + gt3(now) + " dt=" + gt3(now - capStartGt) + " [Announcer] " + nm);
   capCurGt = now;
   if (con) con.logc("rec VO " + voPlay + "/" + voTotalPlays + " " + (f9 ? e.name + " " + VO_LETTERS[li] : e.name), LOG.REC);
-  // dedicated carrier per flag: carrier[i] only ever plays flag[i] -> no flag-cache contamination
-  const carrier = voCarriers[li] ?? voCarriers[0];
-  try { if (carrier) M.PlayVO(carrier as unknown as mod.VO, e.val as unknown as mod.VoiceOverEvents2D, VO_FLAGS[li]); } catch (err) { console.log("[CAP] VO ERR " + nm); }
+  // fresh carrier + played TO the tester player (audible incl. team-relative lines, correct flag)
+  playVoOne(e.val, VO_FLAGS[li]);
   extendMatch();
   capNextTime = now + CAP_ONESHOT_SEC + CAP_GAP_SEC;
   if (f9) { voLetter++; if (voLetter >= VO_FLAGS.length) { voLetter = 0; voIdx++; } } else { voIdx++; }
@@ -563,8 +566,7 @@ function voCaptureTick(): void {
 function stopVoCapture(): void {
   voCapturing = false;
   stopAllSfx();
-  for (const o of voCarriers) { try { M.UnspawnObject(o); } catch (e) { /* */ } }
-  voCarriers = [];
+  if (voCarrier) { try { M.UnspawnObject(voCarrier); } catch (e) { /* */ } voCarrier = undefined; }
   if (con) con.show(); else assertBooth(); // back to the booth + reopen the panel
   console.log("[CAP] ===== RECORDING STOPPED =====");
   if (con) con.logc("VO recording stopped", LOG.REC);
