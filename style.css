@@ -80,30 +80,31 @@ button{font-family:inherit;cursor:pointer}
 .header-stats .stat b{display:block;font-family:'BF Sub','Oswald',sans-serif;font-size:1.45rem;color:var(--cyan);line-height:1}
 .header-stats .stat span{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.14em}
 
-/* version badge */
+/* version badge — bright BF6 orange */
 .ver{display:flex;align-items:center}
-.v100{font-size:clamp(1.9rem,4.4vw,3rem);font-weight:700;letter-spacing:.01em;line-height:.85;
-  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 2px 14px rgba(255,107,26,.35))}
-/* top nav: tabs + discord */
-.topnav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.topnav-tab{font-family:'BF Sub','Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:.8rem;
-  padding:10px 16px;border-radius:11px;border:1px solid var(--line);background:var(--panel);color:var(--txt2);transition:var(--ease)}
-.topnav-tab:hover{color:var(--txt);border-color:var(--line-h);background:var(--panel2);box-shadow:0 0 18px rgba(255,107,26,.12)}
-.discord-btn{display:inline-flex;align-items:center;gap:9px;padding:10px 16px;border-radius:11px;
-  font-family:'BF Sub','Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:.8rem;font-weight:700;
-  color:#fff;background:linear-gradient(135deg,#5865F2,#4752c4);border:1px solid rgba(120,130,255,.5);
-  box-shadow:0 6px 18px rgba(88,101,242,.35);transition:var(--ease);text-decoration:none}
+.v100{font-family:'BF Headline','Oswald',Impact,sans-serif;font-size:clamp(2.1rem,5vw,3.4rem);font-weight:700;
+  letter-spacing:.02em;line-height:.82;color:#ff8a2a;text-shadow:0 0 26px rgba(255,107,26,.65),0 2px 6px rgba(0,0,0,.55)}
+/* top nav: tabs + discord (angular BF style + shine sweep) */
+.topnav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.topnav-tab,.discord-btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:9px;
+  font-family:'BF Sub','Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:.84rem;font-weight:700;
+  padding:12px 20px;border-radius:10px;transition:var(--ease);text-decoration:none;cursor:pointer}
+.topnav-tab::before,.discord-btn::before{content:"";position:absolute;inset:0;left:-120%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);transition:left .55s ease;pointer-events:none}
+.topnav-tab:hover::before,.discord-btn:hover::before{left:120%}
+.topnav-tab{color:var(--txt);background:rgba(255,107,26,.08);border:1px solid rgba(255,107,26,.4)}
+.topnav-tab:hover{color:#fff;background:rgba(255,107,26,.16);border-color:var(--cyan);box-shadow:0 0 20px rgba(255,107,26,.35);transform:translateY(-1px)}
+.discord-btn{color:#1a0d03;background:var(--grad);border:1px solid rgba(255,154,77,.6);box-shadow:0 6px 20px rgba(255,107,26,.45)}
 .discord-btn .ico{width:20px;height:20px}
-.discord-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(88,101,242,.55);filter:brightness(1.08)}
-/* stat band under the header */
-.statband{border-bottom:1px solid var(--line);
-  background:linear-gradient(180deg,rgba(255,107,26,.06),rgba(8,8,12,.4))}
-.statband-inner{max-width:1440px;margin:0 auto;padding:13px clamp(14px,3vw,28px);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
-.statband .header-stats{gap:clamp(22px,5vw,54px)}
+.discord-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,107,26,.7);filter:brightness(1.06)}
+/* stat band under the header — big animated numbers */
+.statband{border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(255,107,26,.07),rgba(8,8,12,.3))}
+.statband-inner{max-width:1440px;margin:0 auto;padding:16px clamp(14px,3vw,28px);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.statband .header-stats{gap:clamp(28px,6vw,72px)}
 .statband .header-stats .stat{text-align:left}
-.statband .header-stats .stat b{font-size:clamp(1.6rem,3.6vw,2.5rem);color:var(--cyan);font-family:'BF Headline','Oswald',sans-serif}
-.statband .header-stats .stat span{font-size:.7rem;letter-spacing:.16em}
+.statband .header-stats .stat b{font-family:'BF Headline','Oswald',sans-serif;font-size:clamp(2.2rem,5vw,3.4rem);
+  color:#ff8a2a;line-height:.9;text-shadow:0 0 22px rgba(255,107,26,.4)}
+.statband .header-stats .stat span{font-family:'BF Sub','Oswald',sans-serif;font-size:.74rem;letter-spacing:.18em;color:var(--txt2)}
 
 /* ---------- container / toolbar ---------- */
 .container{max-width:1440px;margin:0 auto;padding:clamp(14px,3vw,28px)}
