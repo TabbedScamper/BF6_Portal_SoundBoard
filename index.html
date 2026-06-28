@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css?v=7" />
+<link rel="stylesheet" href="style.css?v=8" />
 </head>
 <body>
 
@@ -150,7 +150,9 @@
       <div class="radar-wrap">
         <canvas id="radar" width="340" height="340" aria-label="Radar: click to place the sound; centre is the player"></canvas>
         <div class="radar-hint">click / drag to place the sound &middot; centre = you</div>
-        <div class="sp-dist"><label class="sp-label">Distance <b id="distVal">0 m</b></label></div>
+        <div class="sp-dist"><label class="sp-label">Distance <b id="distVal">0 m</b></label>
+          <button id="spReset" class="sp-reset" title="Reset the sound to its default position">&#8635; Reset position</button>
+        </div>
       </div>
     </div>
     <div class="sp-right">
@@ -231,6 +233,6 @@
 <script src="config.js"></script>
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>

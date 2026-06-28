@@ -351,7 +351,10 @@ function reflectLoop() { $('#dockLoop').classList.toggle('on', loopOn); $('#dock
 
 $('#dockPlay').addEventListener('click', () => { if (!active) return; if (active.playing) engPause(); else engPlay(active.offset || 0); });
 $('#dockLoop').addEventListener('click', () => { loopOn = !loopOn; reflectLoop(); applyLoop(); toast(loopOn ? 'Loop on' : 'Loop off'); });
-$('#dockSpatial').addEventListener('click', () => { if (active && active.sound) openSpatial(active.sound); else toast('Play a sound first'); });
+$('#dockSpatial').addEventListener('click', () => {
+  if (!$('#spatial').hidden) { $('#spatial').hidden = true; return; }   // toggle: button while open closes it
+  if (active && active.sound) openSpatial(active.sound); else toast('Play a sound first');
+});
 $('#vol').addEventListener('input', (e) => { volume = +e.target.value; applyGain(); });
 
 /* ---------- visitor counters (GoatCounter total/history + Firebase live "online now") ---------- */
@@ -570,6 +573,11 @@ $('#ampSlider').addEventListener('input', (e) => { ampParam = +e.target.value; r
 $('#scopeSel').addEventListener('change', (e) => { spScope = e.target.value; $('#spCode').textContent = genCode(); });
 $('#spPlay').addEventListener('click', playSpatial);
 $('#spClose').addEventListener('click', () => { $('#spatial').hidden = true; });
+$('#spReset').addEventListener('click', () => {
+  spPx = 0; spPy = -60;                       // back to the default forward position
+  refreshSpatialReadout();
+  if (active && active.spatial && active.panner) { active.panner.positionX.value = spWorld.x; active.panner.positionZ.value = spWorld.z; }
+});
 $('#spCopy').addEventListener('click', () => navigator.clipboard.writeText(genCode()).then(() => toast('Code copied')).catch(() => toast('Copy failed')));
 
 init();
