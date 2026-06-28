@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css?v=3" />
+<link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
 
@@ -53,6 +53,7 @@
 <section class="statband" id="statband">
   <div class="statband-inner">
     <div class="header-stats" id="headerStats"></div>
+    <div class="madeby">MADE BY TABBEDSCAMPER</div>
     <div class="sitestat" id="siteStat" hidden>
       <span class="ss-online" id="ssOnlineWrap" title="People viewing right now"><i></i><b id="ssOnline">&ndash;</b> online</span>
       <span class="ss-sep" id="ssSep">&middot;</span>
@@ -71,9 +72,11 @@
     <div class="about-body">
       <p>Every sound here comes straight from the game's own asset list &mdash; nothing hand-picked. Battlefield&nbsp;6 Portal ships a generated SDK whose <code>RuntimeSpawn_Common</code> enum lists every spawnable asset; the entries beginning with <code>SFX_</code> are the sound effects the <code>PlaySound</code> function can play.</p>
       <p>An in-game tool reads that enum at runtime (<code>Object.keys(mod.RuntimeSpawn_Common)</code>), keeps the <code>SFX_</code> ones, and plays each at an isolated point while the audio is recorded &mdash; then the recording is split back into one clip per sound by the game-time it played.</p>
-      <p>Because the list is read <b>directly from the SDK enum</b> (which DICE auto-generates from the game build), it <b>is</b> the complete, authoritative set for this version. For <b>Portal SDK v<span id="sdkVer">?</span></b> that's <b id="sdkTotal">?</b> SFX across <b id="sdkCats">?</b> categories. A category is "complete" once every SFX in it has a clip; when the game/SDK updates, re-running the tool re-reads the enum and any added/removed sounds change the count.</p>
+      <p>Because the list is read <b>directly from the SDK enum</b> (which DICE auto-generates from the game build), it <b>is</b> the complete, authoritative set for this version. <b>Portal SDK v<span id="sdkVer">?</span></b> lists <b id="sdkTotal">?</b> capturable SFX across <b id="sdkCats">?</b> categories &mdash; all captured. (The SDK has one extra SFX entry, <code>SFX_VOModule</code>, which is a silent carrier object <code>PlayVO</code> uses &mdash; it has no audio of its own, so it isn't listed.)</p>
       <div class="cov" id="coverage"></div>
-      <p class="about-note">Some assets are silent or only sound under specific in-game conditions; they still appear in the list for completeness and are flagged when they capture no audio.</p>
+      <p><b>Announcer voice-overs</b> are separate from the SFX list: 61 game-action callouts triggered with <code>PlayVO</code>. On the live build the announcer fires the wrong line or stays silent at random (a known, still-open engine bug), so only a handful actually play. The ones that do are kept; the rest are listed as silent placeholders. They're the <b>Announcer</b> category.</p>
+      <p><b>Crash Sounds</b> are the few assets that crash the game when played. Their audio (captured right up to the crash) is kept and flagged in red so you don't trigger them in a mod.</p>
+      <p class="about-note">Anything that produces no audio in-game &mdash; silent assets and unreliable VO &mdash; still appears for completeness, flagged with yellow caution tape; game-crashers get red.</p>
     </div>
   </div>
 </div>
@@ -228,6 +231,6 @@
 <script src="config.js"></script>
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

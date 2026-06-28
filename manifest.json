@@ -1,6 +1,6 @@
 [
   {"file":"sounds/Alarm/000_SFX_Alarm.ogg","name":"SFX_Alarm","cat":"Alarm","loop":true,"silent":false,"crash":false,"unreliable":false,"dur":6.08},
-  {"file":"sounds/Announcer/000_VO_GlobalAircraftAvailable_SILENT.ogg","name":"VO_GlobalAircraftAvailable","cat":"Announcer","loop":false,"silent":true,"crash":false,"unreliable":true,"dur":0.40},
+  {"file":"sounds/Announcer/000_VO_GlobalAircraftAvailable.ogg","name":"VO_GlobalAircraftAvailable","cat":"Announcer","loop":false,"silent":false,"crash":false,"unreliable":true,"dur":3.58},
   {"file":"sounds/Announcer/001_VO_GlobalEOMVictory.ogg","name":"VO_GlobalEOMVictory","cat":"Announcer","loop":false,"silent":false,"crash":false,"unreliable":true,"dur":2.91},
   {"file":"sounds/Announcer/002_VO_GlobalEOMDefeat.ogg","name":"VO_GlobalEOMDefeat","cat":"Announcer","loop":false,"silent":false,"crash":false,"unreliable":true,"dur":3.26},
   {"file":"sounds/Announcer/003_VO_GlobalAirstrikeWarning_SILENT.ogg","name":"VO_GlobalAirstrikeWarning","cat":"Announcer","loop":false,"silent":true,"crash":false,"unreliable":true,"dur":0.40},
