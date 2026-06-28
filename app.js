@@ -138,18 +138,22 @@ function cardHTML(s, i) {
   const title = pretty(s.name);
   const dimTag = is3D(s.name) ? '<span class="tag tag-3d">3D</span>' : '<span class="tag tag-2d">2D</span>';
   const loopTag = s.loop ? '<span class="tag tag-loop">Loop</span>' : '';
-  const silentTag = s.silent ? '<span class="tag tag-silent" title="No audio in-game (placeholder/conditional asset)">silent</span>' : '';
   const crashTag = s.crash ? '<span class="tag tag-crash" title="Crashes the game when played in Portal — audio here is whatever was captured right before the crash">crash</span>' : '';
-  const unreliableTag = s.unreliable ? '<span class="tag tag-unreliable" title="Announcer voice-over: fires randomly / often silent on the live build (engine bug) — may not play in your mod">unreliable</span>' : '';
-  const cls = s.crash ? ' card--crash' : (s.unreliable ? ' card--unreliable' : '');
+  // "warn" = anything that doesn't reliably work in-game: no audio (silent) OR fires randomly (unreliable VO).
+  const warn = !s.crash && (s.silent || s.unreliable);
+  const warnLabel = s.silent ? 'DID NOT PLAY IN-GAME' : 'UNRELIABLE &middot; MAY NOT PLAY';
+  const warnTitle = s.silent ? 'No audio when played in-game (silent / conditional asset)'
+    : 'Announcer voice-over: fires randomly / often silent on the live build (engine bug) — may not play in your mod';
+  const warnTag = warn ? `<span class="tag tag-unreliable" title="${warnTitle}">${s.silent ? 'no audio' : 'unreliable'}</span>` : '';
+  const cls = s.crash ? ' card--crash' : (warn ? ' card--warn' : '');
   const banner = s.crash ? '<div class="caution caution--crash"><span>&#9888; CRASHES THE GAME</span></div>'
-    : (s.unreliable ? '<div class="caution caution--warn"><span>&#9888; MAY NOT PLAY &middot; UNRELIABLE</span></div>' : '');
+    : (warn ? `<div class="caution caution--warn"><span>&#9888; ${warnLabel}</span></div>` : '');
   return `
   <article class="card${cls}" data-file="${s.file}" data-name="${s.name}" data-cat="${s.cat}" data-loop="${s.loop}" style="animation-delay:${Math.min(i * 18, 360)}ms">
     ${banner}
     <div class="card-head">
       <div class="card-title">${title}</div>
-      <div class="card-tags">${dimTag}${loopTag}${silentTag}${crashTag}${unreliableTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
+      <div class="card-tags">${dimTag}${loopTag}${crashTag}${warnTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
     </div>
     <div class="card-wave" data-wave>
       <div class="ph"><i style="height:10px"></i><i style="height:24px"></i><i style="height:16px"></i><i style="height:32px"></i><i style="height:12px"></i><i style="height:26px"></i><i style="height:18px"></i></div>

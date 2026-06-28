@@ -142,9 +142,9 @@ button{font-family:inherit;cursor:pointer}
 .card--crash:hover{box-shadow:0 10px 30px rgba(255,90,77,.25)}
 .card--crash .card-title{color:#ffb3ab}
 .card--crash .play-btn{background:linear-gradient(135deg,#ff5a4d,#b3160c);color:#fff;box-shadow:0 6px 16px rgba(255,90,77,.35)}
-.card--unreliable{border-color:rgba(255,178,77,.5);background:linear-gradient(180deg,rgba(255,178,77,.05),var(--card))}
-.card--unreliable:hover{box-shadow:0 10px 30px rgba(255,178,77,.22)}
-.card--unreliable .play-btn{background:linear-gradient(135deg,#ffb24d,#b3700c);color:#161205}
+.card--warn{border-color:rgba(255,178,77,.5);background:linear-gradient(180deg,rgba(255,178,77,.05),var(--card))}
+.card--warn:hover{box-shadow:0 10px 30px rgba(255,178,77,.22)}
+.card--warn .play-btn{background:linear-gradient(135deg,#ffb24d,#b3700c);color:#161205}
 .tag-dur{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--line)}
 .card-wave{height:64px;margin:6px 0 14px;border-radius:var(--r-sm);background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .card-wave .ph{display:flex;gap:3px;align-items:center;height:40px;opacity:.4}
