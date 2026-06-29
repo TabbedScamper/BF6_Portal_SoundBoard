@@ -43,6 +43,8 @@ const CAP_ONESHOT_LONG_SEC = 16;  // for categories with unusually long one-shot
 const LONG_ONESHOT_CATS = ["Destruction"];
 const CAP_LOOP_SEC = 16;          // seconds for a loop (full period for the loop-point matcher)
 const CAP_GAP_SEC = 0.6;          // real-time silence gap between sounds
+const CAP_VO_SEC = 5;             // slot per announcer VO line (lines are ~2-4s; letters-outer order spaces repeats)
+const VO_REPS = 4;                // play each (event,flag) this many times to capture the random voice-actor variants
 const MATCH_EXTEND_SEC = 20;      // every sound played pushes the match time limit this far ahead
 const CAPTURE_POS = (): mod.Vector => M.CreateVector(0, 150, 0); // high & isolated; (0,0,0) is UNDERGROUND here
 
@@ -109,12 +111,33 @@ const recQueue: number[] = [];
 
 // VO announcer capture (PlayVO of every VoiceOverEvents2D)
 let voCapturing = false;
-let voIdx = 0;        // index into voList (current event)
-let voLetter = 0;     // current objective-letter index (0-8) for flag-sensitive events
-let voPlay = 0;       // running play counter (each letter variant is one play)
-let voTotalPlays = 0; // total plays this run (flag9 events count 9x)
-let voList: { name: string; val: number }[] = [];
-let voCarrier: mod.Object | undefined; // a FRESH VO carrier spawned per play (no cached flag) — matches the TDM pattern
+let voPlay = 0;       // running play counter
+let voTotalPlays = 0; // total plays this run
+let voList: { name: string; val: number }[] = [];          // ALL 61 announcer events
+let voActive: { name: string; val: number }[] = [];        // the subset being recorded this run (current group)
+// The play-plan, ordered LETTERS-OUTER / EVENTS-INNER: pass A plays one letter of every event, then pass B, etc.
+// This spaces each event's repeats ~(events x gap) apart so they clear the ~30s announcer cooldown that drops
+// rapid repeats of the SAME event (seen: ObjectiveCaptured A-I back-to-back only let A/D/G through). Matches the
+// creator's working loop. Non-flag9 events (Generic/broadcast) appear once, in pass A only.
+let voPlan: { name: string; val: number; li: number; v: number }[] = [];
+let voStep = 0;
+let voCarriers: mod.Object[] = []; // 9 VO carriers (one per flag), spawned ONCE at OnGameModeStarted (see spawnVoPool)
+// VO GROUPS — pick a subset to record instead of all 61. "Objective"/"MCom" are the proven-working set.
+const VO_GROUPS: { key: string; test: (n: string) => boolean }[] = [
+  { key: "All", test: (): boolean => true },
+  { key: "Objective", test: (n): boolean => /^Objective/.test(n) },
+  { key: "MCom", test: (n): boolean => /^MCom/.test(n) },
+  { key: "CheckPoint", test: (n): boolean => /^CheckPoint/.test(n) },
+  { key: "Sector", test: (n): boolean => /^Sector/.test(n) },
+  { key: "Broadcast", test: (n): boolean => !/^(Objective|MCom|CheckPoint|Sector)/.test(n) },
+];
+let voGroupIdx = 0;
+function voGroupList(): { name: string; val: number }[] { buildVoList(); return voList.filter((e) => VO_GROUPS[voGroupIdx].test(e.name)); }
+function voGroupCount(): number { let n = 0; for (const e of voGroupList()) n += isFlag9(e.name) ? VO_FLAGS.length : 1; return n; }
+function stepVoGroup(d: number): void {
+  voGroupIdx = ((voGroupIdx + d) % VO_GROUPS.length + VO_GROUPS.length) % VO_GROUPS.length;
+  if (con) con.logc("VO group: " + VO_GROUPS[voGroupIdx].key + " (" + voGroupList().length + " events / " + voGroupCount() + " plays)", LOG.NAV);
+}
 
 let musicEvtIdx = 0;
 let radioChannel = 0;
@@ -319,7 +342,7 @@ function stopEverything(): void {
   stopAllSfx();
   for (const evt of MUSIC_STOP_EVENTS) playME(evt);
   capturing = false; voCapturing = false;
-  if (voCarrier) { try { M.UnspawnObject(voCarrier); } catch (e) { /* */ } voCarrier = undefined; }
+  // VO carrier pool persists (reused across runs, must outlive any single REC) — not unspawned here
   if (con) con.show(); else assertBooth(); // stay in the booth + reopen the panel; never strand the operator
   console.log("[SND] STOP EVERYTHING");
   if (con) con.logc("** STOP EVERYTHING **", LOG.STOP);
@@ -515,59 +538,92 @@ const VO_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
  *  "Generic" variants have no letter. CheckPoint/Sector are unproven (creator only did Objective+MCom) but harmless
  *  to try — they sit last in the run, so silent ones are easy to skip. */
 function isFlag9(name: string): boolean { return /^(Objective|MCom|CheckPoint|SectorTaken)/.test(name) && name.indexOf("Generic") < 0; }
-/** Play one VO to the TESTER player with a FRESH carrier (no cached flag, audible incl. team-relative lines). */
-function playVoOne(val: number, flag: mod.VoiceOverFlags): void {
-  if (voCarrier) { try { M.UnspawnObject(voCarrier); } catch (e) { /* */ } }
-  const pos = capturePos ?? playerPos();
+/** Team-relative lines (winning/losing/friendly/enemy/attacker/defender) need a TEAM target so the engine knows
+ *  whose perspective to render; everything else is targeted at the player (audible at the camera). */
+function isTeamRel(name: string): boolean { return /(Winning|Losing|Friendly|Enemy|Attacker|Defender|Attacking|Defending|Kills|Capture)/i.test(name); }
+/** Spawn the 9 VO carriers ONCE at OnGameModeStarted (one per flag A..I), like the.postminimalist + the creator.
+ *  CRITICAL: a VO carrier must be spawned on an EARLIER frame than the PlayVO call — spawning + playing in the
+ *  same tick produces NO audio (the object isn't initialized yet). This was the silent-objective bug. Idempotent. */
+function spawnVoPool(): void {
+  if (!M || voCarriers.length >= VO_FLAGS.length) return;
   const voVal = (mod.RuntimeSpawn_Common as unknown as Record<string, number>).SFX_VOModule_OneShot2D;
-  try { voCarrier = M.SpawnObject(voVal as unknown as mod.RuntimeSpawn_Common, pos, M.CreateVector(0, 0, 0), M.CreateVector(1, 1, 1)) as unknown as mod.Object; } catch (e) { voCarrier = undefined; }
+  for (let i = voCarriers.length; i < VO_FLAGS.length; i++) {
+    try { voCarriers.push(M.SpawnObject(voVal as unknown as mod.RuntimeSpawn_Common, M.CreateVector(0, 0, 0), M.CreateVector(0, 0, 0), M.CreateVector(0, 0, 0)) as unknown as mod.Object); } catch (e) { /* */ }
+  }
+}
+/** Play one VO using the PRE-SPAWNED carrier for flag index `li` (never spawn-and-play same tick).
+ *  target = undefined => GLOBAL (3-arg, proven for objective/MCom/broadcast); team-relative lines pass a TEAM. */
+function playVoOne(val: number, flag: mod.VoiceOverFlags, li: number, target: unknown): void {
+  const carrier = voCarriers[li] ?? voCarriers[0];
   try {
-    if (voCarrier && tester) M.PlayVO(voCarrier as unknown as mod.VO, val as unknown as mod.VoiceOverEvents2D, flag, tester);
-    else if (voCarrier) M.PlayVO(voCarrier as unknown as mod.VO, val as unknown as mod.VoiceOverEvents2D, flag);
+    if (carrier && target) M.PlayVO(carrier as unknown as mod.VO, val as unknown as mod.VoiceOverEvents2D, flag, target as mod.Player);
+    else if (carrier) M.PlayVO(carrier as unknown as mod.VO, val as unknown as mod.VoiceOverEvents2D, flag);
   } catch (err) { /* logged by caller */ }
 }
 
 function startVoCapture(): void {
-  buildVoList();
-  if (voList.length === 0) { if (con) con.logc("no VO events found", LOG.WARN); return; }
-  capturing = false; voCapturing = true; voIdx = 0; voLetter = 0; voPlay = 0; capLastCat = "";
-  voTotalPlays = 0; for (const e of voList) voTotalPlays += isFlag9(e.name) ? VO_FLAGS.length : 1;
+  voActive = voGroupList(); // only the selected group (default "All")
+  if (voActive.length === 0) { if (con) con.logc("no VO events in group " + VO_GROUPS[voGroupIdx].key, LOG.WARN); return; }
+  // Build the play-plan. Outer = variant rep (1..VO_REPS) so each (event,flag) is captured VO_REPS times to grab
+  // the random voice-actor variants; within each rep, LETTERS-OUTER / EVENTS-INNER (pass A = one letter of every
+  // event, then pass B, ...) so the same event never repeats within the ~30s announcer cooldown.
+  voPlan = [];
+  for (let rep = 1; rep <= VO_REPS; rep++) {
+    for (let L = 0; L < VO_FLAGS.length; L++) {
+      for (const e of voActive) {
+        const f9 = isFlag9(e.name);
+        if (!f9 && L > 0) continue; // non-flag9 events have no letter -> one per rep, in pass A only
+        voPlan.push({ name: e.name, val: e.val, li: f9 ? L : 0, v: rep });
+      }
+    }
+  }
+  capturing = false; voCapturing = true; voStep = 0; voPlay = 0; capLastCat = "";
+  voTotalPlays = voPlan.length;
   if (con) con.close();
-  assertBooth();        // FixedCamera at the capture point, viewing through it
-  voCarrier = undefined; // a fresh carrier is spawned per play in voCaptureTick
+  // VO ONLY: stay a LIVE SOLDIER (FirstPerson), NOT the FixedCamera. The FixedCamera silences PlayVO — the VO
+  // listener is the player's soldier (proven: votest as a soldier plays all 17; harness on the booth cam is
+  // silent). There's no visual to frame for VO anyway. Marker + listener move to the soldier's position.
+  try { if (tester) M.SetCameraTypeForPlayer(tester, mod.Cameras.FirstPerson); } catch (e) { /* */ }
+  capturePos = playerPos();
+  spawnVoPool();        // ensure carriers exist (normally spawned at OnGameModeStarted, well before this REC)
   capStartGt = M.GetMatchTimeElapsed();
   capNextTime = capStartGt + 1.0;
   capCurGt = capStartGt;
   playMarker();
   console.log("[CAP] MARKER SFX_Alarm gt=" + gt3(capStartGt) + "  (audio-sync anchor)");
   extendMatch();
-  console.log("[CAP] ===== RECORDING START (VO announcers) " + voTotalPlays + " plays / " + voList.length + " events =====");
-  if (con) con.logc("REC " + voTotalPlays + " VO lines - start OBS now", LOG.REC);
+  console.log("[CAP] ===== RECORDING START (VO group " + VO_GROUPS[voGroupIdx].key + ") " + voTotalPlays + " plays / " + voActive.length + " events =====");
+  if (con) con.logc("REC " + VO_GROUPS[voGroupIdx].key + " " + voTotalPlays + " VO lines - start OBS now", LOG.REC);
 }
 function voCaptureTick(): void {
   const now = M.GetMatchTimeElapsed();
   if (!voCapturing || now < capNextTime) return;
-  if (voIdx >= voList.length) { stopVoCapture(); return; }
-  const e = voList[voIdx];
-  const f9 = isFlag9(e.name);
-  const li = f9 ? voLetter : 0;                       // flag/carrier index (objective letter for flag9 events)
+  if (voStep >= voPlan.length) { stopVoCapture(); return; }
+  const p = voPlan[voStep];
+  const f9 = isFlag9(p.name);
   if (capLastCat !== "Announcer") { capLastCat = "Announcer"; console.log("[CAP] === CATEGORY Announcer ==="); }
-  const nm = f9 ? ("VO_" + e.name + "_" + VO_LETTERS[li]) : ("VO_" + e.name);
+  // name encodes event + flag-letter + variant: VO_<event>_<A..I>_v<n>  (non-flag9: VO_<event>_v<n>)
+  const nm = (f9 ? ("VO_" + p.name + "_" + VO_LETTERS[p.li]) : ("VO_" + p.name)) + "_v" + p.v;
   voPlay++;
   console.log("[CAP] " + voPlay + "/" + voTotalPlays + " gt=" + gt3(now) + " dt=" + gt3(now - capStartGt) + " [Announcer] " + nm);
   capCurGt = now;
-  if (con) con.logc("rec VO " + voPlay + "/" + voTotalPlays + " " + (f9 ? e.name + " " + VO_LETTERS[li] : e.name), LOG.REC);
-  // fresh carrier + played TO the tester player (audible incl. team-relative lines, correct flag)
-  playVoOne(e.val, VO_FLAGS[li]);
+  if (con) con.logc("rec VO " + voPlay + "/" + voTotalPlays + " " + (f9 ? p.name + " " + VO_LETTERS[p.li] : p.name) + " v" + p.v, LOG.REC);
+  // target: GLOBAL (no target) by default — the two PROVEN working examples (the.postminimalist + the creator's
+  // script) play objective/MCom VO global with 3 args; a player target silences them. Only team-relative lines
+  // (winning/losing/friendly/enemy/...) get a TEAM target (TDM-proven) so the engine renders the right perspective.
+  let voTarget: unknown = undefined;
+  if (tester && isTeamRel(p.name)) { try { voTarget = M.GetTeam(tester); } catch (err) { voTarget = undefined; } }
+  playVoOne(p.val, VO_FLAGS[p.li], p.li, voTarget);
   extendMatch();
-  capNextTime = now + CAP_ONESHOT_SEC + CAP_GAP_SEC;
-  if (f9) { voLetter++; if (voLetter >= VO_FLAGS.length) { voLetter = 0; voIdx++; } } else { voIdx++; }
+  capNextTime = now + CAP_VO_SEC + CAP_GAP_SEC;
+  voStep++;
 }
 function stopVoCapture(): void {
   voCapturing = false;
   stopAllSfx();
-  if (voCarrier) { try { M.UnspawnObject(voCarrier); } catch (e) { /* */ } voCarrier = undefined; }
-  if (con) con.show(); else assertBooth(); // back to the booth + reopen the panel
+  // VO carrier pool persists (reused across runs, must outlive any single REC) — not unspawned here
+  assertBooth();                 // restore the FixedCamera booth (VO put us on FirstPerson)
+  if (con) con.show(); // reopen the panel
   console.log("[CAP] ===== RECORDING STOPPED =====");
   if (con) con.logc("VO recording stopped", LOG.REC);
 }
@@ -719,8 +775,13 @@ class SoundConsole {
     ]);
     this.row([
       { label: b.recAll, color: T_REC, on: (): void => startCapture("all"), help: h.recAll },
-      { label: b.recVO, color: T_REC, on: startVoCapture, help: h.recVO },
       { label: b.recStop, color: T_REC, on: (): void => { stopCapture(); stopVoCapture(); }, help: h.recStop },
+    ]);
+    // ---- VO group: pick a subset (Objective/MCom = proven) then REC VO GROUP ----
+    this.row([
+      { label: b.voGrpPrev, color: T_NAV, on: (): void => stepVoGroup(-1), help: h.voGrp },
+      { label: b.voGrpNext, color: T_NAV, on: (): void => stepVoGroup(1), help: h.voGrp },
+      { label: b.recVO, color: T_REC, on: startVoCapture, help: h.recVO },
     ]);
     this.gap(6);
     // ---- MUSIC / RADIO ----
@@ -789,7 +850,7 @@ class SoundConsole {
     let c1: mod.Vector;
     if (capturing) { s1 = "REC " + capPtr + "/" + capList.length + "  gt " + Math.round(capCurGt - capStartGt) + "s  [" + capLabel + "]"; c1 = T_REC; }
     else if (voCapturing) { s1 = "REC VO " + voPlay + "/" + voTotalPlays + "  gt " + Math.round(capCurGt - capStartGt) + "s"; c1 = T_REC; }
-    else { s1 = "sfx " + (sfxIdx + 1) + "/" + allSfx.length + "   cat " + (curCatIndex() + 1) + "/" + catNames.length + "   queue " + recQueue.length + "   " + r1(rate * 100) + "%"; c1 = T_INFO; }
+    else { s1 = "sfx " + (sfxIdx + 1) + "/" + allSfx.length + "   cat " + (curCatIndex() + 1) + "/" + catNames.length + "   VO grp: " + VO_GROUPS[voGroupIdx].key + "   q " + recQueue.length; c1 = T_INFO; }
     if (s0 !== this.lastS0) { this.lastS0 = s0; this.status.logcAt(s0, 0, capturing || voCapturing ? T_REC : T_PLAY); }
     if (s1 !== this.lastS1) { this.lastS1 = s1; this.status.logcAt(s1, 1, c1); }
   }
@@ -813,6 +874,9 @@ function ensureConsole(player: mod.Player): void {
 /** Run on EVERY (auto)deploy: build once, put the operator in the booth with the panel open. */
 function enterBooth(player: mod.Player): void {
   tester = player;
+  // NOTE: do NOT SetTeam here — GetTeam(1) returns an INVALID team in this gamemode and SetTeam throws
+  // ("team input being invalid", seen in PortalLog). The player is already auto-assigned to a valid team on
+  // deploy; team-relative VO lines use M.GetTeam(tester) (that valid team) as the target in voCaptureTick.
   ensureConsole(player);
   assertBooth();
   if (con) con.show();
@@ -825,6 +889,7 @@ Events.OnGameModeStarted.subscribe((): void => {
   // AUTO-DEPLOY: skip the deploy screen so the operator spawns straight into the booth (official pattern, as in
   // the BumperCars / AcePursuit example mods). OnPlayerDeployed then puts them on the camera with the panel open.
   try { M.SetSpawnMode(mod.SpawnModes.AutoSpawn); } catch (e) { /* */ }
+  spawnVoPool(); // spawn the 9 VO carriers NOW (game start) so they're initialized long before any PlayVO
   for (const pkg of MUSIC_PACKAGES) {
     const v = (mod.MusicPackages as unknown as Record<string, number>)[pkg];
     if (v !== undefined) {

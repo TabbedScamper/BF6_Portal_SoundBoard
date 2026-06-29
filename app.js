@@ -7,7 +7,8 @@
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-let SOUNDS = [];
+let SOUNDS = [];     // raw manifest entries (one per clip)
+let CARDS = [];      // display list: non-VO clips as-is + VO clips collapsed to ONE card per announcer event
 let curCat = 'All';
 let curType = 'all';
 let curTerm = '';
@@ -52,6 +53,126 @@ function toast(msg) {
   clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 1600);
 }
 
+/* ---------- voice-over grouping: ONE card per family (Objective / MCom / Broadcast …), with a LINE dropdown
+   (event type) + a FLAG dropdown (A-I). Play picks a random voice-actor variant of the chosen line+flag. ------- */
+const FLAG_NAMES = { A: 'Alpha', B: 'Bravo', C: 'Charlie', D: 'Delta', E: 'Echo', F: 'Foxtrot', G: 'Golf', H: 'Hotel', I: 'India' };
+// team-relative VO needs a Team target; everything else plays global (matches the in-mod recipe in VOICEOVERS.md)
+const isTeamRelEvent = (ev) => /Winning|Losing|Friendly|Enemy|Attacker|Defender|Attacking|Defending|Kills|Capture/i.test(ev);
+const voPretty = (ev) => ev.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/_/g, ' ').trim();
+const voEventLabel = (ev) => voPretty(ev).replace(/^Objective\s+/, '').replace(/^M\s?Com\s+/i, 'MCom ');
+const voFamily = (ev) => /^Objective/i.test(ev) ? 'Objective' : /^MCom/i.test(ev) ? 'MCom'
+  : /^CheckPoint/i.test(ev) ? 'CheckPoint' : /^Sector/i.test(ev) ? 'Sector' : 'Broadcast';
+// group VO clips by family -> byEvent[event][flag] = [clips]. One card per family with Line + Flag dropdowns.
+function buildCards() {
+  const nonVo = [], fams = new Map();
+  for (const s of SOUNDS) {
+    if (s.vo) {
+      const fam = voFamily(s.event);
+      let g = fams.get(fam);
+      if (!g) { g = { vo: true, cat: 'Announcer', family: fam, name: 'VO_' + fam, byEvent: {} }; fams.set(fam, g); }
+      const ev = (g.byEvent[s.event] = g.byEvent[s.event] || {});
+      const fl = s.flag || '-';
+      (ev[fl] = ev[fl] || []).push(s);
+    } else nonVo.push(s);
+  }
+  const groups = [...fams.values()];
+  for (const g of groups) {
+    g.events = Object.keys(g.byEvent).sort();
+    const all = []; for (const ev in g.byEvent) for (const fl in g.byEvent[ev]) all.push(...g.byEvent[ev][fl]);
+    g.dur = all.reduce((m, s) => Math.max(m, s.dur || 0), 0);
+    g.silent = all.length > 0 && all.every(s => s.silent);
+    g.file = all.length ? all[0].file : '';
+  }
+  const order = ['Objective', 'MCom', 'CheckPoint', 'Sector', 'Broadcast'];
+  groups.sort((a, b) => order.indexOf(a.family) - order.indexOf(b.family));
+  return nonVo.concat(groups);
+}
+const voGroupFor = (family) => CARDS.find(c => c.vo && c.family === family);
+function voFlagsFor(family, event) {
+  const g = voGroupFor(family); if (!g || !g.byEvent[event]) return [];
+  return Object.keys(g.byEvent[event]).filter(f => f !== '-').sort();
+}
+function voClipsFor(family, event, flag) {
+  const g = voGroupFor(family); if (!g || !g.byEvent[event]) return [];
+  return g.byEvent[event][flag || '-'] || [];
+}
+function voFilesFor(family, event, flag) {
+  const clips = voClipsFor(family, event, flag);
+  const live = clips.filter(s => !s.silent);   // random-play pool = takes that actually have audio
+  return (live.length ? live : clips).map(s => s.file);
+}
+// an event/line is "dead" if every captured take is silent (didn't play in-game)
+function voEventDead(family, event, flag) {
+  const clips = voClipsFor(family, event, flag);
+  return clips.length > 0 && clips.every(s => s.silent);
+}
+function voSnippet(event, flag) {
+  const flagName = (flag && flag !== '-') ? FLAG_NAMES[flag] : 'Alpha';
+  const target = isTeamRelEvent(event) ? ', mod.GetTeam(player)' : '';
+  return 'const vo = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0,0,0), mod.CreateVector(0,0,0));\n'
+    + 'mod.PlayVO(vo, mod.VoiceOverEvents2D.' + event + ', mod.VoiceOverFlags.' + flagName + target + ');';
+}
+function voCardHTML(g, i) {
+  const title = g.family === 'Broadcast' ? 'Broadcast' : g.family + ' Announcer';
+  const warn = g.silent;
+  const banner = warn ? '<div class="caution caution--warn"><span>&#9888; DID NOT PLAY IN-GAME</span></div>' : '';
+  const cls = warn ? ' card--warn' : '';
+  const lineOpts = g.events.map(ev => {
+    const clips = Object.values(g.byEvent[ev]).flat();
+    const dead = clips.length > 0 && clips.every(s => s.silent);
+    return '<option value="' + ev + '">' + voEventLabel(ev) + (dead ? '  — no audio' : '') + '</option>';
+  }).join('');
+  return '\n  <article class="card vo-card' + cls + '" data-vo="1" data-family="' + g.family + '" data-name="' + g.name + '" data-cat="Announcer" data-file="' + g.file + '" style="animation-delay:' + Math.min(i * 18, 360) + 'ms">'
+    + banner
+    + '<div class="card-head"><div class="card-title">' + title + '</div>'
+    + '<div class="card-tags"><span class="tag tag-2d">2D</span><span class="tag tag-vo">VO</span><span class="tag tag-dur">' + fmt(g.dur, g.dur) + '</span></div></div>'
+    + '<div class="vo-controls">'
+    + '<label class="vo-flag-wrap">Line <select class="vo-flag" data-vo-event>' + lineOpts + '</select></label>'
+    + '<label class="vo-flag-wrap" data-vo-flagwrap>Flag <select class="vo-flag" data-vo-flag></select></label>'
+    + '<span class="vo-variants" data-vo-variants></span></div>'
+    + '<div class="card-foot">'
+    + '<button class="play-btn" data-play aria-label="Play random variant"><svg class="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><svg class="ico-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></button>'
+    + '<div class="asset"><code data-vo-snippet title="Click to copy the PlayVO code"></code><span class="hint">click to copy PlayVO code</span></div>'
+    + '<a class="icon-btn" data-vo-dl href="' + g.file + '" download title="Download current variant"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'
+    + '</div></article>';
+}
+function wireVoCard(card) {
+  const family = card.dataset.family;
+  const evSel = $('[data-vo-event]', card);
+  const flSel = $('[data-vo-flag]', card);
+  const flWrap = $('[data-vo-flagwrap]', card);
+  const codeEl = $('[data-vo-snippet]', card);
+  const dl = $('[data-vo-dl]', card);
+  const vEl = $('[data-vo-variants]', card);
+  const repopFlags = () => {                                  // flag dropdown shows only flags valid for the line
+    const flags = voFlagsFor(family, evSel.value);
+    flSel.innerHTML = flags.map(f => '<option value="' + f + '">' + f + ' &middot; ' + FLAG_NAMES[f] + '</option>').join('');
+    flWrap.style.display = flags.length ? '' : 'none';
+  };
+  const refresh = () => {
+    const event = evSel.value, flag = flSel.value || '';
+    const dead = voEventDead(family, event, flag);
+    const files = voFilesFor(family, event, flag);
+    codeEl.textContent = 'PlayVO(vo, …' + event + ', …' + (flag ? FLAG_NAMES[flag] : 'Alpha') + (isTeamRelEvent(event) ? ', GetTeam(player)' : '') + ')';
+    vEl.textContent = dead ? '⚠ did not play in-game' : (files.length + (files.length === 1 ? ' variant · random on play' : ' variants · random on play'));
+    vEl.classList.toggle('vo-dead', dead);
+    card.classList.toggle('card--warn', dead);
+    if (files[0]) { dl.href = files[0]; dl.download = event + (flag ? '_' + flag : '') + '.ogg'; }
+  };
+  evSel.addEventListener('change', () => { repopFlags(); refresh(); });
+  flSel.addEventListener('change', refresh);
+  repopFlags(); refresh();
+  $('[data-play]', card).addEventListener('click', () => {
+    const files = voFilesFor(family, evSel.value, flSel.value || '');
+    if (!files.length) { toast('No clips for that line'); return; }
+    card.dataset.file = files[Math.floor(Math.random() * files.length)]; // point the engine at a random variant
+    playFromCard(card);
+  });
+  codeEl.addEventListener('click', () => {
+    navigator.clipboard.writeText(voSnippet(evSel.value, flSel.value || '')).then(() => toast('Copied PlayVO code')).catch(() => toast('Copy failed'));
+  });
+}
+
 /* ---------- load ---------- */
 async function init() {
   try {
@@ -60,6 +181,7 @@ async function init() {
     $('#grid').innerHTML = '<div class="empty">Could not load manifest.json. Serve this folder over http (GitHub Pages or a local server), not file://.</div>';
     hideLoader(); return;
   }
+  CARDS = buildCards();
   buildStats();
   buildChips();
   buildTypeFilter();
@@ -70,13 +192,14 @@ async function init() {
 function hideLoader() { setTimeout(() => $('#loader').classList.add('hide'), 350); }
 
 function buildStats() {
-  const cats = new Set(SOUNDS.map(s => s.cat));
-  const loops = SOUNDS.filter(s => s.loop).length;
-  const n3 = SOUNDS.filter(s => is3D(s.name)).length;
-  const n2 = SOUNDS.length - n3;
+  // count the GRID (CARDS): VO is one card per announcer event, so numbers match what's shown/chips.
+  const cats = new Set(CARDS.map(s => s.cat));
+  const loops = CARDS.filter(s => s.loop).length;
+  const n3 = CARDS.filter(s => is3D(s.name)).length;
+  const n2 = CARDS.length - n3;
   const stat = (n, l) => `<div class="stat"><b data-count="${n}">0</b><span>${l}</span></div>`;
   $('#headerStats').innerHTML =
-    stat(SOUNDS.length, 'sounds') + stat(cats.size, 'categories') +
+    stat(CARDS.length, 'sounds') + stat(cats.size, 'categories') +
     stat(n2, '2D') + stat(n3, '3D') + stat(loops, 'loops');
   animateCounts($('#headerStats'));
 }
@@ -98,12 +221,12 @@ function animateCounts(root) {
 
 function catList() {
   const m = new Map();
-  SOUNDS.forEach(s => m.set(s.cat, (m.get(s.cat) || 0) + 1));
+  CARDS.forEach(s => m.set(s.cat, (m.get(s.cat) || 0) + 1)); // CARDS: VO collapsed to one per event -> chip counts match the grid
   return Array.from(m.entries()).sort((a, b) => a[0].localeCompare(b[0]));
 }
 function buildChips() {
   const chips = $('#chips');
-  const all = `<button class="chip active" data-cat="All">All <span class="cnt">${SOUNDS.length}</span></button>`;
+  const all = `<button class="chip active" data-cat="All">All <span class="cnt">${CARDS.length}</span></button>`;
   const rest = catList().map(([c, n]) => `<button class="chip" data-cat="${c}">${c} <span class="cnt">${n}</span></button>`).join('');
   chips.innerHTML = all + rest;
   $$('.chip', chips).forEach(ch => ch.addEventListener('click', () => {
@@ -132,12 +255,13 @@ function buildTypeFilter() {
 // sort rank: working sounds first, then silent ("didn't play"), then game-crashers last.
 function sortRank(s) { return s.crash ? 2 : (s.silent ? 1 : 0); }
 function filtered() {
-  return SOUNDS.filter(s => {
+  return CARDS.filter(s => {
     if (curCat !== 'All' && s.cat !== curCat) return false;
-    if (curType === '3d' && !is3D(s.name)) return false;
+    if (curType === '3d' && !is3D(s.name)) return false;       // VO groups are 2D (name has no 3D suffix)
     if (curType === '2d' && is3D(s.name)) return false;
     if (curType === 'loop' && !s.loop) return false;
-    if (curTerm && !(s.name.toLowerCase().includes(curTerm) || pretty(s.name).toLowerCase().includes(curTerm))) return false;
+    const label = s.vo ? voPretty(s.event) : pretty(s.name);
+    if (curTerm && !(s.name.toLowerCase().includes(curTerm) || label.toLowerCase().includes(curTerm))) return false;
     return true;
   }).sort((a, b) => sortRank(a) - sortRank(b)); // Array.sort is stable -> keeps category/name order within each rank
 }
@@ -156,6 +280,7 @@ function render() {
   }
 }
 function cardHTML(s, i) {
+  if (s.vo) return voCardHTML(s, i);
   const title = pretty(s.name);
   const dimTag = is3D(s.name) ? '<span class="tag tag-3d">3D</span>' : '<span class="tag tag-2d">2D</span>';
   const loopTag = s.loop ? '<span class="tag tag-loop">Loop</span>' : '';
@@ -299,6 +424,7 @@ function applyGain() { if (active && active.gain) active.gain.gain.value = volum
 
 /* ---------- playback ---------- */
 function wireCard(card) {
+  if (card.dataset.vo) { wireVoCard(card); return; }
   $('[data-play]', card).addEventListener('click', () => playFromCard(card));
   $('[data-copy]', card).addEventListener('click', () => {
     navigator.clipboard.writeText(card.dataset.name).then(() => toast('Copied: ' + card.dataset.name)).catch(() => toast('Copy failed'));

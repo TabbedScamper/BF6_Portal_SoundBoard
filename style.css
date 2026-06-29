@@ -180,6 +180,18 @@ button{font-family:inherit;cursor:pointer}
 .card--warn:hover{box-shadow:0 10px 30px rgba(255,178,77,.22)}
 .card--warn .play-btn{background:linear-gradient(135deg,#ffb24d,#b3700c);color:#161205}
 .tag-dur{background:rgba(255,255,255,.05);color:var(--txt2);border:1px solid var(--line)}
+.tag-vo{background:rgba(255,107,26,.16);color:var(--cyan);border:1px solid var(--line-h);box-shadow:0 0 10px var(--cyan-glow)}
+/* --- voice-over cards: one per announcer event, flag dropdown + random variant on play --- */
+.vo-card{border-color:var(--line-h)}
+.vo-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 4px;flex-wrap:wrap}
+.vo-flag-wrap{display:flex;align-items:center;gap:8px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--txt2)}
+.vo-flag{font-family:'BF Mono','JetBrains Mono',ui-monospace,monospace;font-size:.78rem;color:var(--txt);background:var(--panel2);border:1px solid var(--line-h);border-radius:var(--r-sm);padding:6px 10px;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+.vo-flag:hover,.vo-flag:focus{border-color:var(--cyan);box-shadow:0 0 12px var(--cyan-glow);outline:none}
+.vo-noflag{font-size:.66rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.vo-variants{font-size:.64rem;color:var(--muted);letter-spacing:.04em}
+.vo-variants.vo-dead{color:var(--amber);font-weight:600}
+.vo-card .asset code{color:var(--cyan);opacity:.85}
+.vo-card .asset code:hover{color:var(--txt)}
 .card-wave{height:64px;margin:6px 0 14px;border-radius:var(--r-sm);background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .card-wave .ph{display:flex;gap:3px;align-items:center;height:40px;opacity:.4}
 .card-wave .ph i{width:3px;background:var(--muted);border-radius:3px;animation:ph 1.4s ease-in-out infinite}

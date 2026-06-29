@@ -18,8 +18,20 @@ for dir in $(ls "$SB/sounds" 2>/dev/null); do
     asset=$(echo "$bn" | sed -E 's/^[0-9]+_//; s/_SILENT\.ogg$//; s/\.ogg$//')
     # category = token after SFX_ in the asset name (NOT the folder: GameModes/Gamemodes collide on
     # case-insensitive Windows, so both casings live in one folder and are split here by their real name).
-    # VO_* clips are PlayVO announcer events -> the "Announcer" category.
-    case "$asset" in VO_*) cat="Announcer";; *) cat=$(echo "$asset" | sed -E 's/^SFX_//; s/_.*//');; esac
+    # VO_* clips are PlayVO announcer events -> "Announcer" category, parsed into event/flag/variant so the site can
+    # show ONE card per event with a flag dropdown (A-I) + a random variant per play (name: VO_<event>_<A..I>_v<n>).
+    vo=false; event=""; flag=""; variant=0
+    case "$asset" in
+      VO_*)
+        cat="Announcer"; vo=true
+        rest="${asset#VO_}"
+        variant=$(echo "$rest" | sed -nE 's/.*_v([0-9]+)$/\1/p'); [ -z "$variant" ] && variant=0
+        rest2=$(echo "$rest" | sed -E 's/_v[0-9]+$//')
+        flag=$(echo "$rest2" | sed -nE 's/.*_([A-I])$/\1/p')
+        if [ -n "$flag" ]; then event=$(echo "$rest2" | sed -E 's/_[A-I]$//'); else event="$rest2"; fi
+        ;;
+      *) cat=$(echo "$asset" | sed -E 's/^SFX_//; s/_.*//');;
+    esac
     # CrashSounds folder = assets that CRASH the game when played; kept out of their SDK category and flagged.
     # (Audio here is whatever was captured right before the crash, so it may be cut short or absent.)
     crash=false; case "$dir" in CrashSounds) cat="Crash Sounds"; crash=true;; esac
@@ -31,8 +43,8 @@ for dir in $(ls "$SB/sounds" 2>/dev/null); do
     t=$("$FFMPEG" -nostdin -hide_banner -i "$f" -f null - 2>&1 | grep -oE 'time=[0-9:.]+' | tail -1 | sed 's/time=//')
     dur=$(awk -F: -v t="$t" 'BEGIN{n=split(t,a,":"); if(n==3) printf "%.2f", a[1]*3600+a[2]*60+a[3]; else printf "%.2f", (t==""?0:t)}')
     [ $first -eq 0 ] && echo "," >> "$MAN"; first=0
-    printf '  {"file":"sounds/%s/%s","name":"%s","cat":"%s","loop":%s,"silent":%s,"crash":%s,"unreliable":%s,"dur":%.2f}' \
-      "$dir" "$bn" "$asset" "$cat" "$loop" "$silent" "$crash" "$unreliable" "${dur:-0}" >> "$MAN"
+    printf '  {"file":"sounds/%s/%s","name":"%s","cat":"%s","loop":%s,"silent":%s,"crash":%s,"unreliable":%s,"dur":%.2f,"vo":%s,"event":"%s","flag":"%s","variant":%d}' \
+      "$dir" "$bn" "$asset" "$cat" "$loop" "$silent" "$crash" "$unreliable" "${dur:-0}" "$vo" "$event" "$flag" "$variant" >> "$MAN"
   done
 done
 echo "" >> "$MAN"; echo "]" >> "$MAN"
