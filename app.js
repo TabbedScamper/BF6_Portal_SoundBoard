@@ -305,8 +305,9 @@ function observeWaves() {
   $$('.card-wave', $('#grid')).forEach(w => io.observe(w));
 }
 function ensureWave(card) {
-  const file = card.dataset.file;
   const cont = $('.card-wave', card);
+  if (!cont) return undefined;        // VO cards have no waveform display; playback still runs via the audio engine
+  const file = card.dataset.file;
   let host = hostByFile.get(file);
   if (host) { if (host.parentElement !== cont) { cont.innerHTML = ''; cont.appendChild(host); } return wsByFile.get(file); }
   cont.innerHTML = '';
