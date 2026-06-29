@@ -154,8 +154,12 @@ function wireVoCard(card) {
   const playNext = () => {
     const vars = voVariants(clipsFor());
     if (!vars.length) { toast('No audio for that line'); return; }
-    const cl = vars[vi % vars.length]; vi++;                       // step to the next distinct variant
-    card.dataset.file = cl[Math.floor(Math.random() * cl.length)].file;
+    // round-robin across distinct variants, stepping through takes within each -> a DIFFERENT take every click
+    // (alternates variants when there are several; cycles all takes when one length-cluster holds many, e.g. sectors)
+    const cl = vars[vi % vars.length];
+    const take = cl[Math.floor(vi / vars.length) % cl.length];
+    vi++;
+    card.dataset.file = take.file;
     playFromCard(card);
   };
   if (type === 'event') {

@@ -4847,7 +4847,7 @@ const VO_GROUPS: { key: string; test: (n: string) => boolean }[] = [
 ];
 let voGroupIdx = 0;
 function voGroupList(): { name: string; val: number }[] { buildVoList(); return voList.filter((e) => VO_GROUPS[voGroupIdx].test(e.name)); }
-function voGroupCount(): number { let n = 0; for (const e of voGroupList()) n += isFlag9(e.name) ? VO_FLAGS.length : 1; return n; }
+function voGroupCount(): number { let n = 0; for (const e of voGroupList()) n += flagSpan(e.name); return n; }
 function stepVoGroup(d: number): void {
   voGroupIdx = ((voGroupIdx + d) % VO_GROUPS.length + VO_GROUPS.length) % VO_GROUPS.length;
   if (con) con.logc("VO group: " + VO_GROUPS[voGroupIdx].key + " (" + voGroupList().length + " events / " + voGroupCount() + " plays)", LOG.NAV);
@@ -5248,10 +5248,17 @@ const VO_FLAGS: mod.VoiceOverFlags[] = [
   mod.VoiceOverFlags.Echo, mod.VoiceOverFlags.Foxtrot, mod.VoiceOverFlags.Golf, mod.VoiceOverFlags.Hotel, mod.VoiceOverFlags.India,
 ];
 const VO_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
-/** Objective/MCom (and experimentally CheckPoint/SectorTaken) speak an objective LETTER -> capture all 9 (A-I).
- *  "Generic" variants have no letter. CheckPoint/Sector are unproven (creator only did Objective+MCom) but harmless
- *  to try — they sit last in the run, so silent ones are easy to skip. */
-function isFlag9(name: string): boolean { return /^(Objective|MCom|CheckPoint|SectorTaken)/.test(name) && name.indexOf("Generic") < 0; }
+/** How many objective LETTERS (flags A..I) to capture for an event — keeps sessions short by only looping flags
+ *  that actually exist in-game (verified): Objective A-I, MCom A-D, Sector callouts don't vary by flag (capture
+ *  once), Generic variants have no letter. Returns the flag count; >1 means letter-suffixed clips. */
+function flagSpan(name: string): number {
+  if (name.indexOf("Generic") >= 0) return 1;
+  if (/^Objective/.test(name)) return 9;     // A-I
+  if (/^MCom/.test(name)) return 4;          // A-D only (E-I have no callouts)
+  if (/^CheckPoint/.test(name)) return 1;    // checkpoint callouts don't vary by flag -> capture once
+  if (/^SectorTaken/.test(name)) return 1;   // sector callouts are the same regardless of flag -> capture once
+  return 1;
+}
 /** Team-relative lines (winning/losing/friendly/enemy/attacker/defender) need a TEAM target so the engine knows
  *  whose perspective to render; everything else is targeted at the player (audible at the camera). */
 function isTeamRel(name: string): boolean { return /(Winning|Losing|Friendly|Enemy|Attacker|Defender|Attacking|Defending|Kills|Capture)/i.test(name); }
@@ -5285,8 +5292,9 @@ function startVoCapture(): void {
   for (let rep = 1; rep <= VO_REPS; rep++) {
     for (let L = 0; L < VO_FLAGS.length; L++) {
       for (const e of voActive) {
-        const f9 = isFlag9(e.name);
-        if (!f9 && L > 0) continue; // non-flag9 events have no letter -> one per rep, in pass A only
+        const span = flagSpan(e.name);
+        if (L >= span) continue;   // only loop the flags that exist for this event (MCom A-D, Sector once, ...)
+        const f9 = span > 1;
         voPlan.push({ name: e.name, val: e.val, li: f9 ? L : 0, v: rep });
       }
     }
@@ -5314,7 +5322,7 @@ function voCaptureTick(): void {
   if (!voCapturing || now < capNextTime) return;
   if (voStep >= voPlan.length) { stopVoCapture(); return; }
   const p = voPlan[voStep];
-  const f9 = isFlag9(p.name);
+  const f9 = flagSpan(p.name) > 1;
   if (capLastCat !== "Announcer") { capLastCat = "Announcer"; console.log("[CAP] === CATEGORY Announcer ==="); }
   // name encodes event + flag-letter + variant: VO_<event>_<A..I>_v<n>  (non-flag9: VO_<event>_v<n>)
   const nm = (f9 ? ("VO_" + p.name + "_" + VO_LETTERS[p.li]) : ("VO_" + p.name)) + "_v" + p.v;
