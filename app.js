@@ -260,7 +260,7 @@ function filtered() {
     if (curType === '3d' && !is3D(s.name)) return false;       // VO groups are 2D (name has no 3D suffix)
     if (curType === '2d' && is3D(s.name)) return false;
     if (curType === 'loop' && !s.loop) return false;
-    const label = s.vo ? voPretty(s.event) : pretty(s.name);
+    const label = s.vo ? (s.family + ' ' + Object.keys(s.byEvent || {}).map(voEventLabel).join(' ')) : pretty(s.name);
     if (curTerm && !(s.name.toLowerCase().includes(curTerm) || label.toLowerCase().includes(curTerm))) return false;
     return true;
   }).sort((a, b) => sortRank(a) - sortRank(b)); // Array.sort is stable -> keeps category/name order within each rank
