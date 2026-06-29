@@ -60,6 +60,8 @@ const FLAG_NAMES = { A: 'Alpha', B: 'Bravo', C: 'Charlie', D: 'Delta', E: 'Echo'
 const isTeamRelEvent = (ev) => /Winning|Losing|Friendly|Enemy|Attacker|Defender|Attacking|Defending|Kills|Capture/i.test(ev);
 const voPretty = (ev) => ev.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/_/g, ' ').trim();
 const voEventLabel = (ev) => voPretty(ev).replace(/^Objective\s+/, '').replace(/^M\s?Com\s+/i, 'MCom ');
+// flag families get their OWN letter-card sets (MCom only A-D exist; Objective A-I) — never share letter cards.
+const voFamily = (ev) => /^MCom/i.test(ev) ? 'MCom' : /^Objective/i.test(ev) ? 'Objective' : /^CheckPoint/i.test(ev) ? 'CheckPoint' : /^Sector/i.test(ev) ? 'Sector' : 'Other';
 const live = (clips) => clips.filter(s => !s.silent);
 const poolFiles = (clips) => (live(clips).length ? live(clips) : clips).map(s => s.file);  // random-play pool
 // distinct variants = duration clusters of the non-silent takes (same VO asset has a fixed length; different
@@ -82,9 +84,10 @@ function buildCards() {
       let c = evCards.get(s.event);
       if (!c) { c = { vo: true, voType: 'event', cat: 'Announcer', event: s.event, name: 'VO_' + s.event, takes: [] }; evCards.set(s.event, c); }
       c.takes.push(s);
-    } else {                                                  // flag sound -> one box per letter, status dropdown
-      let c = flCards.get(s.flag);
-      if (!c) { c = { vo: true, voType: 'flag', cat: 'Announcer', flag: s.flag, name: 'VO_flag_' + s.flag, byStatus: {} }; flCards.set(s.flag, c); }
+    } else {                                                  // flag sound -> one box per FAMILY+letter, status dropdown
+      const fam = voFamily(s.event), key = fam + '_' + s.flag;
+      let c = flCards.get(key);
+      if (!c) { c = { vo: true, voType: 'flag', cat: 'Announcer', family: fam, flag: s.flag, name: 'VO_' + fam + '_' + s.flag, byStatus: {} }; flCards.set(key, c); }
       (c.byStatus[s.event] = c.byStatus[s.event] || []).push(s);
     }
   }
@@ -93,15 +96,16 @@ function buildCards() {
   ev.sort((a, b) => a.event.localeCompare(b.event));
   const fl = [...flCards.values()];
   for (const c of fl) { c.events = Object.keys(c.byStatus).sort(); const all = Object.values(c.byStatus).flat(); c.dur = all.reduce((m, s) => Math.max(m, s.dur || 0), 0); c.silent = all.length > 0 && all.every(s => s.silent); c.file = all[0] ? all[0].file : ''; }
-  fl.sort((a, b) => a.flag.localeCompare(b.flag));
+  const famOrder = ['Objective', 'MCom', 'CheckPoint', 'Sector', 'Other'];
+  fl.sort((a, b) => (famOrder.indexOf(a.family) - famOrder.indexOf(b.family)) || a.flag.localeCompare(b.flag));
   return nonVo.concat(ev, fl);
 }
 const voEvCard = (event) => CARDS.find(c => c.vo && c.voType === 'event' && c.event === event);
-const voFlCard = (flag) => CARDS.find(c => c.vo && c.voType === 'flag' && c.flag === flag);
+const voFlCard = (family, flag) => CARDS.find(c => c.vo && c.voType === 'flag' && c.family === family && c.flag === flag);
 const voEvFiles = (event) => { const c = voEvCard(event); return c ? poolFiles(c.takes) : []; };
-const voFlFiles = (flag, status) => { const c = voFlCard(flag); return (c && c.byStatus[status]) ? poolFiles(c.byStatus[status]) : []; };
+const voFlFiles = (family, flag, status) => { const c = voFlCard(family, flag); return (c && c.byStatus[status]) ? poolFiles(c.byStatus[status]) : []; };
 const voEvDead = (event) => { const c = voEvCard(event); return !!c && c.takes.length > 0 && c.takes.every(s => s.silent); };
-const voFlDead = (flag, status) => { const c = voFlCard(flag); const cl = (c && c.byStatus[status]) || []; return cl.length > 0 && cl.every(s => s.silent); };
+const voFlDead = (family, flag, status) => { const c = voFlCard(family, flag); const cl = (c && c.byStatus[status]) || []; return cl.length > 0 && cl.every(s => s.silent); };
 function voSnippet(event, flag) {
   const flagName = (flag && flag !== '-') ? FLAG_NAMES[flag] : 'Alpha';
   const target = isTeamRelEvent(event) ? ', mod.GetTeam(player)' : '';
@@ -125,9 +129,9 @@ function voCardHTML(c, i) {
       + '<div class="vo-controls"><span class="vo-variants" data-vo-variants></span></div>'
       + voFoot(c.file) + '</article>';
   }
-  const statusOpts = c.events.map(ev => '<option value="' + ev + '">' + voEventLabel(ev) + (voFlDead(c.flag, ev) ? '  — no audio' : '') + '</option>').join('');
-  return open('data-votype="flag" data-flag="' + c.flag + '"')
-    + '<div class="card-head"><div class="card-title">Flag ' + c.flag + ' &middot; ' + FLAG_NAMES[c.flag] + '</div>' + tags + '</div>'
+  const statusOpts = c.events.map(ev => '<option value="' + ev + '">' + voEventLabel(ev) + (voFlDead(c.family, c.flag, ev) ? '  — no audio' : '') + '</option>').join('');
+  return open('data-votype="flag" data-family="' + c.family + '" data-flag="' + c.flag + '"')
+    + '<div class="card-head"><div class="card-title">' + c.family + ' &middot; Flag ' + c.flag + ' (' + FLAG_NAMES[c.flag] + ')</div>' + tags + '</div>'
     + '<div class="vo-controls"><label class="vo-flag-wrap">Line <select class="vo-flag" data-vo-status>' + statusOpts + '</select></label><span class="vo-variants" data-vo-variants></span></div>'
     + voFoot(c.file) + '</article>';
 }
@@ -137,7 +141,7 @@ function wireVoCard(card) {
   let vi = 0;                                   // cycle index -> a DIFFERENT variant on each play
   const clipsFor = type === 'event'
     ? () => { const c = voEvCard(card.dataset.event); return c ? c.takes : []; }
-    : () => { const c = voFlCard(card.dataset.flag), st = $('[data-vo-status]', card).value; return (c && c.byStatus[st]) || []; };
+    : () => { const c = voFlCard(card.dataset.family, card.dataset.flag), st = $('[data-vo-status]', card).value; return (c && c.byStatus[st]) || []; };
   const show = () => {
     const clips = clipsFor(), vars = voVariants(clips), dead = clips.length > 0 && clips.every(s => s.silent);
     vi = 0;
@@ -257,7 +261,7 @@ function filtered() {
     if (curType === '2d' && is3D(s.name)) return false;
     if (curType === 'loop' && !s.loop) return false;
     const label = s.vo
-      ? (s.voType === 'event' ? voPretty(s.event) : ('Flag ' + s.flag + ' ' + FLAG_NAMES[s.flag] + ' ' + (s.events || []).map(voEventLabel).join(' ')))
+      ? (s.voType === 'event' ? voPretty(s.event) : (s.family + ' Flag ' + s.flag + ' ' + FLAG_NAMES[s.flag] + ' ' + (s.events || []).map(voEventLabel).join(' ')))
       : pretty(s.name);
     if (curTerm && !(s.name.toLowerCase().includes(curTerm) || label.toLowerCase().includes(curTerm))) return false;
     return true;
