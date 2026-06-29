@@ -62,6 +62,18 @@ const voPretty = (ev) => ev.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/_/g,
 const voEventLabel = (ev) => voPretty(ev).replace(/^Objective\s+/, '').replace(/^M\s?Com\s+/i, 'MCom ');
 const live = (clips) => clips.filter(s => !s.silent);
 const poolFiles = (clips) => (live(clips).length ? live(clips) : clips).map(s => s.file);  // random-play pool
+// distinct variants = duration clusters of the non-silent takes (same VO asset has a fixed length; different
+// variants differ in wording/length). 0.30s gap matches the validated count (~2 avg). Returns arrays of clips.
+function voVariants(clips, gap = 0.30) {
+  const ls = live(clips).slice().sort((a, b) => (a.dur || 0) - (b.dur || 0));
+  if (!ls.length) return [];
+  const out = [[ls[0]]];
+  for (let i = 1; i < ls.length; i++) {
+    if ((ls[i].dur || 0) - (ls[i - 1].dur || 0) > gap) out.push([]);
+    out[out.length - 1].push(ls[i]);
+  }
+  return out;
+}
 function buildCards() {
   const nonVo = [], evCards = new Map(), flCards = new Map();
   for (const s of SOUNDS) {
@@ -122,27 +134,39 @@ function voCardHTML(c, i) {
 function wireVoCard(card) {
   const type = card.dataset.votype;
   const codeEl = $('[data-vo-snippet]', card), dl = $('[data-vo-dl]', card), vEl = $('[data-vo-variants]', card), playBtn = $('[data-play]', card);
-  const setVariants = (n, dead) => { vEl.textContent = dead ? '⚠ did not play in-game' : (n + (n === 1 ? ' take' : ' takes') + ' · random on play'); vEl.classList.toggle('vo-dead', dead); card.classList.toggle('card--warn', dead); };
-  const playRandom = (files) => { if (!files.length) { toast('No audio for that line'); return; } card.dataset.file = files[Math.floor(Math.random() * files.length)]; playFromCard(card); };
+  let vi = 0;                                   // cycle index -> a DIFFERENT variant on each play
+  const clipsFor = type === 'event'
+    ? () => { const c = voEvCard(card.dataset.event); return c ? c.takes : []; }
+    : () => { const c = voFlCard(card.dataset.flag), st = $('[data-vo-status]', card).value; return (c && c.byStatus[st]) || []; };
+  const show = () => {
+    const clips = clipsFor(), vars = voVariants(clips), dead = clips.length > 0 && clips.every(s => s.silent);
+    vi = 0;
+    vEl.textContent = dead ? '⚠ did not play in-game' : (vars.length + (vars.length === 1 ? ' variant' : ' variants'));
+    vEl.classList.toggle('vo-dead', dead);
+    card.classList.toggle('card--warn', dead);
+    const rep = vars[0] && vars[0][0];
+    if (rep) { dl.href = rep.file; dl.download = rep.name + '.ogg'; }
+  };
+  const playNext = () => {
+    const vars = voVariants(clipsFor());
+    if (!vars.length) { toast('No audio for that line'); return; }
+    const cl = vars[vi % vars.length]; vi++;                       // step to the next distinct variant
+    card.dataset.file = cl[Math.floor(Math.random() * cl.length)].file;
+    playFromCard(card);
+  };
   if (type === 'event') {
-    const event = card.dataset.event, files = voEvFiles(event);
+    const event = card.dataset.event;
     codeEl.textContent = 'PlayVO(vo, …' + event + ', …Alpha' + (isTeamRelEvent(event) ? ', GetTeam(player)' : '') + ')';
-    setVariants(files.length, voEvDead(event));
-    if (files[0]) { dl.href = files[0]; dl.download = event + '.ogg'; }
     codeEl.addEventListener('click', () => navigator.clipboard.writeText(voSnippet(event, '')).then(() => toast('Copied PlayVO code')).catch(() => toast('Copy failed')));
-    playBtn.addEventListener('click', () => playRandom(voEvFiles(event)));
   } else {
     const flag = card.dataset.flag, sel = $('[data-vo-status]', card);
-    const refresh = () => {
-      const status = sel.value, files = voFlFiles(flag, status);
-      codeEl.textContent = 'PlayVO(vo, …' + status + ', …' + FLAG_NAMES[flag] + (isTeamRelEvent(status) ? ', GetTeam(player)' : '') + ')';
-      setVariants(files.length, voFlDead(flag, status));
-      if (files[0]) { dl.href = files[0]; dl.download = status + '_' + flag + '.ogg'; }
-    };
-    sel.addEventListener('change', refresh); refresh();
+    const setCode = () => { codeEl.textContent = 'PlayVO(vo, …' + sel.value + ', …' + FLAG_NAMES[flag] + (isTeamRelEvent(sel.value) ? ', GetTeam(player)' : '') + ')'; };
+    sel.addEventListener('change', () => { setCode(); show(); });
+    setCode();
     codeEl.addEventListener('click', () => navigator.clipboard.writeText(voSnippet(sel.value, flag)).then(() => toast('Copied PlayVO code')).catch(() => toast('Copy failed')));
-    playBtn.addEventListener('click', () => playRandom(voFlFiles(flag, sel.value)));
   }
+  show();
+  playBtn.addEventListener('click', playNext);
 }
 
 /* ---------- load ---------- */
