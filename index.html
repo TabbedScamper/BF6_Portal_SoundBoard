@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css?v=17" />
+<link rel="stylesheet" href="style.css?v=18" />
 </head>
 <body>
 
@@ -41,6 +41,7 @@
     <nav class="topnav" aria-label="Site">
       <button class="topnav-tab" id="creditsBtn">Credits</button>
       <button class="topnav-tab" id="aboutBtn">Info</button>
+      <button class="topnav-tab" id="recorderBtn">Recorder Mod</button>
       <a class="discord-btn" href="https://discord.gg/qFJU3PadJG" target="_blank" rel="noopener" title="Join the Battlefield Portal Hub Discord">
         <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.27 5.33A16.6 16.6 0 0 0 15.1 4l-.2.4a14.9 14.9 0 0 1 3.7 1.2 13.3 13.3 0 0 0-11.3 0A14.9 14.9 0 0 1 11 4.4L10.8 4a16.6 16.6 0 0 0-4.16 1.33C3.6 9.9 2.77 14.36 3.18 18.74a16.7 16.7 0 0 0 5.07 2.56l.4-.55a11 11 0 0 1-1.74-.83l.43-.34a11.9 11.9 0 0 0 10.13 0l.43.34c-.55.32-1.13.6-1.74.83l.4.55a16.7 16.7 0 0 0 5.07-2.56c.48-5.06-.82-9.48-2.86-13.41ZM9.5 16c-.95 0-1.74-.88-1.74-1.96 0-1.08.77-1.96 1.74-1.96.97 0 1.76.89 1.74 1.96 0 1.08-.78 1.96-1.74 1.96Zm5 0c-.95 0-1.74-.88-1.74-1.96 0-1.08.77-1.96 1.74-1.96.97 0 1.76.89 1.74 1.96 0 1.08-.77 1.96-1.74 1.96Z"/></svg>
         <span>Portal Hub</span>
@@ -94,6 +95,41 @@
       <p><b>Built by</b> &mdash; TabbedScamper.</p>
       <p><b>Thanks</b> &mdash; the <b>Battlefield Portal Hub</b> community for the SDK research and testing this relies on (sound behaviour, announcer-VO quirks, attenuation notes).</p>
       <p class="about-note">Fonts are Battlefield brand typefaces, used for presentation only.</p>
+    </div>
+  </div>
+</div>
+
+<!-- recorder mod modal: download the in-game capture experience + how to use it -->
+<div class="about-overlay" id="recorderOverlay" hidden>
+  <div class="about" role="dialog" aria-label="Recorder Mod">
+    <div class="about-head">
+      <h2>Get the recorder mod</h2>
+      <button id="recorderClose" class="about-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="about-body">
+      <p><b>BF6_SFX</b> is the in-game Portal experience used to capture everything on this site. It reads the SDK asset list at runtime and gives you an on-screen menu to audition and record every <code>SFX_</code> sound and announcer <code>PlayVO</code> line. Grab it and play with the exact menu the library was built with.</p>
+      <p style="text-align:center;margin:18px 0">
+        <a class="dl-cta" href="BF6_SFX.json" download="BF6_SFX.json">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download BF6_SFX.json
+        </a>
+      </p>
+      <h3 class="about-sub">How to use it</h3>
+      <ol class="about-steps">
+        <li>Open <a href="https://portal.battlefield.com" target="_blank" rel="noopener">portal.battlefield.com</a> and sign in.</li>
+        <li>Create a new experience and open the <b>Rules editor</b>.</li>
+        <li><b>Import</b> the downloaded <code>BF6_SFX.json</code> (the experience's gamemode, map rotation and rules are all inside it).</li>
+        <li>Save, then <b>Host Locally</b> (or publish) and join the match.</li>
+      </ol>
+      <h3 class="about-sub">In-game controls</h3>
+      <ul class="about-steps">
+        <li>You auto-deploy into a capture booth with the menu open.</li>
+        <li><b>Category</b> + <b>Prev/Next</b> to browse sounds; <b>Play</b> to audition; the live log shows what's happening.</li>
+        <li><b>REC</b> buttons record a category / from a point / a queue; <b>VO GROUP</b> cycles the announcer set (Objective / MCom / Sector / CheckPoint / Broadcast) and <b>REC VO GROUP</b> records it.</li>
+        <li>Big red <b>STOP EVERYTHING</b> halts all audio; <b>triple-tap INTERACT</b> hides/shows the panel.</li>
+        <li>Record your screen (e.g. OBS) while it plays; the clips are split out afterward by the logged game-time.</li>
+      </ul>
+      <p class="about-note">Source for the mod lives in the repo under <code>BF6_SFX/</code> (deluca-format TypeScript) with a full <code>VOICEOVERS.md</code> guide. Audio is from Battlefield&nbsp;6 / Portal (&copy; EA &amp; DICE).</p>
     </div>
   </div>
 </div>
@@ -233,6 +269,6 @@
 <script src="config.js"></script>
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="app.js?v=17"></script>
+<script src="app.js?v=18"></script>
 </body>
 </html>

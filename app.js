@@ -558,7 +558,10 @@ $('#aboutOverlay').addEventListener('click', (e) => { if (e.target.id === 'about
 $('#creditsBtn').addEventListener('click', () => { $('#creditsOverlay').hidden = false; });
 $('#creditsClose').addEventListener('click', () => { $('#creditsOverlay').hidden = true; });
 $('#creditsOverlay').addEventListener('click', (e) => { if (e.target.id === 'creditsOverlay') $('#creditsOverlay').hidden = true; });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('#aboutOverlay').hidden = true; $('#creditsOverlay').hidden = true; } });
+$('#recorderBtn').addEventListener('click', () => { $('#recorderOverlay').hidden = false; });
+$('#recorderClose').addEventListener('click', () => { $('#recorderOverlay').hidden = true; });
+$('#recorderOverlay').addEventListener('click', (e) => { if (e.target.id === 'recorderOverlay') $('#recorderOverlay').hidden = true; });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('#aboutOverlay').hidden = true; $('#creditsOverlay').hidden = true; $('#recorderOverlay').hidden = true; } });
 
 /* ---------- search ---------- */
 const search = $('#search');
