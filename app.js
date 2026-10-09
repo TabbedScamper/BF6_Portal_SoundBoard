@@ -1,4 +1,4 @@
-/* BF6 Portal SFX Library — soundboard logic
+/* BF6 Portal SFX Library: soundboard logic
    - lazy SoundCloud-style waveforms (wavesurfer.js), one player active at a time
    - Spotify-style now-playing dock, seamless loop for loop assets
    - search + category filter, click-to-copy asset names, single/zip downloads (JSZip) */
@@ -29,7 +29,7 @@ let spPx = 0, spPy = -60;   // sound position on the radar, pixels from centre (
 let spWorld = { x: 0, z: -10, dist: 10, ang: 0 }; // derived world offset for the panner
 // the authoritative SFX set for the current Portal SDK (RuntimeSpawn_Common enum, verified from index.d.ts)
 const SDK_VERSION = '1.3.2.0';
-// real capturable SFX categories. (The 938th SDK SFX entry, SFX_VOModule, is a silent PlayVO carrier — excluded.)
+// Portal PlaySound categories. (The 938th SDK SFX entry, SFX_VOModule, is a silent PlayVO carrier, excluded.)
 const SDK_CATS = { UI: 331, Soldier: 200, Levels: 138, Gadgets: 103, Destruction: 68, GameModes: 61, Projectiles: 31, Gamemodes: 4, Alarm: 1 };
 const SDK_TOTAL = Object.values(SDK_CATS).reduce((a, b) => a + b, 0); // 937
 
@@ -64,7 +64,7 @@ const FLAG_NAMES = { A: 'Alpha', B: 'Bravo', C: 'Charlie', D: 'Delta', E: 'Echo'
 const isTeamRelEvent = (ev) => /Winning|Losing|Friendly|Enemy|Attacker|Defender|Attacking|Defending|Kills|Capture/i.test(ev);
 const voPretty = (ev) => ev.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/_/g, ' ').trim();
 const voEventLabel = (ev) => voPretty(ev).replace(/^Objective\s+/, '').replace(/^M\s?Com\s+/i, 'MCom ');
-// flag families get their OWN letter-card sets (MCom only A-D exist; Objective A-I) — never share letter cards.
+// flag families get their OWN letter-card sets (MCom only A-D exist; Objective A-I). Never share letter cards.
 const voFamily = (ev) => /^MCom/i.test(ev) ? 'MCom' : /^Objective/i.test(ev) ? 'Objective' : /^CheckPoint/i.test(ev) ? 'CheckPoint' : /^Sector/i.test(ev) ? 'Sector' : 'Other';
 const live = (clips) => clips.filter(s => !s.silent);
 const poolFiles = (clips) => (live(clips).length ? live(clips) : clips).map(s => s.file);  // random-play pool
@@ -135,16 +135,16 @@ const voFoot = (file) => '<div class="card-foot">'
 function voCardHTML(c, i) {
   const tags = '<div class="card-tags"><span class="tag tag-2d">2D</span><span class="tag tag-vo">VO</span><span class="tag tag-dur">' + fmt(c.dur, c.dur) + '</span></div>';
   const dead = c.silent;
-  const banner = dead ? '<div class="caution caution--warn"><span>&#9888; DID NOT PLAY IN-GAME</span></div>' : '';
+  const banner = dead ? '<div class="caution caution--warn"><span>DID NOT PLAY IN-GAME</span></div>' : '';
   const cls = dead ? ' card--warn' : '';
-  const open = (extra) => '\n  <article class="card vo-card' + cls + '" data-vo="1" ' + extra + ' data-name="' + c.name + '" data-cat="Announcer" data-file="' + c.file + '" style="animation-delay:' + Math.min(i * 18, 360) + 'ms">' + banner;
+  const open = (extra) => '\n  <article class="card vo-card' + cls + '" data-vo="1" ' + extra + ' data-name="' + c.name + '" data-cat="Announcer" data-file="' + c.file + '">' + banner;
   if (c.voType === 'event') {
     return open('data-votype="event" data-event="' + c.event + '"')
       + '<div class="card-head"><div class="card-title">' + voPretty(c.event) + '</div>' + tags + '</div>'
       + '<div class="vo-controls"><span class="vo-variants" data-vo-variants></span></div>'
       + voFoot(c.file) + '</article>';
   }
-  const statusOpts = c.events.map(ev => '<option value="' + ev + '">' + voEventLabel(ev) + (voFlDead(c.family, c.flag, ev) ? '  — no audio' : '') + '</option>').join('');
+  const statusOpts = c.events.map(ev => '<option value="' + ev + '">' + voEventLabel(ev) + (voFlDead(c.family, c.flag, ev) ? ': no audio' : '') + '</option>').join('');
   return open('data-votype="flag" data-family="' + c.family + '" data-flag="' + c.flag + '"')
     + '<div class="card-head"><div class="card-title">' + c.family + ' &middot; Flag ' + c.flag + ' (' + FLAG_NAMES[c.flag] + ')</div>' + tags + '</div>'
     + '<div class="vo-controls"><label class="vo-flag-wrap">Line <select class="vo-flag" data-vo-status>' + statusOpts + '</select></label><span class="vo-variants" data-vo-variants></span></div>'
@@ -160,7 +160,7 @@ function wireVoCard(card) {
   const show = () => {
     const clips = clipsFor(), vars = voVariants(clips), dead = clips.length > 0 && clips.every(s => s.silent);
     vi = 0;
-    vEl.textContent = dead ? '⚠ did not play in-game' : (vars.length + (vars.length === 1 ? ' variant' : ' variants'));
+    vEl.textContent = dead ? 'did not play in-game' : (vars.length + (vars.length === 1 ? ' variant' : ' variants'));
     vEl.classList.toggle('vo-dead', dead);
     card.classList.toggle('card--warn', dead);
     const rep = vars[0] && vars[0][0];
@@ -222,21 +222,10 @@ function buildStats() {
     stat(n2, '2D') + stat(n3, '3D') + stat(loops, 'loops');
   animateCounts($('#headerStats'));
 }
-// eased count-up for any [data-count] numbers (SEC-style)
+// Display library totals immediately.
 function animateCounts(root) {
   root.querySelectorAll('[data-count]').forEach(el => {
-    const target = +el.dataset.count, dur = 300;
-    if (window.BF6UI?.reducedMotion) { el.textContent = target.toLocaleString(); return; }
-    const ease = t => t;
-    let t0 = null;
-    function step(now) {
-      if (window.BF6UI?.reducedMotion) { el.textContent = target.toLocaleString(); return; }
-      if (t0 === null) t0 = now;
-      const p = Math.min(1, (now - t0) / dur);
-      el.textContent = Math.round(target * ease(p)).toLocaleString();
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
+    el.textContent = (+el.dataset.count).toLocaleString();
   });
 }
 
@@ -314,13 +303,13 @@ function cardHTML(s, i) {
   const warn = !s.crash && (s.silent || s.unreliable);
   const warnLabel = s.silent ? 'DID NOT PLAY IN-GAME' : 'UNRELIABLE &middot; MAY NOT PLAY';
   const warnTitle = s.silent ? 'No audio when played in-game (silent / conditional asset)'
-    : 'Announcer voice-over: fires randomly / often silent on the live build (engine bug) — may not play in your mod';
+    : 'Announcer voice-over: fires randomly / often silent on the live build (engine bug). May not play in your mod';
   const warnTag = warn ? `<span class="tag tag-unreliable" title="${warnTitle}">${s.silent ? 'no audio' : 'unreliable'}</span>` : '';
   const cls = s.crash ? ' card--crash' : (warn ? ' card--warn' : '');
-  const banner = s.crash ? '<div class="caution caution--crash"><span>&#9888; CRASHES THE GAME</span></div>'
-    : (warn ? `<div class="caution caution--warn"><span>&#9888; ${warnLabel}</span></div>` : '');
+  const banner = s.crash ? '<div class="caution caution--crash"><span>CRASHES THE GAME</span></div>'
+    : (warn ? `<div class="caution caution--warn"><span>${warnLabel}</span></div>` : '');
   return `
-  <article class="card${cls}" data-file="${s.file}" data-name="${s.name}" data-cat="${s.cat}" data-loop="${s.loop}" style="animation-delay:${Math.min(i * 18, 360)}ms">
+  <article class="card${cls}" data-file="${s.file}" data-name="${s.name}" data-cat="${s.cat}" data-loop="${s.loop}">
     ${banner}
     <div class="card-head">
       <div class="card-title">${title}</div>
@@ -595,7 +584,7 @@ function buildAbout() {
     if (c === 'Crash Sounds') { const m = s.name.match(/^SFX_([A-Za-z]+)_/); if (m) c = m[1]; } // count crashers toward their SFX category
     cap[c] = (cap[c] || 0) + 1;
   });
-  const rows = ['<div class="cov-row head"><span>Category</span><span>captured / SDK</span><span>coverage</span></div>'];
+  const rows = ['<div class="cov-row head"><span>Category</span><span>listed / SDK</span><span>coverage</span></div>'];
   let capTotal = 0;
   Object.keys(SDK_CATS).sort((a, b) => SDK_CATS[b] - SDK_CATS[a]).forEach(c => {
     const got = cap[c] || 0, tot = SDK_CATS[c]; capTotal += Math.min(got, tot);
@@ -612,10 +601,7 @@ $('#aboutOverlay').addEventListener('click', (e) => { if (e.target.id === 'about
 $('#creditsBtn').addEventListener('click', () => { $('#creditsOverlay').hidden = false; });
 $('#creditsClose').addEventListener('click', () => { $('#creditsOverlay').hidden = true; });
 $('#creditsOverlay').addEventListener('click', (e) => { if (e.target.id === 'creditsOverlay') $('#creditsOverlay').hidden = true; });
-$('#recorderBtn').addEventListener('click', () => { $('#recorderOverlay').hidden = false; });
-$('#recorderClose').addEventListener('click', () => { $('#recorderOverlay').hidden = true; });
-$('#recorderOverlay').addEventListener('click', (e) => { if (e.target.id === 'recorderOverlay') $('#recorderOverlay').hidden = true; });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('#aboutOverlay').hidden = true; $('#creditsOverlay').hidden = true; $('#recorderOverlay').hidden = true; } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('#aboutOverlay').hidden = true; $('#creditsOverlay').hidden = true; } });
 
 /* ---------- search ---------- */
 const search = $('#search');
@@ -718,13 +704,14 @@ function genCode() {
   if (is3D(spSound.name)) {
     const x = spWorld.x.toFixed(1), z = spWorld.z.toFixed(1);
     return [
-      '// position is RELATIVE to the listener — add the player’s world pos in-game',
+      '// Position is relative to the listener. Add the player’s world position in-game.',
       'const pos = mod.CreateVector(' + x + ', 0, ' + z + ')',
       'const sfx = mod.SpawnObject(' + N + ', pos, mod.CreateVector(0,0,0), mod.CreateVector(1,1,1))',
       'mod.PlaySound(sfx, ' + ampParam.toFixed(1) + ', pos, ' + attenRange + sc + ')',
     ].join('\n');
   }
   return [
+    'const pos = mod.CreateVector(0, 0, 0)',
     'const sfx = mod.SpawnObject(' + N + ', pos, mod.CreateVector(0,0,0), mod.CreateVector(1,1,1))',
     'mod.PlaySound(sfx, ' + ampParam.toFixed(1) + sc + ')',
   ].join('\n');

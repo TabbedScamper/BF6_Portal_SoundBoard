@@ -12,7 +12,7 @@
   --amber:#FFBD44; --green:#8EED6C; --red:#FB694D;
   --grad:linear-gradient(#BFCAD1,#BFCAD1); --grad-wave:linear-gradient(#BFCAD1,#BFCAD1);
   --shadow:0 12px 32px rgba(0,0,0,.6); --shadow-glow:none;
-  --r:0px; --r-sm:0px; --ease:250ms linear;
+  --ease:250ms linear;
 }
 body {font-size:16px}
 button,input,select {font-family:'BF Sub',Arial,sans-serif}
@@ -24,17 +24,17 @@ button,a,input,select,summary {touch-action:manipulation}
 .brand-mark {background:transparent;border:1px solid var(--line);border-radius:0;box-shadow:none}
 .brand-mark::after {display:none}
 .brand-resource {width:32px;height:32px;background:var(--txt);mask:url('assets/ui/effects.svg') center/contain no-repeat}
-.brand-text h1 {background:none;-webkit-text-fill-color:var(--txt);color:var(--txt)}
-.v100 {color:var(--txt);background:none;-webkit-text-fill-color:var(--txt);text-shadow:none}
-.topnav-tab,.discord-btn,.btn,.chip,.tpill,.tag,.icon-btn,.dock-toggle,.dock-dl,.about,.about-close,.search input,.search-clear,.spatial,.sp-reset,.sp-close,.sp-copy,.sp-code,#scopeSel,.toast,.dl-box,.dl-cta,.game-sidebar,.game-sidebar button,.game-result,.game-toolbar input,.game-toolbar select {border-radius:0}
+.brand-text h1 {color:var(--txt)}
+.v100 {color:var(--txt);text-shadow:none}
+.topnav-tab,.discord-btn,.btn,.chip,.tpill,.tag,.icon-btn,.dock-toggle,.dock-dl,.about,.about-close,.search input,.search-clear,.spatial,.sp-reset,.sp-close,.sp-copy,.sp-code,#scopeSel,.toast,.dl-box,.game-sidebar,.game-sidebar button,.game-result,.game-toolbar input,.game-toolbar select {border-radius:0}
 .topnav-tab,.btn,.chip,.tpill {font-family:'BF Sub',Arial,sans-serif;letter-spacing:.06em}
 .topnav-tab:hover,.btn:hover,.chip:hover,.tpill:hover {background:rgba(191,202,209,.08);border-color:var(--txt);box-shadow:none;transform:none}
 #uiSoundToggle[aria-pressed="true"] {color:var(--green);border-color:var(--green)}
 .discord-btn {background:var(--panel2);color:var(--txt);box-shadow:none;border-color:var(--line)}
 .discord-btn::before {display:none}
 .topnav-tab::before {display:none}
-.dl-cta {background:var(--txt);color:#07090a;border-color:var(--txt);box-shadow:none}
-.spatial {background:rgba(7,9,10,.96)}
+.spatial {background:rgba(7,9,10,.96);animation:radar-in 250ms linear}
+@keyframes radar-in {from {transform:translateY(20px);opacity:0}to {transform:translateY(0);opacity:1}}
 .archive-hero {position:relative;overflow:hidden;min-height:clamp(210px,29vh,330px);margin-top:24px;padding:clamp(20px,4vh,44px);border:1px solid var(--line);background:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.27)),linear-gradient(0deg,rgba(7,9,10,.60),transparent),url('assets/art/limestone.webp') center/cover no-repeat}
 .archive-kicker {font:700 13px 'BF Sub',Arial,sans-serif;letter-spacing:.18em;color:#FFBD44}
 .archive-hero h2 {font:700 clamp(36px,6vh,66px)/.96 'BF Headline',Impact,sans-serif;margin:14px 0;color:var(--txt)}
@@ -70,9 +70,6 @@ button,a,input,select,summary {touch-action:manipulation}
 .game-card {animation:none;transition:none;border-radius:0}
 .game-card:hover {border-color:var(--txt)}
 .game-card .card-tags {flex-wrap:nowrap;justify-content:flex-start}
-/* Only whole panels reveal; recycled rows have no animation or stagger. */
-.archive-hero,#portalSection,#gameLibrary,.about {animation:bf-panel-in 300ms linear both}
-@keyframes bf-panel-in {0% {opacity:0;transform:translateY(20px)}83.333333%,100% {opacity:1;transform:none}}
 .loader {transition:opacity 250ms linear,visibility 250ms linear}
 .loader.hide {pointer-events:none}
 .loader-bars span,.card-wave .ph i,.ss-online i {animation:none}

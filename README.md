@@ -1,28 +1,25 @@
-# BF6 Portal — SFX Library 🔊
+# BF6 Portal SFX Library V2.00
 
-A polished, Battlefield‑6‑themed soundboard for browsing, auditioning and downloading **Battlefield 6 Portal** sound effects, with a built‑in spatial (3D) preview that mirrors the in‑game `PlaySound` API.
+A Battlefield 6 soundboard with **Portal Sounds** and the full **Game Library**.
 
 **Live site:** https://tabbedscamper.github.io/BF6_Portal_SoundBoard/
 
-The library now uses **real game audio with all variants**: **934 SFX sounds / 5,950 authored variants** from the lossless decoded game export, encoded as Ogg Vorbis at quality 3, preserving channels and using 48 kHz. Six source clips at 44.1/96 kHz are resampled to 48 kHz. **Three SFX sounds** without exported audio keep their original recordings (marked **recorded**): `SFX_Destruction_Structural_Metal_GasStation_OneShot3D`, `SFX_UI_MenuNavigation_Haptics_ResetpackageLoading_OneShot2D` and `SFX_UI_MenuNavigation_Haptics_Shared_Select_OneShot2D`. The remaining SDK name, `SFX_VOModule_OneShot2D`, is a PlayVO carrier with no standalone clip and remains excluded.
+**Portal Sounds** contains the **937 sounds** Portal's `mod.PlaySound` can play. **934** use real game audio with all **5,950 authored variants**, encoded as Ogg Vorbis from the lossless decoded export. Channels are preserved and output is 48 kHz. The three sounds without exported audio keep their original recordings and show a **recorded** marker: `SFX_Destruction_Structural_Metal_GasStation_OneShot3D`, `SFX_UI_MenuNavigation_Haptics_ResetpackageLoading_OneShot2D` and `SFX_UI_MenuNavigation_Haptics_Shared_Select_OneShot2D`. The silent `SFX_VOModule_OneShot2D` carrier is excluded from this list.
 
-There are **937 SFX sounds**, plus **143 announcer event/flag names in 578 unchanged VO recordings**, for **6,531 audio files**. **455 SFX cards** have several authored variants. Announcer cards retain their existing event/flag grouping. Crash, silent and unreliable flags describe observed Portal behaviour and are preserved by name, even when a real audio preview is now available.
+Announcer `PlayVO` lines use the retained recordings: **143 event/flag names in 578 clips**, grouped into announcer cards. Together with the SFX, Portal Sounds has **6,531 audio files**. Crash, silent and unreliable flags describe observed Portal behaviour, even when game audio is available to preview.
 
-The source export grew during this upgrade from 915 sounds / 5,683 variants to 934 sounds / 5,950 variants; the library includes the completed additions. Total `sounds/` size: **255,325,883 bytes (255.3 MB / 243.5 MiB)**. All exported clips use quality 3; no size-driven quality reduction was needed.
+**Game Library** contains every sound in the game: **287,216 clips across 14,637 sounds**, about **195 hours**. Categories follow the game's own folders. Audio streams from **Cloudflare R2**.
 
-## Features
-- **SoundCloud‑style waveforms** on every clip (wavesurfer.js, lazy‑loaded).
-- **Spotify‑style now‑playing dock** — play/pause, seek, volume, loop, download, and the spatial radar.
-- **Gapless loops** — real game loops retain their complete authored sample range and play gaplessly via the Web Audio API. Original recorded loops retain their existing matched loop points.
-- **All SFX variants** — multi-variant cards show the count and cycle to a different variant per play click; card/dock downloads give the current variant and ZIP downloads include every variant. Single-variant cards keep the existing layout.
-- **Spatial preview (radar)** — for 3D sounds: you're the centre dot, click/drag to place the sound, set the attenuation‑range ring, and it generates the exact `mod.PlaySound(...)` call. 2D sounds play non‑positionally.
-- **Search + filters** — by category and by type (3D / 2D / Loop), with live counts.
-- **Download** — per‑sound, or zip by category / everything (client‑side, JSZip).
-- **Click an asset name to copy** it for `mod.RuntimeSpawn_Common`.
-- Fully responsive (phone → ultrawide).
+## Playback and downloads
 
-## What code can actually control about BF6 audio
-See [`SOUND-API.md`](SOUND-API.md) — researched from the SDK + the Portal Discord (esp. **Aryo / Post (Sound)**). Short version: `PlaySound(sound, amplitude [,location, attenuationRange] [,scope])` + `StopSound`. No pitch / reverb / pan / doppler.
+- Portal cards load waveforms on demand. The dock provides play/pause, seeking, volume, looping, download and **RADAR**.
+- Multi-variant sounds cycle on each new play. **Try another variant** selects the next variant on Portal cards. Game Library uses **Play next variant**. Downloads save the current variant; Portal category and full-library ZIPs include every variant.
+- Game loops keep their full authored sample range and repeat through the Web Audio API. Retained recorded loops use their existing matched loop points.
+- **RADAR** opens the spatial panel. Drag the 3D source around the listener, then adjust attenuation range, amplitude and scope. Generated TypeScript spawns the sound and calls `mod.PlaySound`. Coordinates are relative to the listener; add the player's world position in your script. 2D sounds have no positional attenuation. Scope only changes the code; browser playback stays local. The preview uses approximate falloff.
+- Portal search and filters cover category and 2D, 3D or loop type. Click an asset name to copy it for `mod.RuntimeSpawn_Common`.
+- UI sounds default to OFF and remember your choice. Cues pause during clip playback. Reduced motion disables transitions and smooth scrolling; library totals display immediately.
+
+See [SOUND-API.md](SOUND-API.md) for the Portal audio API and generated code.
 
 ## Adding more sounds
 1. Drop split `.ogg` clips into `sounds/<Category>/`.
@@ -37,11 +34,11 @@ Upgrade validation passed against baseline `d8804b4c1ceba483f4d6ddfeea9709e0cd01
 
 All **1,188 game loop variants** retain their authored range. First/last samples were checked for 19 clips against their source WAVs. Some source seams have substantial jumps (for example `WelcomeSign` v6 and `Riot_CrowdRumble` v91); listen for clicks, including other `PigeonTowerCreak` variants, before treating every authored loop as perceptually seamless. Also audition 3/4/6-channel playback/downmixing and levels in target browsers. The original recording boost applies only to recorded audio; game previews use native level through the existing limiter. No browser screenshots were taken.
 
-Must be served over http (GitHub Pages or a local server) — opening `index.html` as `file://` blocks the `fetch()` of the manifest/clips.
+Must be served over http (GitHub Pages or a local server): opening `index.html` as `file://` blocks the `fetch()` of the manifest/clips.
 
 ## Game Library
 
-Use the **Portal Sounds / Game Library** switch to browse the full game collection (approximately 14,600 sounds and 287,000 variations when the full export is published). Portal Sounds keeps its existing local manifest, audio, waveforms, radar and downloads. Game Library is a separate browser and player; switching sections pauses the other player.
+Use the **Portal Sounds / Game Library** switch to browse the collection. Portal Sounds uses its local manifest and audio. Game Library has a separate player; switching sections pauses the other player.
 
 The full collection's index and Opus audio live on Cloudflare R2 at **https://pub-1da528aa57f643bc9e8c257d3ab2d853.r2.dev**, configured in `config.js` under `gameLibrary.baseUrl`. The game export is not included in GitHub Pages. CORS must allow GET/HEAD from `https://tabbedscamper.github.io` and `http://localhost:8000`. No R2 credentials belong in the site config.
 
@@ -78,15 +75,15 @@ Headless Node checks cover index validation, nested categories, zero/one-based p
 ## Credits
 Sounds are Battlefield 6 / EA DICE assets, surfaced for Portal modders. Sound tooling/API by **Aryo / Post (Sound)**.
 
-Real SFX audio comes from the **BF6 Modding SDK audio export**, decoded losslessly before the site's Vorbis encoding. Original in-game SFX and PlayVO recordings were captured using **BF6_SFX** by **TabbedScamper**.
+Real SFX audio comes from the **BF6 Modding SDK audio export**, decoded losslessly before the site's Vorbis encoding. The three retained SFX recordings and announcer PlayVO recordings are by **TabbedScamper**.
 
 ## Battlefield UI presentation
 
 The archive now uses the decoded front-end palette, hard corners, focus plates, layered readability scrims, local Battlefield fonts, loading-screen art and opt-in game UI sounds. Both library sections retain their playback, downloads and browsing behavior. The existing Bf6Revival control panel supplied the icon masking approach and decoded cues. This is an archive adapted to the game's visual language; it does not claim to reproduce the complete retail UI.
 
-Reference: `BF6_Frostbite_Research/systems/FRONTEND_UI_1TO1_RECONSTRUCTION.md` sections 4–6, `UI_INDEX.md`, and `data/ui_color_palette.tsv`. Linear palette values are already transferred to sRGB: neutral/focus `#BFCAD1`, economy `#FFBD44`, positive `#8EED6C`, progression bonus `#59BFF8`, negative `#FB694D`. Hover uses its own 0.08 layer; selection uses 0.27. Screen width remains responsive; hero sizes are limited by viewport height rather than stretching a 1920×1080 canvas.
+Reference: `BF6_Frostbite_Research/systems/FRONTEND_UI_1TO1_RECONSTRUCTION.md` sections 4 to 6, `UI_INDEX.md`, and `data/ui_color_palette.tsv`. Linear palette values are already transferred to sRGB: neutral/focus `#BFCAD1`, economy `#FFBD44`, positive `#8EED6C`, progression bonus `#59BFF8`, negative `#FB694D`. Hover uses its own 0.08 layer; selection uses 0.27. Screen width remains responsive; hero sizes are limited by viewport height rather than stretching a 1920×1080 canvas.
 
-Panel reveals use `common/ui/home/widgets/gamemodeinfo/gamemodeinfo_bundlecell`'s **AnimateInWhole** timeline: 0.3000000119 seconds, with opacity curve **2728** (0→1) and vertical curve **3168** (20→0) completing at 0.25 seconds. Their decoded tangent slopes are +4 and −80 respectively, giving linear interpolation. These values come from `ui_timeline_entities.tsv`, `ui_float_curves.tsv` and `ui_float_curve_keys.tsv`; CSS rounds float serialization noise to 300/250 ms. Recycled Game Library rows and Portal cards have no entry animation. Reduced motion disables CSS animation, transitions and smooth scrolling and resolves count-up text immediately, including preference changes during a count.
+Motion is limited to control state changes using the decoded 250 ms linear timing, the dock and radar panel slide, and playback/download progress. Cards and content panels have no entrance animation. Loading indicators are plain static bars. Reduced motion disables CSS animation, transitions and smooth scrolling. Library totals display immediately.
 
 **UI sounds** in the header default to OFF, remember the explicit choice under localStorage key `bf6-ui-sounds`, and play at volume 0.12 only following user interaction. Remembering ON does not play anything on load. Hover/slider cues are throttled, cue polyphony is bounded at four, and both audition engines stop existing cues and suppress new cues while loading/playing clips. Turning sounds off immediately stops cues; reduced motion leaves sounds opt-in. Failed or unavailable audio does not block controls. Section changes cancel pending Portal playback and prevent a late Game Library ready event from starting hidden playback.
 
@@ -118,6 +115,6 @@ node --check game-library.js
 node --check ui-experience.js
 ```
 
-The first command includes the existing Portal regression harness. New checks cover reduced-motion counts, the sound toggle and persistence, no autoplay, playback mute lifecycle, and an ephemeral localhost HTTP server checking every referenced local asset (including all 6,531 Portal clips). No game process, EA service, browser screenshot or game-install write is needed.
+The first command includes the existing Portal regression harness. Checks cover immediate totals under reduced motion, the sound toggle and persistence, no autoplay, playback mute lifecycle, and an ephemeral localhost HTTP server checking every referenced local asset (including all 6,531 Portal clips). No game process, EA service, browser screenshot or game-install write is needed.
 
-Human review: listen to cue loudness on your speakers/headphones; check clip start/stop, loops and cue suppression in both sections; inspect actual WaveSurfer rendering and radar labels; try a narrow phone viewport and an ultrawide display; switch the OS reduced-motion preference while the site is open. Use `/?gameFixture=1` on localhost for offline Game Library checks; live export category names and CDN availability still need review when the export is published.
+Human review: listen to cue loudness on your speakers/headphones; check clip start/stop, loops and cue suppression in both sections; inspect actual WaveSurfer rendering and radar labels; try a narrow phone viewport and an ultrawide display; switch the OS reduced-motion preference while the site is open. Use `/?gameFixture=1` on localhost for offline Game Library checks; live category names and CDN availability can be checked against the R2 export.
