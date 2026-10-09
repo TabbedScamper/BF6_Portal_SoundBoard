@@ -331,6 +331,9 @@ function cardHTML(s, i) {
         <svg class="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
         <svg class="ico-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>
       </button>
+      ${s.takes.length > 1 ? `<button class="icon-btn" data-next-variant title="Try another variant" aria-label="Try another variant">
+        <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>` : ''}
       <div class="asset">
         <code data-copy title="Click to copy asset name">${s.name}</code>
         <span class="hint">click name to copy</span>
@@ -450,14 +453,16 @@ function applyGain() { if (active && active.gain) active.gain.gain.value = volum
 function wireCard(card) {
   if (card.dataset.vo) { wireVoCard(card); return; }
   $('[data-play]', card).addEventListener('click', () => playFromCard(card));
+  const nextVariant = $('[data-next-variant]', card);
+  if (nextVariant) nextVariant.addEventListener('click', () => playFromCard(card, true));
   $('[data-copy]', card).addEventListener('click', () => {
     navigator.clipboard.writeText(card.dataset.name).then(() => toast('Copied: ' + card.dataset.name)).catch(() => toast('Copy failed'));
   });
 }
-function playFromCard(card) {
+function playFromCard(card, nextVariant = false) {
   // The playing (or paused part-way) card toggles like any player: pause, then resume. Only a fresh play (finished,
-  // or coming from another card) moves a multi-variant card on to its next variant.
-  if (active && active.card === card && !active.spatial) {
+  // or coming from another card) or the card's "Try another variant" button moves on to its next variant.
+  if (!nextVariant && active && active.card === card && !active.spatial) {
     if (active.playing) { engPause(); return; }
     if ((active.offset || 0) > 0) { engPlay(active.offset); return; }
   }
