@@ -10,6 +10,8 @@ async function main(){
  assert(!F.matches({tags:['metal']},{...F.empty(),pitched:true}));assert(F.matches({},F.empty()));assert.equal(F.score({name:'Rifle Shot'},'rifle',{} )>0,true);assert.equal(F.score(page.clips[0],'bang speech',vocab),0);
  assert(F.score({name:'Clip',description:'Distant metallic rattle'},'metallic rattle',{})>0,'Description search');
  assert.equal(F.note(440),'A4');assert.equal(F.note(null),'Unpitched');
+ assert.equal(F.soundLink('http://localhost:8000/?portalFilters=old#anchor','portal','VO_Objective_A'),'http://localhost:8000/?sound=VO_Objective_A');
+ assert.equal(F.soundLink('http://localhost:8000/?gameFilters=old','game','common/sound/a b&c'),'http://localhost:8000/?section=game&sound=common%2Fsound%2Fa%20b%26c');
  const portal=JSON.parse(fs.readFileSync('notes/feature-fixture/portal/portal-features.json'));assert.equal(portal.version,1);const manifest=JSON.parse(fs.readFileSync('manifest.json'));for(const [file,c]of Object.entries(portal.clips)){assert(manifest.some(m=>m.file===file));assert.equal(Object.keys(c.f).length,10);assert(c.tags.every(t=>vocab.tags.some(v=>v.id===t)));}
  state={...F.empty(),query:'metallic',tags:['metal'],ranges:{len:[0,1]},context:{category:'weapons',page:1}};let url='http://localhost/?gameFixture=1#anchor';url='http://localhost'+F.write(url,'game',state);url='http://localhost'+F.write(url,'portal',{...F.empty(),query:'alert'});assert.deepEqual(F.read(new URL(url).search,'game'),state);assert.equal(F.read(new URL(url).search,'portal').query,'alert');assert.equal(new URL(url).hash,'#anchor');assert.deepEqual(F.read('?gameFilters=bad','game'),F.empty());
  const {loadPoints,decodeMap,boxPoints}=await import('./sound-map.mjs');const requests=[];

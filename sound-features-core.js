@@ -34,12 +34,14 @@
       return out;
     }catch(_){return empty();}
   }
-  function write(url,section,state) {const u=new URL(url); if(state.query||state.pitched||state.tags.length||Object.keys(state.ranges).length||Object.keys(state.context||{}).length)u.searchParams.set(section+'Filters',JSON.stringify(state));else u.searchParams.delete(section+'Filters');return u.pathname+u.search+u.hash;}
+  function write(url,section,state) {const u=new URL(url);u.searchParams.delete('sound'); if(state.query||state.pitched||state.tags.length||Object.keys(state.ranges).length||Object.keys(state.context||{}).length)u.searchParams.set(section+'Filters',JSON.stringify(state));else u.searchParams.delete(section+'Filters');return u.pathname+u.search+u.hash;}
   function link(url,section,state){const u=new URL(write(url,section,state),url);u.searchParams.set('section',section);return u.pathname+u.search+u.hash;}
+  function soundLink(url,section,name){const u=new URL(url);return u.origin+u.pathname+'?'+(section==='game'?'section=game&':'')+'sound='+encodeURIComponent(name);}
+  function shareButton(section,name){return '<button class="icon-btn copy-link" data-sound-link="'+escape(soundLink(location.href,section,name))+'">Copy link</button>';}
   function note(hz) {if(!Number.isFinite(hz)||hz<=0)return 'Unpitched';const n=Math.round(69+12*Math.log2(hz/440));return ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'][(n%12+12)%12]+(Math.floor(n/12)-1);}
   function details(c) {const f=c.f;if(!f)return '<p class="feature-readout">Measurements unavailable</p>';const val=(k,unit)=>Number.isFinite(f[k])?Number(f[k].toFixed(2))+' '+unit:'Unknown';return '<p class="feature-readout">Pitch '+escape(f.note||note(f.pitch))+' / '+val('pitch','Hz')+' | Length '+val('len','s')+' | Loudness '+val('lufs','LUFS')+' | Brightness '+val('bright','Hz')+' | Attack '+val('attack','ms')+'</p>';}
   function card(c,owner) {return '<div class="sound-details">'+details(c)+(c.tags||[]).map(t=>'<button class="tag" data-feature-tag="'+escape(t)+'" data-owner="'+owner+'">'+escape(t)+'</button>').join('')+' <button class="tag" data-similar="'+escape(c.assetPath||c.name)+'" data-owner="'+owner+'">Similar</button></div>';}
   async function optional(url) {try{const r=await fetch(url);if(!r.ok)return null;return await r.json();}catch(_){return null;}}
-  const api={fields,empty,escape,matches,score,ranked,read,write,link,note,details,card,optional};
+  const api={fields,empty,escape,matches,score,ranked,read,write,link,soundLink,shareButton,note,details,card,optional};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.SoundFeatures=api;
 })(typeof window==='undefined'?globalThis:window);

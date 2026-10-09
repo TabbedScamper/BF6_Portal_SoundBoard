@@ -15,6 +15,8 @@
   --ease:250ms linear;
 }
 body {font-size:16px}
+.copy-link {width:auto;min-height:38px;padding:0 9px;font-size:13px;white-space:nowrap}
+.card.sound-link-focus {outline:3px solid var(--amber);outline-offset:3px}
 button,input,select {font-family:'BF Sub',Arial,sans-serif}
 button,a,input,select,summary {touch-action:manipulation}
 :focus-visible {outline:2px solid #BFCAD1;outline-offset:4px}

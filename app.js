@@ -15,6 +15,7 @@ const clipDownloadName = s => s.downloadName || s.name + (!s.vo && s.variant ? '
 let curCat = 'All';
 let curType = 'all';
 let curTerm = '';
+let portalLinkFocus = '';
 let active = null;          // { ws, card, sound }
 let portalPlayRequest = 0;
 let loopOn = false;
@@ -128,11 +129,11 @@ function voSnippet(event, flag) {
   return 'const vo = mod.SpawnObject(mod.RuntimeSpawn_Common.SFX_VOModule_OneShot2D, mod.CreateVector(0,0,0), mod.CreateVector(0,0,0));\n'
     + 'mod.PlayVO(vo, mod.VoiceOverEvents2D.' + event + ', mod.VoiceOverFlags.' + flagName + target + ');';
 }
-const voFoot = (file) => '<div class="card-foot">'
+const voFoot = (file, name) => '<div class="card-foot">'
   + '<button class="play-btn" data-play aria-label="Play random variant"><svg class="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg><svg class="ico-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg></button>'
   + '<div class="asset"><code data-vo-snippet title="Click to copy the PlayVO code"></code><span class="hint">click to copy PlayVO code</span></div>'
   + '<a class="icon-btn" data-vo-dl href="' + file + '" download title="Download current variant"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'
-  + '</div>';
+  + SoundFeatures.shareButton('portal', name) + '</div>';
 function voCardHTML(c, i) {
   const tags = '<div class="card-tags"><span class="tag tag-2d">2D</span><span class="tag tag-vo">VO</span><span class="tag tag-dur">' + fmt(c.dur, c.dur) + '</span></div>';
   const dead = c.silent;
@@ -143,13 +144,13 @@ function voCardHTML(c, i) {
     return open('data-votype="event" data-event="' + c.event + '"')
       + '<div class="card-head"><div class="card-title">' + voPretty(c.event) + '</div>' + tags + '</div>'
       + '<div class="vo-controls"><span class="vo-variants" data-vo-variants></span></div>'
-      + voFoot(c.file) + '</article>';
+      + voFoot(c.file, c.name) + '</article>';
   }
   const statusOpts = c.events.map(ev => '<option value="' + ev + '">' + voEventLabel(ev) + (voFlDead(c.family, c.flag, ev) ? ': no audio' : '') + '</option>').join('');
   return open('data-votype="flag" data-family="' + c.family + '" data-flag="' + c.flag + '"')
     + '<div class="card-head"><div class="card-title">' + c.family + ' &middot; Flag ' + c.flag + ' (' + FLAG_NAMES[c.flag] + ')</div>' + tags + '</div>'
     + '<div class="vo-controls"><label class="vo-flag-wrap">Line <select class="vo-flag" data-vo-status>' + statusOpts + '</select></label><span class="vo-variants" data-vo-variants></span></div>'
-    + voFoot(c.file) + '</article>';
+    + voFoot(c.file, c.name) + '</article>';
 }
 function wireVoCard(card) {
   const type = card.dataset.votype;
@@ -207,7 +208,20 @@ async function init() {
   buildStats();
   buildChips();
   buildTypeFilter();
+  const params = new URLSearchParams(location.search);
+  if (params.has('sound') && params.get('section') !== 'game') {
+    portalFeatures.state = SoundFeatures.empty(); portalFeatures.refresh();
+    curCat = 'All'; curType = 'all'; curTerm = ''; $('#search').value = '';
+    portalLinkFocus = CARDS.some(c => c.name === params.get('sound')) ? params.get('sound') : '';
+    buildChips();
+    $$('#typeFilter .tpill').forEach(b => b.classList.toggle('active', b.dataset.type === 'all'));
+    if (!portalLinkFocus) toast('That sound was not found');
+  }
   render();
+  if (portalLinkFocus) {
+    const card = $('#grid .card'); card.classList.add('sound-link-focus'); card.tabIndex = -1;
+    card.scrollIntoView({block:'center'}); card.focus({preventScroll:true});
+  }
   initAnalytics();
   hideLoader();
 }
@@ -272,6 +286,7 @@ function buildTypeFilter() {
 // sort rank: working sounds first, then silent ("didn't play"), then game-crashers last.
 function sortRank(s) { return s.crash ? 2 : (s.silent ? 1 : 0); }
 function filtered() {
+  if (portalLinkFocus) return CARDS.filter(c => c.name === portalLinkFocus);
   return CARDS.filter(s => {
     if (curCat !== 'All' && s.cat !== curCat) return false;
     if (curType === '3d' && !is3D(s.name)) return false;       // VO groups are 2D (name has no 3D suffix)
@@ -294,6 +309,7 @@ function render() {
   $('#emptyTerm').textContent = curTerm;
   grid.innerHTML = list.map((s, i) => cardHTML(s, i)).join('');
   $$('.card', grid).forEach(card => wireCard(card));
+  if (portalLinkFocus) grid.querySelector('.card')?.classList.add('sound-link-focus');
   if (portalFeatures) { decoratePortal(); portalFeatures.map?.draw(); }
   observeWaves();
   // re-link the currently playing sound to its fresh card (if still visible)
@@ -344,6 +360,7 @@ function cardHTML(s, i, game = false) {
       <a class="icon-btn" data-sfx-dl href="${s.file}" download="${game ? SoundFeatures.escape(s.downloadName) : clipDownloadName(SOUNDS.find(c => c.file === s.file))}" title="Download current variant" aria-label="Download">
         <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
+      ${SoundFeatures.shareButton(game ? 'game' : 'portal', game ? s.assetPath || s.name : s.name)}
     </div>
     ${game ? `<p class="card-technical">${s.channels}ch · ${s.rate}Hz · ${SoundFeatures.escape(s.codec || '')} · ${s.takes.length} ${s.takes.length === 1 ? 'variant' : 'variants'} on page</p>${SoundFeatures.card(s, 'game')}` : ''}
   </article>`;
@@ -796,6 +813,10 @@ $('#spCopy').addEventListener('click', () => navigator.clipboard.writeText(genCo
 
 
 let portalFeatures = null;
+document.addEventListener('click', e => {
+  const button = e.target.closest('[data-sound-link]');
+  if (button) navigator.clipboard.writeText(button.dataset.soundLink).then(() => toast('Link copied')).catch(() => toast('Copy failed'));
+});
 let portalFeatureBase = '';
 async function initPortalFeatures() {
   const fixture = ['localhost','127.0.0.1','[::1]'].includes(location.hostname) && new URLSearchParams(location.search).get('soundFixture') === '1';
@@ -803,7 +824,7 @@ async function initPortalFeatures() {
   const F = window.SoundFeatures;
   const [features,vocab] = await Promise.all([F.optional(portalFeatureBase+'portal-features.json'),F.optional(portalFeatureBase+'tags.json')]);
   for (const c of SOUNDS) if (features?.version === 1 && features.clips?.[c.file]) Object.assign(c,features.clips[c.file]);
-  portalFeatures = new window.SoundFeaturePanel('portal',document.getElementById('portalFeatures'),()=>{curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';$$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat===curCat));$$('#typeFilter .tpill').forEach(b=>b.classList.toggle('active',b.dataset.type===curType));curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;render();});
+  portalFeatures = new window.SoundFeaturePanel('portal',document.getElementById('portalFeatures'),()=>{portalLinkFocus='';curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';$$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat===curCat));$$('#typeFilter .tpill').forEach(b=>b.classList.toggle('active',b.dataset.type===curType));curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;render();});
   portalFeatures.data(vocab,SOUNDS);curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;
   // Maps call the predicate once per point per repaint, using a prepared set.
   portalFeatures.mapOptions=()=>{let names=new Set();return {section:'portal',base:portalFeatureBase,key:()=>JSON.stringify([portalFeatures.state,curCat,curType,curTerm]),prepare:()=>{names=new Set(filtered().flatMap(c=>[c.name,...(c.takes||Object.values(c.byStatus||{}).flat()).map(t=>t.name)]));},matches:p=>names.has(p.name),open:p=>openPortalFeature(p.name)};};

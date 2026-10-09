@@ -25,6 +25,8 @@ async function main(){
   await page.fill('#gameSearch','clank');assert.equal(await page.locator('#gameResults .card').count(),3);await page.click('#gameResults [data-feature-tag="mechanical"]');assert.equal(await page.locator('#gameResults .card').count(),1);assert(await page.locator('#gameResults').textContent().then(s=>s.includes('Fixture Reload')));
   console.log('Browser: Portal filters, share reload and lazy map passed.');
   await page.click('#gameFeatures [data-clear]');await page.fill('#gameSearch','metallic');assert.equal(await page.locator('#gameResults [data-result]').count(),3);
+  await page.locator('#gameResults .card').first().scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>[...document.querySelectorAll('#gameResults .feature-readout')].every(el=>el.textContent.includes('Loudness')));
   await page.locator('#gameResults [data-result] [data-play]').last().click();await page.waitForFunction(()=>document.getElementById('gamePage').textContent==='Page 2 of 2');
   assert(await page.locator('#spatial').isVisible(),'Game clip opens the shared RADAR');await page.click('#spClose');await page.locator('#gameList [data-similar]').evaluate(el=>el.scrollIntoView({block:'center'}));
   await page.click('#gameList [data-similar]');await page.waitForSelector('#gameFeatures [data-neighbour]');assert.equal(await page.locator('#gameFeatures [data-neighbour]').count(),3);
@@ -44,6 +46,56 @@ async function main(){
   for(const file of ['portal-features.json','tags.json','portal-map.json'])await page.route(base+'/'+file,r=>r.fulfill({status:404,body:'Missing optional fixture'}));
   await page.goto(base+'/');await page.waitForSelector('#grid .sound-details');assert(await page.locator('#grid .sound-details').first().textContent().then(s=>s.includes('unavailable')));await page.click('#portalFeatures [data-map]');await page.waitForFunction(()=>document.querySelector('#portalFeatures .sound-map').textContent.includes('unavailable'));assert.deepEqual(errors,[]);
   console.log('Headless Edge: fixture filters, synonyms, share reload, section isolation, similar navigation/playback, lazy maps, box selection, mobile render and missing-file fallback passed.');
+  await page.goto(base+'/?gameFixture=1&section=game&sound=Weapons%2FImpact');await page.waitForSelector('#gameList .sound-link-focus');assert.equal(await page.locator('#gameList .card').count(),1);assert.equal(await page.locator('#gamePage').textContent(),'Page 2 of 2');assert.equal(await page.locator('.card.playing').count(),0);
+  await page.route('**/notes/fixture/index/search.json',r=>r.fulfill({status:404,body:'Missing search index'}));
+  await page.goto(base+'/?gameFixture=1&section=game&sound=Weapons%2FImpact');await page.waitForSelector('#gameList .sound-link-focus');assert.equal(await page.locator('#gamePage').textContent(),'Page 2 of 2','Map assets fallback must locate page');await page.unroute('**/notes/fixture/index/search.json');
+  await page.route('**/notes/fixture/index/weapons.json',r=>{const data=JSON.parse(fs.readFileSync('notes/fixture/index/weapons.json'));for(const c of data.clips)delete c.f;return r.fulfill({json:data});});
+  const fixtureIndex=page.waitForResponse(r=>r.url().endsWith('/notes/fixture/index/search.json'));
+  await page.goto(base+'/?gameFixture=1&section=game');await fixtureIndex;await page.fill('#gameSearch','Fixture Rifle Shot');await page.waitForSelector('#gameResults .card');await page.locator('#gameResults .card').first().scrollIntoViewIfNeeded();await page.waitForFunction(()=>document.querySelector('#gameResults .feature-readout')?.textContent==='Measurements unavailable');assert((await page.locator('#gameResults .card-technical').textContent()).includes('48000Hz'),'Missing f fallback must follow metadata load');
+  await checkRealLinks(browser);
  }finally{await browser.close();await new Promise(r=>server.close(r));}
+}
+async function checkRealLinks(browser){
+ const base='http://localhost:8000/', F=require('./sound-features-core.js');
+ const context=await browser.newContext({viewport:{width:1440,height:1000},permissions:['clipboard-read','clipboard-write']});
+ const page=await context.newPage(),errors=[],requests=[];
+ page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>requests.push(r.url()));
+ const manifest=JSON.parse(fs.readFileSync('manifest.json','utf8'));
+ const portal=manifest.find(c=>!c.vo&&!c.crash&&!c.silent).name;
+ const asset='common/sound/diegeticradio/channels/bp/bf03_diegeticradio_channels_bp_8_wave_01';
+ async function open(url,selector){requests.length=0;await page.goto(url);await page.waitForSelector(selector);assert.equal(await page.locator('.card.playing').count(),0,'Link must not autoplay');assert(!requests.some(u=>u.includes('/audio/')),'Link fetched audio before play');console.log('Real data URL:',url);}
+ try {
+  const portalURL=F.soundLink(base,'portal',portal);
+  await open(portalURL,'#grid .sound-link-focus');
+  assert.equal(await page.locator('#grid .card').count(),1);assert.equal(await page.locator('#grid .card').getAttribute('data-name'),portal);
+  assert.equal(await page.inputValue('#search'),'');
+  await page.click('#grid [data-sound-link]');await page.waitForFunction(()=>document.getElementById('toast').textContent==='Link copied');assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),portalURL);
+  for(const id of ['VO_Objective_A', 'VO_MoveOut']) {
+   // The manifest determines which non-flag event is available.
+   const name=id==='VO_MoveOut'?'VO_'+manifest.find(c=>c.vo&&!c.flag).event:id;
+   await open(F.soundLink(base,'portal',name),'#grid .sound-link-focus');assert.equal(await page.locator('#grid .card').count(),1);assert.equal(await page.locator('#grid [data-sound-link]').getAttribute('data-sound-link'),F.soundLink(base,'portal',name));
+  }
+  const gameURL=F.soundLink(base,'game',asset);
+  await open(gameURL,'#gameList .sound-link-focus');assert(await page.locator('#gameLibrary').isVisible());assert.equal(await page.locator('#gameList .card').count(),1);assert.equal(await page.locator('#gameList .card-title').textContent(),'Diegeticradio Channels Bp 8');assert.equal(await page.inputValue('#gameSearch'),'');assert.equal(page.url(),gameURL);assert(!(await page.locator('#gameList .feature-readout').textContent()).includes('unavailable'));
+  const box=await page.locator('#gameList .sound-link-focus').boundingBox();assert(box.y>=0&&box.y<1000,'Linked card did not scroll into view');
+  await page.click('#gameList [data-sound-link]');await page.waitForFunction(()=>document.getElementById('toast').textContent==='Link copied');assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),gameURL);
+  assert.equal(await page.locator('#gameList .sound-link-focus').evaluate(el=>getComputedStyle(el).animationName),'none');
+  await page.setViewportSize({width:390,height:844});assert(await page.locator('#gameList [data-sound-link]').isVisible());assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'Mobile overflow');await page.setViewportSize({width:1440,height:1000});
+  await open(base+'?section=game&sound=missing-sound','#gameTree .chip');await page.waitForFunction(()=>document.getElementById('gameStatus').textContent==='That sound was not found');assert.equal(await page.locator('#gameList .card').count(),0);
+  await open(base+'?sound=missing-sound','#grid .card');await page.waitForFunction(()=>document.getElementById('toast').textContent==='That sound was not found');assert(await page.locator('#grid .card').count()>1);
+  const state={...F.empty(),query:portal};const oldURL=base+'?portalFilters='+encodeURIComponent(JSON.stringify(state));
+  await open(oldURL,'#grid .card');assert.equal(await page.inputValue('#search'),portal);assert.equal(await page.locator('#grid .sound-link-focus').count(),0);
+  const oldGameURL=base+'?section=game&gameFilters='+encodeURIComponent(JSON.stringify({...F.empty(),query:asset,context:{category:'common--sound--diegeticradio--channels--bp',page:0}}));
+  await open(oldGameURL,'#gameList .card');assert.equal(await page.locator('#gameList .card').count(),1);assert.equal(await page.inputValue('#gameSearch'),asset);
+  await open(gameURL,'#gameList .sound-link-focus');await page.fill('#gameSearch','Diegeticradio Channels Bp 8');assert(!new URL(page.url()).searchParams.has('sound'));assert.equal(await page.locator('.sound-link-focus').count(),0);await page.reload();await page.waitForSelector('#gameResults .card');assert.equal(await page.inputValue('#gameSearch'),'Diegeticradio Channels Bp 8');
+  const indexLoaded=page.waitForResponse(r=>r.url().endsWith('/index/search.json'));
+  await open(base+'?section=game','#gameTree .chip');await page.waitForFunction(()=>!document.getElementById('gameStatus').textContent.includes('Loading'));
+  // Wait for the optional global index, then search the public data and expose results to the lazy loader.
+  await indexLoaded;
+  await page.fill('#gameSearch','Diegeticradio Channels Bp 8');await page.waitForSelector('#gameResults .card');await page.locator('#gameResults .card').first().scrollIntoViewIfNeeded();
+  await page.waitForFunction(()=>[...document.querySelectorAll('#gameResults .feature-readout')].length===3&&[...document.querySelectorAll('#gameResults .feature-readout')].every(el=>el.textContent.includes('Loudness')));
+  assert.equal(await page.locator('#gameResults .card').count(),3);assert((await page.locator('#gameResults .feature-readout').first().textContent()).includes('-22.99 LUFS'));assert(await page.locator('#gameResults [data-feature-tag="radio"]').count()>0);
+  assert.deepEqual(errors,[]);console.log('Headless Edge real data: exact Portal and VO links, Bp 8 link, copy confirmation, mobile layout, both not-found sections, old filter link and lazy search measurements passed.');
+ } finally {await context.close();}
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});

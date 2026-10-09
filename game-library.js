@@ -13,6 +13,7 @@
   let entries = [], indexAvailable = false, request = 0, controller, shown = [], hits = [];
   let vocabulary = null, facets = null, focusAsset = '', playingClip = null;
   let mapEntries = new Map(), mapClips = new Map();
+  let linkedAsset = '';
   const selected = new Map(), nextVariants = new Map();
   const resultMetadata = new Map(), pendingIndexPages = new Map();
   let resultObserver, resultController, resultTicket = 0, resultKey = '';
@@ -21,7 +22,7 @@
   features.contextLabel=(key,value)=>key==='category'?(categories.get(value)?.name || 'Category'):key==='page'?'Page '+(value-(firstPages.get(currentCategory)||0)+1):key==='language'?(value==='sfx'?'SFX':value):key+' '+value;
   q('gameSearch').value = features.state.query;
   function stateChanged() {
-    q('gameSearch').value = features.state.query; focusAsset = '';
+    q('gameSearch').value = features.state.query; focusAsset = ''; linkedAsset = '';
     const context = features.state.context;
     if ((context.category || null) !== currentCategory || (currentPage && context.page != null && context.page !== currentPage.page)) {
       if (context.category) navigate(context.category, context.page ?? null);
@@ -39,19 +40,20 @@
       if (state.context.language || state.pitched || Object.keys(state.ranges).length) return false;
       return F.matches(e || {},state,false) && F.score(e || {name:p.name},state.query,features.vocab)>0;
     }, open:p=>openGameAsset(p.name,p.cat,p.page)});
-  function switchSection(game) {
+  function switchSection(game,preserveSound=false) {
     if (game === !q('gameLibrary').hidden) return;
     player.section(game ? 'game' : 'portal');
     q('portalSection').hidden = game; q('statband').hidden = game; q('gameLibrary').hidden = !game;
     q('portalTab').setAttribute('aria-pressed', String(!game)); q('gameTab').setAttribute('aria-pressed', String(game));
     const url = new URL(location.href); url.searchParams.set('section',game?'game':'portal');
+    if(!preserveSound)url.searchParams.delete('sound');
     history.replaceState(null,'',url.pathname+url.search+url.hash);
     if (game) {if(initialized){languageChips();filter();}else init();}
     else {resultController?.abort();resultObserver?.disconnect();resultTicket++;}
   }
   q('portalTab').onclick = () => switchSection(false);
   q('gameTab').onclick = () => switchSection(true);
-  window.addEventListener('popstate',()=>switchSection(new URLSearchParams(location.search).get('section')==='game'));
+  window.addEventListener('popstate',()=>switchSection(new URLSearchParams(location.search).get('section')==='game',true));
   function message(text, error = false) {q('gameStatus').textContent = text; q('gameRetry').hidden = !error;}
   async function json(path) {const r = await fetch(base+'/'+path); if (!r.ok) throw Error('Index request failed ('+r.status+')'); return r.json();}
   async function init() {
@@ -74,6 +76,11 @@
       }
       vocabulary=data[1].status==='fulfilled'?data[1].value:null;facets=data[2].status==='fulfilled'?data[2].value:null;
       features.data(vocabulary,currentPage?.clips||[],facets);languageChips();
+      const params = new URLSearchParams(location.search);
+      if (params.get('section') === 'game' && params.has('sound')) {
+        await openSoundLink(params.get('sound'));
+        return;
+      }
       if(features.state.context.category) {
         focusAsset = features.state.query;
         await navigate(features.state.context.category,features.state.context.page??null);
@@ -112,6 +119,7 @@
   }
   function categoryClick(e) {
     const b=e.target.closest('[data-category],[data-own]');if(!b)return;
+    linkedAsset='';
     features.state.query='';q('gameSearch').value='';focusAsset='';delete features.state.context.page;
     if(b.dataset.category)features.state.context.category=b.dataset.category;else delete features.state.context.category;
     history.replaceState(null,'',F.write(location.href,'game',features.state));features.refresh();
@@ -135,7 +143,8 @@
       currentPage=loaded;
       for(const c of loaded.clips){const key=c.assetPath||c.name;if(!mapClips.has(key))mapClips.set(key,[]);mapClips.get(key).push(c);}
       features.state.context.category=category;features.state.context.page=loaded.page;
-      history.replaceState(null,'',F.write(location.href,'game',features.state));features.data(vocabulary,loaded.clips,facets);
+      if (!linkedAsset) history.replaceState(null,'',F.write(location.href,'game',features.state));
+      features.data(vocabulary,loaded.clips,facets);
       categoryChips();languageChips();filter();
     }catch(error){if(ticket===request&&error.name!=='AbortError')message('Could not load category page: '+error.message,true);}
   }
@@ -149,8 +158,8 @@
     }
   }
   for(const suffix of ['', 'Bottom']) {
-    q('gamePrev'+suffix).onclick=()=>load(currentCategory,currentPage.page-1);
-    q('gameNext'+suffix).onclick=()=>load(currentCategory,currentPage.page+1);
+    q('gamePrev'+suffix).onclick=()=>{linkedAsset='';focusAsset='';load(currentCategory,currentPage.page-1);};
+    q('gameNext'+suffix).onclick=()=>{linkedAsset='';focusAsset='';load(currentCategory,currentPage.page+1);};
   }
   function languageMatch(c,language) {return !language || (language==='sfx'?!c.lang:c.lang===language);}
   function languageChips() {
@@ -162,6 +171,7 @@
   q('gameLanguage').onclick=e=>{const b=e.target.closest('[data-language]');if(!b)return;if(b.dataset.language)features.state.context.language=b.dataset.language;else delete features.state.context.language;features.commit();};
   function filter() {
     const state=features.state,query=q('gameSearch').value;state.query=query;
+    if(!linkedAsset)q('gameList').querySelectorAll('.sound-link-focus').forEach(card=>card.classList.remove('sound-link-focus'));
     resultObserver?.disconnect();resultController?.abort();const ticket=++resultTicket;
     q('gameSearchBox').classList.toggle('has-text',!!query);
     // Description, tags and names use the complete index by default. Numerical measurements are page-owned.
@@ -199,7 +209,7 @@
     if(group)return player.card(sound(group.takes[0],group,e.category)).replace('<article ', '<article data-result="'+i+'" ');
     // The index carries names and tags. Visible results acquire clip metadata without fetching audio.
     const c={...e,tags:e.tags||e.t||[],channels:2,rate:0,codec:'',duration:0};
-    return player.card(sound(c,{takes:[c]})).replace('<article ', '<article data-result="'+i+'" ').replace(/<span class="tag tag-2d">2D<\/span>/,'').replace(/<span class="tag tag-dur">[^<]*<\/span>/,'').replace(/<p class="card-technical">.*?<\/p>/,'<p class="card-technical">'+esc(categories.get(String(e.category))?.name||'Game Library')+'</p>');
+    return player.card(sound(c,{takes:[c]})).replace('Measurements unavailable','Loading measurements...').replace('<article ', '<article data-result="'+i+'" ').replace(/<span class="tag tag-2d">2D<\/span>/,'').replace(/<span class="tag tag-dur">[^<]*<\/span>/,'').replace(/<p class="card-technical">.*?<\/p>/,'<p class="card-technical">'+esc(categories.get(String(e.category))?.name||'Game Library')+'</p>');
   }
   function hydrateResults(ticket) {
     if(typeof IntersectionObserver==='undefined')return;
@@ -220,11 +230,19 @@
     function pump() {
       while(running<2&&queue.length&&ticket===resultTicket) {
         const card=queue.shift(),i=Number(card.dataset.result),e=hits[i];running++;
+        if(resultMetadata.has(e.assetPath||e.name)){running--;continue;}
         indexedPage(e).then(page=>{
           if(ticket!==resultTicket||signal.aborted)return;
-          const group=C.groups(page.clips.filter(c=>languageMatch(c,features.state.context.language))).find(g=>g.id===(e.assetPath||e.name)||g.name===e.name);
-          if(group){resultMetadata.set(e.assetPath||e.name,group);card.outerHTML=resultCard(e,i);}
-        }).catch(()=>{}).finally(()=>{running--;pump();});
+          const groups=new Map(C.groups(page.clips.filter(c=>languageMatch(c,features.state.context.language))).map(g=>[g.id,g]));
+          // One visible card fetches the page. Reuse its measurements for every result on that page.
+          for(const target of q('gameResults').querySelectorAll('[data-result]')) {
+            const j=Number(target.dataset.result),hit=hits[j],key=hit.assetPath||hit.name;
+            if(String(hit.category)!==String(e.category)||(hit.page??firstPages.get(String(hit.category)))!==page.page)continue;
+            const group=groups.get(key);
+            if(group){resultMetadata.set(key,group);resultObserver?.unobserve(target);target.outerHTML=resultCard(hit,j);}
+            else {const readout=target.querySelector('.feature-readout');if(readout)readout.textContent='That sound was not found';}
+          }
+        }).catch(()=>{if(ticket===resultTicket&&!signal.aborted){const readout=card.querySelector('.feature-readout');if(readout)readout.textContent='Could not load measurements';}}).finally(()=>{running--;pump();});
       }
     }
     resultObserver=new IntersectionObserver(rows=>{
@@ -235,6 +253,7 @@
   }
   function draw() {
     q('gameList').innerHTML=shown.map((g,i)=>player.card(sound(clipFor(g),g)).replace('<article ','<article data-group="'+i+'" ')).join('');
+    if (linkedAsset && focusAsset === linkedAsset) q('gameList').querySelector('.card')?.classList.add('sound-link-focus');
     for(const card of q('gameList').querySelectorAll('.card'))if(player.isCurrent(card.dataset.file))player.attach(card);
   }
   async function play(g,another=false) {
@@ -245,6 +264,7 @@
     player.play(sound(clip,g),card,another);
   }
   async function openGameAsset(asset,category,page,action='play') {
+    linkedAsset='';
     const ticket=request+1;
     focusAsset=asset;features.state.query=asset;q('gameSearch').value=asset;
     await load(category,page??null);
@@ -254,6 +274,33 @@
     if(!g){message('Sound unavailable on its indexed page.');return;}
     const card=q('gameList').querySelector('[data-group="'+shown.indexOf(g)+'"]');card?.scrollIntoView({block:'nearest'});
     if(action==='download')download(clipFor(g));else play(g);
+  }
+  async function openSoundLink(asset) {
+    features.state=F.empty();features.refresh();q('gameSearch').value='';
+    let entry=mapEntries.get(asset);
+    if (!entry && !indexAvailable) {
+      // Map points already in memory include category and page. Otherwise only the assets list is needed for lookup.
+      entry=features.map?.points?.find(p=>p.name===asset);
+      if (entry) entry={category:entry.cat,page:entry.page};
+      else {
+        const meta=await F.optional(base+'/index/map.json');
+        if (meta) {
+          let i=meta.assets?.indexOf(asset)??-1;
+          if(!meta.assets)for(let shard=0;shard<Math.ceil(meta.count/20000);shard++) {
+            const data=await F.optional(base+'/index/map-assets-'+shard+'.json');
+            const offset=(Array.isArray(data)?data:data?.assets||[]).indexOf(asset);
+            if(offset>=0){i=shard*20000+offset;break;}
+          }
+          if(i>=0){const r=await fetch(base+'/index/map.bin');if(r.ok){const v=new DataView(await r.arrayBuffer());entry={category:meta.categories[v.getUint16(i*8+4,true)],page:v.getUint16(i*8+6,true)};}}
+        }
+      }
+    }
+    if (!entry) {resetCategory();filter();message('That sound was not found');return;}
+    linkedAsset=asset;focusAsset=asset;
+    await load(entry.category,entry.page??null);
+    if (!shown.some(g=>g.id===asset)) {linkedAsset='';focusAsset='';resetCategory();filter();message('That sound was not found');return;}
+    const card=q('gameList').querySelector('.card');
+    if(card){card.tabIndex=-1;card.scrollIntoView({block:'center'});card.focus({preventScroll:true});}
   }
   async function similarGame(asset) {
     const bytes=new TextEncoder().encode(asset),hash=new Uint8Array(await crypto.subtle.digest('SHA-1',bytes));
@@ -277,5 +324,5 @@
   }
   player.download=download;
   player.replay=card=>{const group=shown[Number(card.dataset.group)];if(group)play(group);};
-  if(new URLSearchParams(location.search).get('section')==='game')switchSection(true);
+  if(new URLSearchParams(location.search).get('section')==='game')switchSection(true,true);
 })();

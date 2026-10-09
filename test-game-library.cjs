@@ -56,7 +56,7 @@ async function main() {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.json'), 'utf8'));
   const harness = fs.readFileSync(path.join(root, 'check-audio.cjs'), 'utf8').split('// Load the complete application')[1];
   assert(harness, 'Existing Portal harness missing');
-  const context = { fs, path, root, manifest, vm, assert, console, process };
+  const context = { fs, path, root, manifest, vm, assert, console, process, URL, URLSearchParams };
   vm.runInNewContext('// Load the complete application' + harness, context);
 }
 async function checkUI(missingSearch) {

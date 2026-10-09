@@ -71,7 +71,8 @@ class AudioContext {state='running'; currentTime=0; destination={}; createDynami
 let archived=[];
 class JSZip {constructor(){archived=[];} file(name){archived.push(name);} async generateAsync(){return {};}}
 const context=vm.createContext({document,window:{AudioContext,BF6UI:{reducedMotion:true,audition(){}}},console,Map,Set,CSS:{escape:s=>s},fetch:async()=>({json:async()=>manifest,arrayBuffer:async()=>new ArrayBuffer(0)}),
-  JSZip,URL:{createObjectURL:()=> 'blob:test',revokeObjectURL(){}},
+  JSZip,URL:Object.assign(class extends URL {},{createObjectURL:()=> 'blob:test',revokeObjectURL(){}}),URLSearchParams,location:{href:'http://localhost/',search:''},
+  SoundFeatures:{shareButton:(section,name)=>'<button data-sound-link="http://localhost/?sound='+encodeURIComponent(name)+'">Copy link</button>'},
   WaveSurfer:{create:()=>({setVolume(){},on(){},getDuration(){return 1;},setTime(){}})},
   setTimeout(){},clearTimeout(){},addEventListener(){},requestAnimationFrame(){return 1;},cancelAnimationFrame(){},IntersectionObserver:class {observe(){} disconnect(){}},navigator:{clipboard:{writeText:async()=>{}}}});
 async function checkApp() {
