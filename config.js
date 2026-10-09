@@ -1,6 +1,12 @@
 /* Visitor counters — these values are PUBLIC (safe to commit to a public repo).
    Fill them in to turn the counters on; leave blank/null to hide them. */
 window.SB_CONFIG = {
+  gameLibrary: {
+    baseUrl: 'https://pub-1da528aa57f643bc9e8c257d3ab2d853.r2.dev',
+    fixtureBaseUrl: 'notes/fixture',
+    // Local hosts only. Alternatively visit /?gameFixture=1 (no config edit needed).
+    useFixture: false,
+  },
   // ---- Total visits + history (GoatCounter) ----
   // 1. Make a free site at https://www.goatcounter.com/  (pick a code, e.g. "bf6sfx").
   // 2. In its Settings, enable the visitor counter ("Allow visitors to see the count").

@@ -36,6 +36,35 @@ h1,.v100,.brand-text h1{font-family:'BF Headline','Oswald',Impact,sans-serif}
 ::selection{background:var(--cyan);color:#001018}
 button{font-family:inherit;cursor:pointer}
 
+/* Game Library is isolated from Portal card/grid styles. */
+.library-switch{display:flex;gap:12px;margin-top:22px;margin-bottom:22px}
+.library-switch [aria-pressed="true"]{border-color:var(--cyan);color:var(--cyan)}
+.game-intro,#gameSearchHelp,#gameStatus{color:var(--txt2);margin:12px 0}
+.game-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;margin-top:24px}
+.game-sidebar{background:var(--panel);padding:16px;border-radius:var(--r);max-height:75vh;overflow:auto}
+.game-sidebar ul{list-style:none;padding-left:12px}.game-sidebar>nav>ul{padding-left:0}
+.game-sidebar summary{cursor:pointer;padding:8px 0;color:var(--txt2)}
+.game-sidebar button,.game-result{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:6px;padding:10px;margin:6px 0;overflow-wrap:anywhere}
+.game-sidebar button[aria-current="true"]{border-color:var(--cyan)}
+.game-sidebar small,.game-result small{display:block;color:var(--muted)}
+.game-toolbar,.game-paging,.game-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.game-toolbar input[type="search"],.game-toolbar select{background:var(--panel);color:var(--txt);border:1px solid var(--line);padding:8px;border-radius:6px;max-width:100%}
+.game-toolbar label{display:flex;align-items:center;gap:8px}
+.game-content{min-width:0}.game-paging{margin:14px 0}
+#gameLibrary button:disabled{opacity:.4;cursor:default}
+#gameViewport{height:65vh;min-height:300px;overflow:auto;margin-top:16px;position:relative;overflow-anchor:none}
+#gameList{position:relative}
+.game-card{position:absolute;left:0;right:0;height:248px;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.game-card h3{font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-card code{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt2);font-size:.75rem;margin:6px 0}
+.game-card .card-tags{justify-content:flex-start;gap:5px;flex-wrap:nowrap;overflow:hidden}
+.game-portal{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:4px 0;color:var(--blue)}
+.game-wave{height:64px;color:var(--muted);font-size:.8rem;margin:4px 0}
+#gameWaveHost{width:100%}#gamePlayer{padding:16px;margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm)}
+.game-actions .btn{font-size:.8rem;padding:8px 12px}.game-actions label{font-size:.85rem}
+.game-actions input[type="range"]{width:100px}
+@media(max-width:760px){.game-layout{grid-template-columns:minmax(0,1fr)}.game-sidebar{max-height:240px}.game-toolbar{align-items:flex-start;flex-direction:column}.game-card .tag{font-size:.65rem}.game-actions{gap:8px}}
+
 /* ---------- background fx ---------- */
 .bg-fx{position:fixed;inset:0;z-index:-1;overflow:hidden;background:
   radial-gradient(1200px 700px at 80% -10%,rgba(255,107,26,.16),transparent 60%),

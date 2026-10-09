@@ -39,6 +39,42 @@ All **1,188 game loop variants** retain their authored range. First/last samples
 
 Must be served over http (GitHub Pages or a local server) — opening `index.html` as `file://` blocks the `fetch()` of the manifest/clips.
 
+## Game Library
+
+Use the **Portal Sounds / Game Library** switch to browse the full game collection (approximately 14,600 sounds and 287,000 variations when the full export is published). Portal Sounds keeps its existing local manifest, audio, waveforms, radar and downloads. Game Library is a separate browser and player; switching sections pauses the other player.
+
+The full collection's index and Opus audio live on Cloudflare R2 at **https://pub-1da528aa57f643bc9e8c257d3ab2d853.r2.dev**, configured in `config.js` under `gameLibrary.baseUrl`. The game export is not included in GitHub Pages. CORS must allow GET/HEAD from `https://tabbedscamper.github.io` and `http://localhost:8000`. No R2 credentials belong in the site config.
+
+Select a category in the tree to fetch its first page. Counts and durations come from the tree metadata. Previous/Next fetch exactly one page on demand; there is no background clip-page prefetch. The browser keeps only the current parsed page, with a four-page LRU cache of serialized JSON. Long lists render a small window of fixed-height cards. Each sound groups the variants **on that page**, cycles them on successive play clicks, and downloads the selected variant through a blob (so cross-origin downloads save a file). The single waveform/player is created on play and released when changing pages. Language filtering applies to the loaded page; SFX have no language. A Portal badge shows the PlaySound name and opens its matching Portal card.
+
+Search normally matches names, asset paths and Portal names on the loaded page. Optional global name search uses `index/search.json`; a missing or incompatible index disables only that feature. Global results (maximum 100 per query) link to category pages rather than loading their audio. The supported small search-index format is an array of `{name, category, page?, assetPath?, id?}` records, where `category` is the tree category ID and `page` uses the export's numbering. `{sounds:[...]}` and `{entries:[...]}` wrappers are also accepted. Omit `page` to open the category's first page. Search records should identify the page containing the sound.
+
+The exporter is developed separately. To rebuild and upload, run that exporter against the decoded game assets into a staging directory with this layout:
+
+```text
+index/tree.json                 [{id,name,path,count,seconds,children:[...]}]
+index/<category id>.json         {category,page,pages,clips:[...]}
+index/<category id>.<page>.json   subsequent pages in the same format
+index/search.json               optional small name/category/page lookup
+audio/<path>.opus               referenced by clip.file relative to audio/
+```
+
+Each clip contains `{id,name,assetPath,variant,duration,channels,rate,codec,portalName,loop,file,bytes,lang}`. Use `null` for absent Portal names, loop metadata and language. The unsuffixed category file is the first page; its `page` value establishes zero-based or one-based numbering, and `pages` is the total page count. Keep all variants for a sound on one page where practical; otherwise cards intentionally show the current page's subset. Keep category IDs and audio paths stable across exports.
+
+Verify every referenced file and page in staging, then upload the **contents** of `audio/` and `index/` to the same prefixes in the R2 bucket behind the configured public URL, using your authenticated R2/S3 upload tool or the Cloudflare dashboard. Upload audio first, category pages next, and publish `tree.json` and the optional search index last so they advertise available objects. Set JSON objects to `application/json` and Opus objects to `audio/ogg`. Check GET/HEAD access and the configured CORS origins after uploading; refresh cached indexes if replacing existing keys. The exporter and authenticated uploader are not shipped here, and this UI change does not upload the full game export.
+
+For a small offline fixture, from this worktree:
+
+```powershell
+node make-game-fixture.cjs
+node test-game-library.cjs
+python -m http.server 8000
+```
+
+Visit `http://localhost:8000/?gameFixture=1` and select **Game Library**, or set `gameLibrary.useFixture: true` in `config.js` for local testing. Fixture overrides apply only on local hosts. The fixture has two categories, two Weapons pages, English/French language entries, a Portal link, a search index, and six 0.12-second synthetic Opus tones. It is not sampled game audio. Its generator defaults to `C:\Tools\ffmpeg\ffmpeg-9.0.2-essentials_build\bin\ffmpeg.exe`; set `FFMPEG` to override. To try the missing-search fallback locally, temporarily rename the fixture's `index/search.json` and reload, then restore it.
+
+Headless Node checks cover index validation, nested categories, zero/one-based paging, cache eviction, search, language filtering, variant cycling/wrap, virtualization bounds, fixture Opus headers, UI paging/player/switch behavior, late-response cancellation and missing global-index fallback. They also reuse the existing Portal headless regression harness for manifest grouping, current card/dock downloads, all/category ZIP contents and preserved markers. Validation passed, including local Python HTTP GET/HEAD checks for 16 site/index/audio resources. No browser screenshots are used; real-browser listening and waveform rendering remain manual checks.
+
 ## Credits
 Sounds are Battlefield 6 / EA DICE assets, surfaced for Portal modders. Sound tooling/API by **Aryo / Post (Sound)**.
 

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Fixture Rifle Shot",
+    "category": "weapons",
+    "page": 0,
+    "assetPath": "Weapons/Rifle/Shot"
+  },
+  {
+    "name": "Fixture Reload",
+    "category": "weapons",
+    "page": 0
+  },
+  {
+    "name": "Fixture Impact",
+    "category": "weapons",
+    "page": 1
+  },
+  {
+    "name": "Fixture Move Out",
+    "category": "vo",
+    "page": 0
+  }
+]

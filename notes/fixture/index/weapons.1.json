@@ -1,0 +1,22 @@
+{
+  "category": "weapons",
+  "page": 1,
+  "pages": 2,
+  "clips": [
+    {
+      "id": "impact",
+      "name": "Fixture Impact",
+      "assetPath": "Weapons/Impact",
+      "variant": 1,
+      "duration": 0.12,
+      "channels": 1,
+      "rate": 48000,
+      "codec": "opus",
+      "portalName": null,
+      "loop": null,
+      "file": "impact.opus",
+      "bytes": 567,
+      "lang": null
+    }
+  ]
+}

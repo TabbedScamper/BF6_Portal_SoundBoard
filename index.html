@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css?v=19" />
+<link rel="stylesheet" href="style.css?v=20" />
 </head>
 <body>
 
@@ -134,7 +134,11 @@
   </div>
 </div>
 
-<main class="container">
+<nav class="container library-switch" aria-label="Sound library">
+  <button class="btn" id="portalTab" aria-pressed="true" aria-controls="portalSection">Portal Sounds</button>
+  <button class="btn" id="gameTab" aria-pressed="false" aria-controls="gameLibrary">Game Library</button>
+</nav>
+<main class="container" id="portalSection">
 
   <!-- toolbar -->
   <section class="toolbar">
@@ -172,6 +176,32 @@
   <div class="empty" id="empty" hidden>No sounds match &ldquo;<span id="emptyTerm"></span>&rdquo;.</div>
 
 </main>
+
+<section class="container" id="gameLibrary" aria-label="Game Library" hidden>
+  <h2>Game Library</h2>
+  <p class="game-intro">Browse the full game audio collection, including sounds outside Portal. Audio streams from the game library host.</p>
+  <div class="game-layout">
+    <aside class="game-sidebar" aria-label="Game categories"><h3>Categories</h3><nav id="gameTree" aria-label="Category tree"></nav></aside>
+    <div class="game-content">
+      <div class="game-toolbar">
+        <label>Search <input id="gameSearch" type="search" placeholder="Sound name or asset path" aria-describedby="gameSearchHelp" /></label>
+        <label><input id="gameGlobal" type="checkbox" disabled /> Global names</label>
+        <label>Language <select id="gameLanguage"><option value="">All languages / SFX</option></select></label>
+      </div>
+      <p id="gameSearchHelp">Search applies to the loaded page. Checking for optional global search…</p>
+      <div class="game-paging" id="gamePaging"><button class="btn" id="gamePrev" disabled>Previous page</button><span id="gamePage"></span><button class="btn" id="gameNext" disabled>Next page</button></div>
+      <p id="gameStatus" role="status" aria-live="polite">Select a category.</p>
+      <button class="btn" id="gameRetry">Retry</button>
+      <div id="gameResults" hidden></div>
+      <div id="gameViewport" tabindex="0" role="region" aria-label="Sounds on this page"><div id="gameList"></div></div>
+      <div id="gamePlayer" hidden>
+        <b id="gamePlayingName"></b>
+        <div id="gamePlayerWave"><div id="gameWaveHost"></div></div>
+        <div class="game-actions"><button class="btn" id="gamePause">Pause</button><label><input type="checkbox" id="gameLoop" /> Loop</label><label>Volume <input type="range" id="gameVolume" min="0" max="1" step="0.01" value="0.8" /></label><button class="btn" id="gamePlayingDownload">Download playing variant</button></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- spatial preview panel -->
 <aside class="spatial" id="spatial" hidden aria-label="Spatial preview">
@@ -270,5 +300,7 @@
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="app.js?v=20"></script>
+<script src="game-library-core.js?v=1"></script>
+<script src="game-library.js?v=1"></script>
 </body>
 </html>
