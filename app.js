@@ -498,7 +498,8 @@ function playFromCard(card, nextVariant = false) {
   reflectLoop();
   setDock(sound);
   engPlay(0);
-  if (!$('#spatial').hidden) openSpatial(sound); // keep the radar panel + its options in sync with the playing sound
+  // The radar/code panel slides up with every play unless the visitor closed it (remembered per browser).
+  if (!$('#spatial').hidden || radarWanted()) openSpatial(sound);
 }
 function setPlayingUI(card, playing) {
   $$('.card.playing').forEach(c => { if (c !== card) c.classList.remove('playing'); });
@@ -533,8 +534,12 @@ function reflectLoop() { $('#dockLoop').classList.toggle('on', loopOn); $('#dock
 
 $('#dockPlay').addEventListener('click', () => { if (!active) return; if (active.playing) engPause(); else engPlay(active.offset || 0); });
 $('#dockLoop').addEventListener('click', () => { loopOn = !loopOn; reflectLoop(); applyLoop(); toast(loopOn ? 'Loop on' : 'Loop off'); });
+const RADAR_KEY = 'bf6sb.radarClosed';
+function radarWanted() { try { return localStorage.getItem(RADAR_KEY) !== '1'; } catch { return true; } }
+function rememberRadar(closed) { try { localStorage.setItem(RADAR_KEY, closed ? '1' : '0'); } catch { /* storage blocked */ } }
 $('#dockSpatial').addEventListener('click', () => {
-  if (!$('#spatial').hidden) { $('#spatial').hidden = true; return; }   // toggle: button while open closes it
+  if (!$('#spatial').hidden) { $('#spatial').hidden = true; rememberRadar(true); return; }   // toggle: button while open closes it
+  rememberRadar(false);
   if (active && active.sound) openSpatial(active.sound); else toast('Play a sound first');
 });
 $('#vol').addEventListener('input', (e) => { volume = +e.target.value; applyGain(); });
@@ -759,7 +764,7 @@ $('#rangeSlider').addEventListener('input', (e) => { attenRange = +e.target.valu
 $('#ampSlider').addEventListener('input', (e) => { ampParam = +e.target.value; refreshSpatialReadout(); applyGain(); });
 $('#scopeSel').addEventListener('change', (e) => { spScope = e.target.value; $('#spCode').textContent = genCode(); });
 $('#spPlay').addEventListener('click', playSpatial);
-$('#spClose').addEventListener('click', () => { $('#spatial').hidden = true; });
+$('#spClose').addEventListener('click', () => { $('#spatial').hidden = true; rememberRadar(true); });
 $('#spReset').addEventListener('click', () => {
   spPx = 0; spPy = -60;                       // back to the default forward position
   refreshSpatialReadout();

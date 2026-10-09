@@ -405,3 +405,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border:none;border-ra
   .chips,.typefilter{gap:7px}
   .dock-meta{max-width:110px}
 }
+
+/* Radar/code panel button: labelled so it is easy to find */
+#dock .dock-radar { width: auto; padding: 0 12px; gap: 8px; display: inline-flex; align-items: center; }
+#dock .dock-radar-label { font-size: 13px; letter-spacing: .08em; font-weight: 700; }
