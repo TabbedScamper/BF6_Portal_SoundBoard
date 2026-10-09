@@ -4,3 +4,7 @@
 ffmpeg.exe
 ffprobe.exe
 notes/look-build/
+
+# Local browser test dependencies and visual review output
+notes/browser-tools/
+notes/feature-review/

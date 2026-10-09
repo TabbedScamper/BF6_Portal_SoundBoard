@@ -16,7 +16,22 @@
       "loop": null,
       "file": "vo-en.opus",
       "bytes": 626,
-      "lang": "en"
+      "lang": "en",
+      "f": {
+        "pitch": 440,
+        "note": "A4",
+        "bright": 800,
+        "lufs": -30,
+        "peak": -4,
+        "attack": 10,
+        "tonal": 0.9,
+        "width": null,
+        "seam": 0.85,
+        "len": 0.12
+      },
+      "tags": [
+        "voice"
+      ]
     },
     {
       "id": "vo-fr",
@@ -31,7 +46,22 @@
       "loop": null,
       "file": "vo-fr.opus",
       "bytes": 565,
-      "lang": "fr"
+      "lang": "fr",
+      "f": {
+        "pitch": null,
+        "note": null,
+        "bright": 1500,
+        "lufs": -27,
+        "peak": -4,
+        "attack": 50,
+        "tonal": 0.2,
+        "width": null,
+        "seam": 0.3,
+        "len": 0.12
+      },
+      "tags": [
+        "voice"
+      ]
     }
   ]
 }

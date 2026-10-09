@@ -1,0 +1,22 @@
+{
+  "Weapons/Impact": [
+    [
+      "Weapons/Rifle/Shot",
+      1,
+      "weapons",
+      0
+    ],
+    [
+      "Weapons/Rifle/Reload",
+      0.9,
+      "weapons",
+      0
+    ],
+    [
+      "VO/MoveOut",
+      0.8,
+      "vo",
+      0
+    ]
+  ]
+}

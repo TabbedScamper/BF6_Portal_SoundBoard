@@ -1,0 +1,73 @@
+{
+  "tags": [
+    {
+      "id": "gunshot",
+      "label": "Gunshot",
+      "group": "source"
+    },
+    {
+      "id": "voice",
+      "label": "Voice",
+      "group": "source"
+    },
+    {
+      "id": "ui",
+      "label": "UI",
+      "group": "source"
+    },
+    {
+      "id": "metal",
+      "label": "Metal",
+      "group": "material"
+    },
+    {
+      "id": "electric",
+      "label": "Electric",
+      "group": "material"
+    },
+    {
+      "id": "impact",
+      "label": "Impact",
+      "group": "character"
+    },
+    {
+      "id": "beep",
+      "label": "Beep",
+      "group": "character"
+    },
+    {
+      "id": "mechanical",
+      "label": "Mechanical",
+      "group": "character"
+    }
+  ],
+  "synonyms": {
+    "rifle": [
+      "gunshot"
+    ],
+    "shot": [
+      "gunshot"
+    ],
+    "bang": [
+      "gunshot",
+      "impact"
+    ],
+    "metallic": [
+      "metal"
+    ],
+    "electronic": [
+      "electric",
+      "ui"
+    ],
+    "speech": [
+      "voice"
+    ],
+    "alert": [
+      "beep"
+    ],
+    "clank": [
+      "metal",
+      "mechanical"
+    ]
+  }
+}

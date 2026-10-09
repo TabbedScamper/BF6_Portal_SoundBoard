@@ -164,7 +164,7 @@ function wireVoCard(card) {
     vEl.classList.toggle('vo-dead', dead);
     card.classList.toggle('card--warn', dead);
     const rep = vars[0] && vars[0][0];
-    if (rep) { dl.href = rep.file; dl.download = rep.name + '.ogg'; }
+    if (rep) { dl.href = rep.file; dl.download = rep.name + '.ogg'; card.dataset.file=rep.file; if(portalFeatures)decoratePortalCard(card); }
   };
   const playNext = () => {
     const vars = voVariants(clipsFor());
@@ -175,6 +175,7 @@ function wireVoCard(card) {
     const take = cl[Math.floor(vi / vars.length) % cl.length];
     vi++;
     card.dataset.file = take.file;
+    if (portalFeatures) decoratePortalCard(card);
     playFromCard(card);
   };
   if (type === 'event') {
@@ -200,6 +201,7 @@ async function init() {
     $('#grid').innerHTML = '<div class="empty">Could not load manifest.json. Serve this folder over http (GitHub Pages or a local server), not file://.</div>';
     hideLoader(); return;
   }
+  if (window.SoundFeatures) await initPortalFeatures();
   CARDS = buildCards();
   buildStats();
   buildChips();
@@ -241,9 +243,11 @@ function buildChips() {
   chips.innerHTML = all + rest;
   $$('.chip', chips).forEach(ch => ch.addEventListener('click', () => {
     curCat = ch.dataset.cat;
+    if(portalFeatures){if(curCat==='All')delete portalFeatures.state.context.category;else portalFeatures.state.context.category=curCat;portalFeatures.commit();}
     $$('.chip', chips).forEach(c => c.classList.toggle('active', c === ch));
     render();
   }));
+  $$('.chip',chips).forEach(b=>b.classList.toggle('active',b.dataset.cat===curCat));
 }
 function buildTypeFilter() {
   const n3 = CARDS.filter(s => is3D(s.name)).length;
@@ -252,9 +256,11 @@ function buildTypeFilter() {
   const counts = { all: CARDS.length, '3d': n3, '2d': n2, loop: nl };
   $$('.tpill').forEach(b => {
     const t = b.dataset.type;
+    b.classList.toggle('active',t===curType);
     b.innerHTML = b.textContent.trim().split(' ')[0] + ' <span class="cnt">' + (counts[t] ?? 0) + '</span>';
     b.addEventListener('click', () => {
       curType = t;
+      if(portalFeatures){if(t==='all')delete portalFeatures.state.context.type;else portalFeatures.state.context.type=t;portalFeatures.commit();}
       $$('.tpill').forEach(x => x.classList.toggle('active', x === b));
       render();
     });
@@ -273,9 +279,12 @@ function filtered() {
     const label = s.vo
       ? (s.voType === 'event' ? voPretty(s.event) : (s.family + ' Flag ' + s.flag + ' ' + FLAG_NAMES[s.flag] + ' ' + (s.events || []).map(voEventLabel).join(' ')))
       : pretty(s.name);
-    if (curTerm && !(s.name.toLowerCase().includes(curTerm) || label.toLowerCase().includes(curTerm))) return false;
+    if (portalFeatures) {
+      const takes = s.takes || Object.values(s.byStatus || {}).flat();
+      if (!takes.some(c => SoundFeatures.matches(c, portalFeatures.state) && SoundFeatures.score({...c, label}, curTerm, portalFeatures.vocab))) return false;
+    } else if (curTerm && !(s.name.toLowerCase().includes(curTerm) || label.toLowerCase().includes(curTerm))) return false;
     return true;
-  }).sort((a, b) => sortRank(a) - sortRank(b)); // Array.sort is stable -> keeps category/name order within each rank
+  }).sort((a, b) => sortRank(a) - sortRank(b) || (portalFeatures ? portalScore(b) - portalScore(a) : 0)); // Array.sort is stable -> keeps category/name order within each rank
 }
 function render() {
   const grid = $('#grid');
@@ -284,6 +293,7 @@ function render() {
   $('#emptyTerm').textContent = curTerm;
   grid.innerHTML = list.map((s, i) => cardHTML(s, i)).join('');
   $$('.card', grid).forEach(card => wireCard(card));
+  if (portalFeatures) { decoratePortal(); portalFeatures.map?.draw(); }
   observeWaves();
   // re-link the currently playing sound to its fresh card (if still visible)
   if (active) {
@@ -359,7 +369,7 @@ function ensureWave(card) {
   const ws = WaveSurfer.create({
     container: host, url: file, height: 64,
     waveColor: 'rgba(255,255,255,.18)', progressColor: '#BFCAD1',
-    barWidth: 2, barGap: 1, barRadius: 2, cursorWidth: 0, normalize: true,
+    barWidth: 2, barGap: 1, barRadius: 0, cursorWidth: 0, normalize: true,
   });
   ws.setVolume(volume);
   hostByFile.set(file, host);
@@ -476,6 +486,7 @@ function playFromCard(card, nextVariant = false) {
     dl.href = take.file; dl.download = clipDownloadName(take);
     $('.tag-dur', card).textContent = fmt(take.dur, take.dur);
   }
+  if (portalFeatures) decoratePortalCard(card);
   ensureWave(card);
   const file = card.dataset.file;
   const ws = wsByFile.get(file);
@@ -607,10 +618,11 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('#abou
 const search = $('#search');
 search.addEventListener('input', () => {
   curTerm = search.value.trim().toLowerCase();
+  if (portalFeatures) { portalFeatures.state.query = curTerm; portalFeatures.commit(); }
   $('.search').classList.toggle('has-text', !!curTerm);
   render();
 });
-$('#searchClear').addEventListener('click', () => { search.value = ''; curTerm = ''; $('.search').classList.remove('has-text'); render(); search.focus(); });
+$('#searchClear').addEventListener('click', () => { search.value = ''; curTerm = ''; if (portalFeatures) { portalFeatures.state.query = ''; portalFeatures.commit(); } $('.search').classList.remove('has-text'); render(); search.focus(); });
 
 /* ---------- header shrink ---------- */
 addEventListener('scroll', () => $('#header').classList.toggle('small', scrollY > 20));
@@ -758,5 +770,30 @@ $('#spReset').addEventListener('click', () => {
   if (active && active.spatial && active.panner) { active.panner.positionX.value = spWorld.x; active.panner.positionZ.value = spWorld.z; }
 });
 $('#spCopy').addEventListener('click', () => navigator.clipboard.writeText(genCode()).then(() => toast('Code copied')).catch(() => toast('Copy failed')));
+
+
+let portalFeatures = null;
+let portalFeatureBase = '';
+async function initPortalFeatures() {
+  const fixture = ['localhost','127.0.0.1','[::1]'].includes(location.hostname) && new URLSearchParams(location.search).get('soundFixture') === '1';
+  portalFeatureBase = fixture ? 'notes/feature-fixture/portal/' : '';
+  const F = window.SoundFeatures;
+  const [features,vocab] = await Promise.all([F.optional(portalFeatureBase+'portal-features.json'),F.optional(portalFeatureBase+'tags.json')]);
+  for (const c of SOUNDS) if (features?.version === 1 && features.clips?.[c.file]) Object.assign(c,features.clips[c.file]);
+  portalFeatures = new window.SoundFeaturePanel('portal',document.getElementById('portalFeatures'),()=>{curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';$$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat===curCat));$$('.tpill').forEach(b=>b.classList.toggle('active',b.dataset.type===curType));curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;render();});
+  portalFeatures.data(vocab,SOUNDS);curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;
+  // Maps call the predicate once per point per repaint, using a prepared set.
+  portalFeatures.mapOptions=()=>{let names=new Set();return {section:'portal',base:portalFeatureBase,key:()=>JSON.stringify([portalFeatures.state,curCat,curType,curTerm]),prepare:()=>{names=new Set(filtered().flatMap(c=>[c.name,...(c.takes||Object.values(c.byStatus||{}).flat()).map(t=>t.name)]));},matches:p=>names.has(p.name),open:p=>openPortalFeature(p.name)};};
+  $('#grid').addEventListener('click',async e=>{const tag=e.target.closest('[data-feature-tag]');if(tag){portalFeatures.tag(tag.dataset.featureTag);return;}const similar=e.target.closest('[data-similar]');if(similar){const data=await F.optional(portalFeatureBase+'portal-similar.json');const valid=new Set(SOUNDS.map(s=>s.name));portalFeatures.neighbours((data?.[similar.dataset.similar]||[]).filter(r=>valid.has(r[0])).slice(0,20).map(r=>({name:r[0],score:r[1],href:SoundFeatures.link(location.href,'portal',{...SoundFeatures.empty(),query:r[0]})})),r=>openPortalFeature(r.name));}});
+}
+function portalScore(c) {return Math.max(0,...(c.takes||Object.values(c.byStatus||{}).flat()).map(t=>SoundFeatures.matches(t,portalFeatures.state)?SoundFeatures.score(t,curTerm,portalFeatures.vocab):0));}
+function decoratePortalCard(card) {const c=SOUNDS.find(s=>s.file===card.dataset.file);if(!c)return;let host=card.querySelector('.sound-details');const html=SoundFeatures.card(c,'portal');if(host)host.outerHTML=html;else card.insertAdjacentHTML('beforeend',html);}
+function decoratePortal() {$$('.card',$('#grid')).forEach(decoratePortalCard);}
+function openPortalFeature(name) {
+  const c=CARDS.find(c=>c.name===name||(c.takes||Object.values(c.byStatus||{}).flat()).some(t=>t.name===name));if(!c){toast('Sound card unavailable');return;}
+  curCat='All';curType='all';portalFeatures.state=SoundFeatures.empty();portalFeatures.state.query=c.name;portalFeatures.commit();
+  $$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat==='All'));$$('.tpill').forEach(b=>b.classList.toggle('active',b.dataset.type==='all'));
+  const card=$$('.card',$('#grid')).find(el=>el.dataset.name===c.name);if(card){card.scrollIntoView({block:'center'});card.focus();const source=SOUNDS.find(s=>s.name===name);const status=card.querySelector('[data-vo-status]');if(status&&source?.event){status.value=source.event;status.dispatchEvent(new Event('change'));}card.tabIndex=-1;const button=card.querySelector('[data-play]');button?.click();}
+}
 
 init();

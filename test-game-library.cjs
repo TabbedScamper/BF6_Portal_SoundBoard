@@ -7,6 +7,7 @@ const C = require('./game-library-core.js');
 const root = __dirname;
 const read = file => JSON.parse(fs.readFileSync(path.join(root, 'notes/fixture/index', file), 'utf8'));
 async function main() {
+  await require('./test-sound-features.cjs')();
   const tree = C.tree(read('tree.json'));
   assert.equal(tree.length, 2);
   assert.equal(C.tree([{ ...tree[0], children: [tree[1]] }])[0].children.length, 1);

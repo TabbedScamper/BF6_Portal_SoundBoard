@@ -1,0 +1,16 @@
+{
+  "sounds": [
+    {
+      "name": "SFX_Alarm",
+      "x": 0.1,
+      "y": 0.2,
+      "cat": "Alarm"
+    },
+    {
+      "name": "SFX_Levels_Brooklyn_Spots_EmergencyExit_SimpleLoop3D",
+      "x": 0.25,
+      "y": 0.45,
+      "cat": "Crash Sounds"
+    }
+  ]
+}

@@ -7,7 +7,7 @@
 <meta name="description" content="Battlefield 6 Portal sound effects library V2.00. Portal Sounds and the full Game Library." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23ff6b1a'/%3E%3Cg fill='%23140a04'%3E%3Crect x='5' y='9' width='2' height='6'/%3E%3Crect x='9' y='5' width='2' height='14'/%3E%3Crect x='13' y='8' width='2' height='8'/%3E%3Crect x='17' y='6' width='2' height='12'/%3E%3C/g%3E%3C/svg%3E" />
 <link rel="stylesheet" href="style.css?v=22" />
-<link rel="stylesheet" href="site-look.css?v=2" />
+<link rel="stylesheet" href="site-look.css?v=3" />
 </head>
 <body>
 
@@ -143,6 +143,7 @@
     <button class="tpill" data-type="loop">Loop</button>
   </div>
 
+  <section id="portalFeatures" aria-label="Portal sound features"></section>
   <!-- results -->
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" hidden>No sounds match &ldquo;<span id="emptyTerm"></span>&rdquo;.</div>
@@ -156,11 +157,12 @@
     <aside class="game-sidebar" aria-label="Game categories"><h3>Categories</h3><nav id="gameTree" aria-label="Category tree"></nav></aside>
     <div class="game-content">
       <div class="game-toolbar">
-        <label>Search <input id="gameSearch" type="search" placeholder="Sound name or asset path" aria-describedby="gameSearchHelp" /></label>
-        <label><input id="gameGlobal" type="checkbox" disabled /> Global names</label>
+        <label>Search <input id="gameSearch" type="search" placeholder="Describe a sound or enter its name" aria-describedby="gameSearchHelp" /></label>
+        <label><input id="gameGlobal" type="checkbox" disabled /> Global tags and names</label>
         <label>Language <select id="gameLanguage"><option value="">All languages / SFX</option></select></label>
       </div>
       <p id="gameSearchHelp">Search applies to the loaded page. Checking for optional global search…</p>
+      <section id="gameFeatures" aria-label="Game Library sound features"></section>
       <div class="game-paging" id="gamePaging"><button class="btn" id="gamePrev" disabled>Previous page</button><span id="gamePage"></span><button class="btn" id="gameNext" disabled>Next page</button></div>
       <p id="gameStatus" role="status" aria-live="polite">Select a category.</p>
       <button class="btn" id="gameRetry">Retry</button>
@@ -273,8 +275,10 @@
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="ui-experience.js?v=1"></script>
-<script src="app.js?v=21"></script>
+<script src="sound-features-core.js?v=1"></script>
+<script src="sound-features-ui.js?v=1"></script>
+<script src="app.js?v=22"></script>
 <script src="game-library-core.js?v=1"></script>
-<script src="game-library.js?v=2"></script>
+<script src="game-library.js?v=3"></script>
 </body>
 </html>

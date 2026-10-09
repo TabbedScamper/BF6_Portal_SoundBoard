@@ -33,8 +33,7 @@ button,a,input,select,summary {touch-action:manipulation}
 .discord-btn {background:var(--panel2);color:var(--txt);box-shadow:none;border-color:var(--line)}
 .discord-btn::before {display:none}
 .topnav-tab::before {display:none}
-.spatial {background:rgba(7,9,10,.96);animation:radar-in 250ms linear}
-@keyframes radar-in {from {transform:translateY(20px);opacity:0}to {transform:translateY(0);opacity:1}}
+.spatial {background:rgba(7,9,10,.96);animation:none}
 .archive-hero {position:relative;overflow:hidden;min-height:clamp(210px,29vh,330px);margin-top:24px;padding:clamp(20px,4vh,44px);border:1px solid var(--line);background:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.27)),linear-gradient(0deg,rgba(7,9,10,.60),transparent),url('assets/art/limestone.webp') center/cover no-repeat}
 .archive-kicker {font:700 13px 'BF Sub',Arial,sans-serif;letter-spacing:.18em;color:#FFBD44}
 .archive-hero h2 {font:700 clamp(36px,6vh,66px)/.96 'BF Headline',Impact,sans-serif;margin:14px 0;color:var(--txt)}
@@ -87,3 +86,34 @@ button,a,input,select,summary {touch-action:manipulation}
   *,*::before,*::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 .reduced-motion *,.reduced-motion *::before,.reduced-motion *::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}
+.feature-panel {border:1px solid var(--line);padding:14px;background:var(--panel);margin:16px 0}
+.feature-panel summary {cursor:pointer;font-size:16px;letter-spacing:.06em}
+.feature-ranges {display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:12px;margin:12px 0}
+.feature-panel fieldset {border:1px solid var(--line);padding:10px;min-width:0}
+.feature-panel legend,.feature-panel label,.feature-panel output,.feature-active,.feature-readout,.feature-neighbours,.sound-map {font-size:13px;line-height:1.6}
+.feature-panel label {display:flex;gap:8px;align-items:center}
+.feature-panel input[type=range] {width:100%;min-width:0;accent-color:var(--txt)}
+.feature-panel output {display:block;color:var(--amber)}
+.feature-tags {display:flex;flex-wrap:wrap;gap:12px;margin:12px 0}
+.feature-tags fieldset {flex:1;min-width:200px}
+.feature-tags button,.sound-details button,.map-selection button {margin:3px;cursor:pointer}
+[data-feature-tag][aria-pressed=true] {border-color:var(--amber);color:var(--amber);background:var(--panel2)}
+.feature-toolbar {display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.feature-active {margin:10px 0;overflow-wrap:anywhere}
+.sound-details {border-top:1px solid var(--line);padding:10px 0;margin-top:10px}
+.feature-readout {color:var(--txt2);margin:0 0 6px}
+.feature-neighbours,.sound-map {border:1px solid var(--line);background:var(--panel);padding:14px;margin:12px 0}
+.sound-map canvas {display:block;width:100%;touch-action:none;cursor:crosshair;border:1px solid var(--line)}
+.map-legend {display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.map-legend span {padding-left:6px}
+.game-card .card-tags {flex-wrap:wrap}
+.game-card {height:350px;overflow:auto}
+/* Direct, static controls across the archive. */
+.spatial,.dl-spin {animation:none}
+button,input,select,fieldset {border-radius:0}
+.sound-details .tag,.feature-tags .tag,.map-selection .tag,.feature-neighbours .tag {display:inline-block;border:1px solid var(--line);background:transparent;color:var(--txt);text-decoration:none;font-family:'BF Sub',Arial,sans-serif;font-size:13px;cursor:pointer}
+.sound-details .tag:hover,.feature-tags .tag:hover,.map-selection .tag:hover,.feature-neighbours .tag:hover {border-color:var(--txt);background:var(--panel2)}
+.feature-tags [aria-pressed=true] {color:var(--amber);border-color:var(--amber)}
+/* Hidden dock controls must stay outside keyboard and full-page capture flows. */
+.dock {transition:none}
+.dock:not(.show) {visibility:hidden;pointer-events:none}

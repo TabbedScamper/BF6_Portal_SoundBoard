@@ -16,7 +16,24 @@
       "loop": null,
       "file": "shot-1.opus",
       "bytes": 617,
-      "lang": null
+      "lang": null,
+      "f": {
+        "pitch": 440,
+        "note": "A4",
+        "bright": 800,
+        "lufs": -30,
+        "peak": -4,
+        "attack": 10,
+        "tonal": 0.9,
+        "width": null,
+        "seam": 0.85,
+        "len": 0.12
+      },
+      "tags": [
+        "gunshot",
+        "metal",
+        "impact"
+      ]
     },
     {
       "id": "shot-2",
@@ -31,7 +48,24 @@
       "loop": null,
       "file": "shot-2.opus",
       "bytes": 599,
-      "lang": null
+      "lang": null,
+      "f": {
+        "pitch": null,
+        "note": null,
+        "bright": 1500,
+        "lufs": -27,
+        "peak": -4,
+        "attack": 50,
+        "tonal": 0.2,
+        "width": null,
+        "seam": 0.3,
+        "len": 0.12
+      },
+      "tags": [
+        "gunshot",
+        "metal",
+        "impact"
+      ]
     },
     {
       "id": "reload",
@@ -46,7 +80,23 @@
       "loop": null,
       "file": "reload.opus",
       "bytes": 599,
-      "lang": null
+      "lang": null,
+      "f": {
+        "pitch": 440,
+        "note": "A4",
+        "bright": 2200,
+        "lufs": -24,
+        "peak": -4,
+        "attack": 90,
+        "tonal": 0.9,
+        "width": null,
+        "seam": 0.85,
+        "len": 0.12
+      },
+      "tags": [
+        "metal",
+        "mechanical"
+      ]
     }
   ]
 }

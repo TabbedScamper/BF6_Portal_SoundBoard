@@ -3,21 +3,40 @@
     "name": "Fixture Rifle Shot",
     "category": "weapons",
     "page": 0,
-    "assetPath": "Weapons/Rifle/Shot"
+    "assetPath": "Weapons/Rifle/Shot",
+    "t": [
+      "gunshot",
+      "metal",
+      "impact"
+    ]
   },
   {
     "name": "Fixture Reload",
     "category": "weapons",
-    "page": 0
+    "page": 0,
+    "assetPath": "Weapons/Rifle/Reload",
+    "t": [
+      "metal",
+      "mechanical"
+    ]
   },
   {
     "name": "Fixture Impact",
     "category": "weapons",
-    "page": 1
+    "page": 1,
+    "assetPath": "Weapons/Impact",
+    "t": [
+      "metal",
+      "impact"
+    ]
   },
   {
     "name": "Fixture Move Out",
     "category": "vo",
-    "page": 0
+    "page": 0,
+    "assetPath": "VO/MoveOut",
+    "t": [
+      "voice"
+    ]
   }
 ]

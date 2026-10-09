@@ -16,7 +16,23 @@
       "loop": null,
       "file": "impact.opus",
       "bytes": 567,
-      "lang": null
+      "lang": null,
+      "f": {
+        "pitch": 440,
+        "note": "A4",
+        "bright": 800,
+        "lufs": -30,
+        "peak": -4,
+        "attack": 10,
+        "tonal": 0.9,
+        "width": null,
+        "seam": 0.85,
+        "len": 0.12
+      },
+      "tags": [
+        "metal",
+        "impact"
+      ]
     }
   ]
 }

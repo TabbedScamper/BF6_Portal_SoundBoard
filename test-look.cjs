@@ -72,11 +72,19 @@ async function checkAssets() {
   for (const cue of ['hover', 'select', 'back', 'tab_switch', 'toggle_on', 'toggle_off', 'slider_tick']) files.add('assets/ui/' + cue + '.wav');
   for (const clip of JSON.parse(fs.readFileSync('manifest.json', 'utf8'))) files.add(clip.file);
   const fixture = 'notes/fixture';
-  for (const file of fs.readdirSync(fixture + '/index')) {
-    files.add(fixture + '/index/' + file);
-    const data = JSON.parse(fs.readFileSync(fixture + '/index/' + file));
-    for (const clip of data.clips || []) files.add(fixture + '/audio/' + clip.file);
+  function visit(dir) {
+    for(const item of fs.readdirSync(dir,{withFileTypes:true})) {
+      const file=dir+'/'+item.name;
+      if(item.isDirectory()){visit(file);continue;}
+      files.add(file);
+      if(file.endsWith('.json')) {
+        const data=JSON.parse(fs.readFileSync(file,'utf8'));
+        for(const clip of Array.isArray(data.clips)?data.clips:[]) if(clip.file)files.add(fixture+'/audio/'+clip.file);
+      }
+    }
   }
+  visit(fixture+'/index'); visit('notes/feature-fixture');
+  for(const file of ['sound-map.mjs','sound-features-core.js','sound-features-ui.js'])files.add(file);
   const root = path.resolve('.');
   const server = http.createServer((req, res) => {
     const file = path.resolve(root, '.' + decodeURIComponent(new URL(req.url, 'http://localhost').pathname));
