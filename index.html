@@ -6,8 +6,8 @@
 <title>BF6 Portal SFX Library V2.00</title>
 <meta name="description" content="Battlefield 6 Portal sound effects library V2.00. Portal Sounds and the full Game Library." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23ff6b1a'/%3E%3Cg fill='%23140a04'%3E%3Crect x='5' y='9' width='2' height='6'/%3E%3Crect x='9' y='5' width='2' height='14'/%3E%3Crect x='13' y='8' width='2' height='8'/%3E%3Crect x='17' y='6' width='2' height='12'/%3E%3C/g%3E%3C/svg%3E" />
-<link rel="stylesheet" href="style.css?v=22" />
-<link rel="stylesheet" href="site-look.css?v=3" />
+<link rel="stylesheet" href="style.css?v=23" />
+<link rel="stylesheet" href="site-look.css?v=4" />
 </head>
 <body>
 
@@ -73,8 +73,8 @@
       <p>The Portal list comes from <code>RuntimeSpawn_Common</code> in <b>Portal SDK v<span id="sdkVer">?</span></b>: <b id="sdkTotal">?</b> sounds across <b id="sdkCats">?</b> categories. <code>SFX_VOModule</code> is excluded because it is a silent carrier for <code>PlayVO</code>.</p>
       <div class="cov" id="coverage"></div>
       <p><b>Announcer</b> cards use recordings of <code>PlayVO</code> lines, grouped by event and objective flag. Some events played the wrong line or stayed silent during testing. Their warnings and silent placeholders remain.</p>
-      <p><b>Game Library</b> contains every sound in the game: 287,216 clips across 14,637 sounds, about 195 hours of audio. Categories follow the game's own folders. Clips stream from Cloudflare R2. Search and language filters apply to the loaded page; global name search opens the matching category page when its index is available.</p>
-      <p>Each new play cycles to another variant when available. Portal cards have a <b>Try another variant</b> button. Game Library uses <b>Play next variant</b>. Card and dock downloads save the current variant; Portal category and full-library ZIPs include every variant.</p>
+      <p><b>Game Library</b> contains every sound in the game: 287,216 clips across 14,637 sounds, about 195 hours of audio. Categories follow the game's own folders. Clips stream from Cloudflare R2. Description and name search uses the whole library index. Measurement filters apply to the loaded page.</p>
+      <p>Each new play cycles to another variant when available. Portal cards have a <b>Try another variant</b> button. Game Library uses the same variant control. Card and dock downloads save the current variant; Portal category and full-library ZIPs include every variant.</p>
       <p>Game loops keep their full authored sample range and repeat through the Web Audio API. Recorded loops keep their existing matched loop points. The dock controls playback, seeking, volume and looping.</p>
       <p><b>RADAR</b> opens the spatial panel. For 3D sounds, drag the source around the listener and set the range, amplitude and scope. The panel generates TypeScript to spawn the sound and call <code>mod.PlaySound</code>. Coordinates are relative to the listener; add the player's world position in your script. 2D sounds play without positional attenuation. The preview's falloff is approximate.</p>
       <p class="about-note">Crash, silent and unreliable warnings describe observed Portal behaviour. An available game-file preview does not remove those warnings.</p>
@@ -151,30 +151,26 @@
 </main>
 
 <section class="container" id="gameLibrary" aria-label="Game Library" hidden>
-  <div class="game-category-hero" id="gameCategoryHero"><p class="archive-kicker">FULL GAME COLLECTION</p><h2 id="gameCategoryTitle">Game Library</h2><p id="gameCategoryPath">Select a category to explore its audio.</p></div>
-  <p class="game-intro">Every sound in the game: 287,216 clips across 14,637 sounds, about 195 hours. Categories follow the game folders. Audio streams from Cloudflare R2.</p>
-  <div class="game-layout">
-    <aside class="game-sidebar" aria-label="Game categories"><h3>Categories</h3><nav id="gameTree" aria-label="Category tree"></nav></aside>
-    <div class="game-content">
-      <div class="game-toolbar">
-        <label>Search <input id="gameSearch" type="search" placeholder="Describe a sound or enter its name" aria-describedby="gameSearchHelp" /></label>
-        <label><input id="gameGlobal" type="checkbox" disabled /> Global tags and names</label>
-        <label>Language <select id="gameLanguage"><option value="">All languages / SFX</option></select></label>
-      </div>
-      <p id="gameSearchHelp">Search applies to the loaded page. Checking for optional global search…</p>
-      <section id="gameFeatures" aria-label="Game Library sound features"></section>
-      <div class="game-paging" id="gamePaging"><button class="btn" id="gamePrev" disabled>Previous page</button><span id="gamePage"></span><button class="btn" id="gameNext" disabled>Next page</button></div>
-      <p id="gameStatus" role="status" aria-live="polite">Select a category.</p>
-      <button class="btn" id="gameRetry">Retry</button>
-      <div id="gameResults" hidden></div>
-      <div id="gameViewport" tabindex="0" role="region" aria-label="Sounds on this page"><div id="gameList"></div></div>
-      <div id="gamePlayer" hidden>
-        <b id="gamePlayingName"></b>
-        <div id="gamePlayerWave"><div id="gameWaveHost"></div></div>
-        <div class="game-actions"><button class="btn" id="gamePause">Pause</button><label><input type="checkbox" id="gameLoop" /> Loop</label><label>Volume <input type="range" id="gameVolume" min="0" max="1" step="0.01" value="0.8" /></label><button class="btn" id="gamePlayingDownload">Download playing variant</button></div>
-      </div>
+  <section class="toolbar">
+    <div class="search" id="gameSearchBox">
+      <svg viewBox="0 0 24 24" class="search-ico" aria-hidden="true"><path d="M21 21l-4.3-4.3M11 19a8 8 0 110-16 8 8 0 010 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="gameSearch" type="search" placeholder="Search sounds...  (e.g. rocket, sniper, loop)" aria-label="Search Game Library descriptions and names" autocomplete="off" spellcheck="false" />
+      <button id="gameSearchClear" class="search-clear" title="Clear" aria-label="Clear search">&times;</button>
     </div>
-  </div>
+    <div class="tool-actions"><button id="gameDownload" class="btn btn-ghost" disabled><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Download this sound</span></button></div>
+  </section>
+  <nav class="chips" id="gameTree" aria-label="Game categories"></nav>
+  <nav class="game-breadcrumb" id="gameBreadcrumb" aria-label="Category breadcrumb" hidden></nav>
+  <nav class="chips" id="gameChildren" aria-label="Subcategories" hidden></nav>
+  <div class="typefilter" id="gameLanguage" aria-label="Filter by language"></div>
+  <section id="gameFeatures" aria-label="Game Library sound features"></section>
+  <p class="game-intro" id="gameTotals">287,216 clips, 14,637 sounds, about 195 hours from the game files.</p>
+  <p id="gameStatus" role="status" aria-live="polite"></p>
+  <button class="btn" id="gameRetry" hidden>Retry</button>
+  <div class="game-paging" id="gamePaging" hidden><button class="btn" id="gamePrev" disabled>Previous</button><span id="gamePage"></span><button class="btn" id="gameNext" disabled>Next</button></div>
+  <div id="gameResults" class="grid" hidden></div>
+  <div id="gameViewport"><div class="grid" id="gameList"></div></div>
+  <div class="game-paging" id="gamePagingBottom" hidden><button class="btn" id="gamePrevBottom" disabled>Previous</button><span id="gamePageBottom"></span><button class="btn" id="gameNextBottom" disabled>Next</button></div>
 </section>
 
 <!-- spatial preview panel -->
@@ -275,10 +271,10 @@
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="ui-experience.js?v=1"></script>
-<script src="sound-features-core.js?v=1"></script>
-<script src="sound-features-ui.js?v=1"></script>
-<script src="app.js?v=22"></script>
+<script src="sound-features-core.js?v=2"></script>
+<script src="sound-features-ui.js?v=2"></script>
+<script src="app.js?v=23"></script>
 <script src="game-library-core.js?v=1"></script>
-<script src="game-library.js?v=3"></script>
+<script src="game-library.js?v=4"></script>
 </body>
 </html>

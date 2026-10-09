@@ -14,7 +14,7 @@
   function score(clip,query,vocab={}) {
     const words=query.toLowerCase().match(/[\p{L}\p{N}_]+/gu)||[];
     if (!words.length) return 1;
-    const name=[clip.name,clip.assetPath,clip.label].filter(Boolean).join(' ').toLowerCase(), tags=clip.tags || clip.t || [];
+    const name=[clip.name,clip.assetPath,clip.label,clip.description].filter(Boolean).join(' ').toLowerCase(), tags=clip.tags || clip.t || [];
     let total=0;
     for (const word of words) {
       const ids=new Set([word,...(vocab.synonyms?.[word]||[]),...(vocab.tags||[]).filter(t=>t.label.toLowerCase()===word).map(t=>t.id)]);

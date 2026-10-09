@@ -60,77 +60,57 @@ async function main() {
   vm.runInNewContext('// Load the complete application' + harness, context);
 }
 async function checkUI(missingSearch) {
-  const elements = new Map();
+  const F=require('./sound-features-core.js'),elements=new Map(),requests=[],plays=[];
+  let delayVO=false,releaseVO,selectedFile=null,paused=false,section='portal';
   function el(id) {
-    if (!elements.has(id)) {
-      const classes = new Set();
-      elements.set(id, { hidden: id === 'gameLibrary', disabled: id === 'gameGlobal', value: id === 'gameVolume' ? '0.8' : '', checked: false, scrollTop: 0, clientHeight: 520, style: {}, dataset: {}, innerHTML: '', textContent: '',
-        classList: { add: c => classes.add(c), remove: c => classes.delete(c), contains: c => classes.has(c), toggle() {} },
-        setAttribute() {}, appendChild() {}, querySelectorAll: () => [] });
-    }
+    if(!elements.has(id))elements.set(id,{hidden:id==='gameLibrary',disabled:false,value:'',style:{},dataset:{},innerHTML:'',textContent:'',
+      classList:{add(){},remove(){},toggle(){}},setAttribute(){},querySelectorAll:()=>[],
+      querySelector:()=>({dataset:{},scrollIntoView(){}}),focus(){}});
     return elements.get(id);
   }
-  const requests = [], players = [], auditionLocks = new Map();
-  let delayVO = false, releaseVO;
-  const context = {
-    window: { BF6UI: { audition: (owner, busy) => auditionLocks.set(owner, busy) }, GameLibraryCore: C, SB_CONFIG: { gameLibrary: { baseUrl: 'r2', fixtureBaseUrl: 'notes/fixture', useFixture: false } } },
-    document: { getElementById: el, querySelectorAll: () => [], querySelector: () => el('searchClass') },
-    location: { hostname: 'localhost', search: '?gameFixture=1' }, URLSearchParams, AbortController,
-    requestAnimationFrame: fn => fn(), engPause() {}, render() {}, toast() {}, console,
-    fetch: async url => {
-      requests.push(url);
-      const file = url.split('/').pop();
-      if (delayVO && file === 'vo.json') await new Promise(resolve => { releaseVO = resolve; });
-      const missing = missingSearch && file === 'search.json';
-      return { ok: !missing, status: missing ? 404 : 200, json: async () => read(file), text: async () => JSON.stringify(read(file)) };
-    },
-    WaveSurfer: { create: options => { const player = { options, handlers: {}, plays: 0, setVolume() {}, getMediaElement: () => ({}), on(name, fn) { this.handlers[name] = fn; }, pause() {}, destroy() {}, playPause: async () => {}, async play() { this.plays++; } }; players.push(player); return player; } },
-  };
-  vm.runInNewContext(fs.readFileSync(path.join(root, 'game-library.js'), 'utf8'), context);
-  const settle = () => new Promise(resolve => setImmediate(resolve));
-  el('gameTab').onclick(); await settle();
-  assert.equal(el('portalSection').hidden, true);
-  assert(requests.every(url => url.startsWith('notes/fixture/')));
-  assert.equal(requests.filter(url => /weapons/.test(url)).length, 0, 'No category prefetch');
-  assert.equal(el('gameGlobal').disabled, missingSearch);
-  if (missingSearch) assert.match(el('gameSearchHelp').textContent, /unavailable/);
-  el('gameTree').onclick({ target: { closest: () => ({ dataset: { category: 'weapons' } }) } }); await settle();
-  assert.equal(el('gamePage').textContent, 'Page 1 / 2');
-  assert.equal(el('gamePrev').disabled, true); assert.equal(el('gameNext').disabled, false);
-  const clickPlay = () => el('gameList').onclick({ target: { closest: selector => selector === '[data-group]' ? { dataset: { group: '0' } } : selector === '[data-game-play]' ? {} : null } });
-  clickPlay(); clickPlay(); clickPlay();
-  assert.equal(auditionLocks.get('game'), true, 'Mute UI cues while loading an audition');
-  players.at(-1).handlers.pause(); assert.equal(auditionLocks.get('game'), false);
-  players.at(-1).handlers.play(); assert.equal(auditionLocks.get('game'), true);
-  players.at(-1).handlers.finish(); assert.equal(auditionLocks.get('game'), false);
-  players.at(-1).handlers.play();
-  assert.deepEqual(players.map(p => p.options.url.split('/').pop()), ['shot-1.opus', 'shot-2.opus', 'shot-1.opus']);
-  el('gameNext').onclick(); await settle();
-  assert.equal(el('gamePage').textContent, 'Page 2 / 2'); assert.equal(el('gameNext').disabled, true);
-  assert.equal(el('gamePlayer').hidden, true, 'Page change releases player');
-  assert.equal(auditionLocks.get('game'), false, 'Page change releases cue mute');
-  el('gamePrev').onclick(); await settle();
-  assert.equal(requests.filter(url => url.endsWith('/weapons.json')).length, 1, 'UI reuses cached page');
-  el('gameSearch').value = 'missing'; el('gameSearch').oninput(); assert.equal(el('gameList').style.height, '0px');
-  if (!missingSearch) {
-    el('gameGlobal').checked = true; el('gameSearch').value = 'impact'; el('gameGlobal').onchange();
-    assert.match(el('gameResults').innerHTML, /Fixture Impact/);
-    el('gameResults').onclick({ target: { closest: () => ({ dataset: { result: '0' } }) } }); await settle();
-    assert.equal(el('gamePage').textContent, 'Page 2 / 2');
-    assert.equal(el('gameSearch').value, 'Fixture Impact');
+  const player={card:s=>'<article class="card">'+s.name+'</article>',isCurrent:file=>selectedFile===file,canToggle:file=>selectedFile===file,
+    attach(){},play(sound,card,another){if(!another&&selectedFile===sound.file){paused=!paused;return;}selectedFile=sound.file;paused=false;plays.push(sound);},
+    release(){selectedFile=null;},section(){paused=true;}};
+  class Panel {
+    constructor(section,host,change){this.state=F.empty();this.change=change;this.vocab={tags:[],synonyms:{}};}
+    data(vocab){this.vocab=vocab||this.vocab;}refresh(){}commit(){this.change();}
   }
-  delayVO = true;
-  el('gameTree').onclick({ target: { closest: () => ({ dataset: { category: 'vo' } }) } });
-  el('gameTree').onclick({ target: { closest: () => ({ dataset: { category: 'weapons' } }) } }); await settle();
-  releaseVO(); await settle();
-  assert.equal(el('gamePage').textContent, 'Page 1 / 2', 'Late category response must not replace the current page');
-  el('gameSearch').value = ''; el('gameSearch').oninput();
-  clickPlay();
-  const pendingPlayer = players.at(-1);
-  el('portalTab').onclick(); assert.equal(el('portalSection').hidden, false);
-  pendingPlayer.handlers.ready(); await settle();
-  assert.equal(pendingPlayer.plays, 0, 'Late ready must not start hidden playback');
-  assert.equal(auditionLocks.get('game'), false, 'Section switch releases pending cue mute');
-  console.log('Headless Game Library UI: lazy load, paging/cache, variant player, section switch, ' + (missingSearch ? 'missing global index fallback' : 'global result navigation') + ' passed.');
+  const context={window:{GameLibraryCore:C,SoundFeatures:F,SoundFeaturePanel:Panel,LibraryPlayer:player,
+      addEventListener(){},SB_CONFIG:{gameLibrary:{baseUrl:'r2',fixtureBaseUrl:'notes/fixture'}}},
+    document:{getElementById:el},location:{hostname:'localhost',search:'?gameFixture=1',href:'http://localhost/?gameFixture=1'},
+    history:{replaceState(){}},URL,URLSearchParams,AbortController,console,
+    fetch:async url=>{requests.push(url);const file=url.split('/').pop();if(delayVO&&file==='vo.json')await new Promise(r=>releaseVO=r);
+      const missing=(missingSearch&&file==='search.json')||['tags.json','facets.json'].includes(file);
+      return {ok:!missing,status:missing?404:200,json:async()=>read(file),text:async()=>JSON.stringify(read(file))};}};
+  vm.runInNewContext(fs.readFileSync(path.join(root,'game-library.js'),'utf8'),context);
+  const settle=()=>new Promise(r=>setImmediate(r));
+  const category=id=>el('gameTree').onclick({target:{closest:()=>({dataset:{category:id}})}});
+  const click=selector=>el('gameList').onclick({target:{closest:s=>s==='[data-group],[data-result]'?{dataset:{group:'0'}}:(s===selector||(selector==='[data-next-variant]'&&s==='[data-play],[data-next-variant]'))?{}:null}});
+  el('gameTab').onclick();await settle();
+  assert.equal(el('portalSection').hidden,true);assert(requests.every(u=>u.startsWith('notes/fixture/')));
+  assert.equal(requests.filter(u=>/weapons/.test(u)).length,0,'No category prefetch');
+  assert(el('gameRetry').hidden,'Retry is hidden after successful initialization');
+  if(missingSearch)assert.match(el('gameStatus').textContent,/unavailable/);
+  category('weapons');await settle();
+  assert.equal(el('gamePage').textContent,'Page 1 of 2');assert.equal(el('gamePageBottom').textContent,'Page 1 of 2');
+  assert(el('gamePrev').disabled);assert(!el('gameNext').disabled);
+  click('[data-play],[data-next-variant]');click('[data-next-variant]');click('[data-next-variant]');
+  assert.deepEqual(plays.map(p=>p.file.split('/').pop()),['shot-1.opus','shot-2.opus','shot-1.opus']);
+  assert.equal(plays[0].library,'game');assert.equal(plays[0].assetPath,'Weapons/Rifle/Shot');
+  click('[data-play],[data-next-variant]');assert(paused,'Play toggles pause without changing variant');
+  el('gameNextBottom').onclick();await settle();assert.equal(el('gamePage').textContent,'Page 2 of 2');assert(el('gameNextBottom').disabled);
+  assert.equal(selectedFile,null,'Page change releases the shared player');
+  el('gamePrev').onclick();await settle();assert.equal(requests.filter(u=>u.endsWith('/weapons.json')).length,1,'UI reuses cached page');
+  el('gameSearch').value='missing';el('gameSearch').oninput();assert.equal((missingSearch?el('gameList'):el('gameResults')).innerHTML,'');
+  if(!missingSearch) {
+    el('gameSearch').value='impact';el('gameSearch').oninput();assert.match(el('gameResults').innerHTML,/Fixture Impact/);
+    el('gameResults').onclick({target:{closest:s=>s==='[data-group],[data-result]'?{dataset:{result:'0'}}:s==='[data-play],[data-next-variant]'?{}:null}});await settle();
+    assert.equal(el('gamePage').textContent,'Page 2 of 2');assert(plays.at(-1).name.includes('Impact'));
+  }
+  delayVO=true;category('vo');category('weapons');await settle();releaseVO();await settle();
+  assert.equal(el('gamePage').textContent,'Page 1 of 2','Late response must not replace current page');
+  click('[data-play],[data-next-variant]');el('portalTab').onclick();assert.equal(el('portalSection').hidden,false);assert(paused,'Section switch pauses shared playback');
+  console.log('Game UI: lazy pages, bounded page reuse, automatic index search/fallback, both pagers, variant/pause controls, section switching and stale response cancellation passed.');
 }
+
 main().catch(error => { console.error(error); process.exitCode = 1; });

@@ -11,7 +11,7 @@ let SOUNDS = [];     // raw manifest entries (one per clip)
 let CARDS = [];      // display list: SFX variants by asset + VO cards by event/flag
 const sfxNextVariant = new Map();
 const sfxCurrentFile = new Map();
-const clipDownloadName = s => s.name + (!s.vo && s.variant ? '_v' + s.variant : '') + '.ogg';
+const clipDownloadName = s => s.downloadName || s.name + (!s.vo && s.variant ? '_v' + s.variant : '') + '.ogg';
 let curCat = 'All';
 let curType = 'all';
 let curTerm = '';
@@ -35,6 +35,7 @@ const SDK_TOTAL = Object.values(SDK_CATS).reduce((a, b) => a + b, 0); // 937
 
 /* ---------- helpers ---------- */
 const is3D = (name) => /3D$/i.test(name);
+const sound3D = sound => sound.library === 'game' ? sound.channels === 1 : is3D(sound.name);
 function pretty(name) {
   let s = name.replace(/^SFX_/, '');
   s = s.replace(/_(OneShot|SimpleLoop|Loop|Simple)?_?(2D|3D)$/i, '');
@@ -254,14 +255,14 @@ function buildTypeFilter() {
   const n2 = CARDS.length - n3;
   const nl = CARDS.filter(s => s.loop).length;
   const counts = { all: CARDS.length, '3d': n3, '2d': n2, loop: nl };
-  $$('.tpill').forEach(b => {
+  $$('#typeFilter .tpill').forEach(b => {
     const t = b.dataset.type;
     b.classList.toggle('active',t===curType);
     b.innerHTML = b.textContent.trim().split(' ')[0] + ' <span class="cnt">' + (counts[t] ?? 0) + '</span>';
     b.addEventListener('click', () => {
       curType = t;
       if(portalFeatures){if(t==='all')delete portalFeatures.state.context.type;else portalFeatures.state.context.type=t;portalFeatures.commit();}
-      $$('.tpill').forEach(x => x.classList.toggle('active', x === b));
+      $$('#typeFilter .tpill').forEach(x => x.classList.toggle('active', x === b));
       render();
     });
   });
@@ -301,13 +302,13 @@ function render() {
     if (c) { ensureWave(c); active.card = c; active.ws = wsByFile.get(active.sound.file); setPlayingUI(c, active.playing); }
   }
 }
-function cardHTML(s, i) {
-  if (s.vo) return voCardHTML(s, i);
-  const title = pretty(s.name);
-  const dimTag = is3D(s.name) ? '<span class="tag tag-3d">3D</span>' : '<span class="tag tag-2d">2D</span>';
+function cardHTML(s, i, game = false) {
+  if (!game && s.vo) return voCardHTML(s, i);
+  const title = game ? SoundFeatures.escape(pretty(s.name)) : pretty(s.name);
+  const dimTag = (game ? sound3D(s) : is3D(s.name)) ? '<span class="tag tag-3d">3D</span>' : '<span class="tag tag-2d">2D</span>';
   const loopTag = s.loop ? '<span class="tag tag-loop">Loop</span>' : '';
   const crashTag = s.crash ? '<span class="tag tag-crash" title="Crashes the game when played in Portal, even with real audio available here">crash</span>' : '';
-  const variantsTag = s.takes.length > 1 ? `<span class="tag">${s.takes.length} variants</span>` : '';
+  const variantsTag = !game && s.takes.length > 1 ? `<span class="tag">${s.takes.length} variants</span>` : '';
   const recordedTag = s.source === 'recorded' ? '<span class="tag" title="Game export unavailable; original in-game recording">recorded</span>' : '';
   // "warn" = anything that doesn't reliably work in-game: no audio (silent) OR fires randomly (unreliable VO).
   const warn = !s.crash && (s.silent || s.unreliable);
@@ -319,11 +320,11 @@ function cardHTML(s, i) {
   const banner = s.crash ? '<div class="caution caution--crash"><span>CRASHES THE GAME</span></div>'
     : (warn ? `<div class="caution caution--warn"><span>${warnLabel}</span></div>` : '');
   return `
-  <article class="card${cls}" data-file="${s.file}" data-name="${s.name}" data-cat="${s.cat}" data-loop="${s.loop}">
+  <article class="card${cls}" ${game ? `data-library="game" title="${SoundFeatures.escape(s.assetPath || s.name)}"` : ''} data-file="${s.file}" data-name="${game ? SoundFeatures.escape(s.name) : s.name}" data-cat="${s.cat}" data-loop="${s.loop}">
     ${banner}
     <div class="card-head">
       <div class="card-title">${title}</div>
-      <div class="card-tags">${dimTag}${loopTag}${crashTag}${warnTag}${variantsTag}${recordedTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
+      <div class="card-tags">${dimTag}${loopTag}${game && s.lang ? `<span class="tag tag-vo">${SoundFeatures.escape(s.lang)}</span>` : ''}${crashTag}${warnTag}${variantsTag}${recordedTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
     </div>
     <div class="card-wave" data-wave>
       <div class="ph"><i style="height:10px"></i><i style="height:24px"></i><i style="height:16px"></i><i style="height:32px"></i><i style="height:12px"></i><i style="height:26px"></i><i style="height:18px"></i></div>
@@ -337,18 +338,20 @@ function cardHTML(s, i) {
         <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>` : ''}
       <div class="asset">
-        <code data-copy title="Click to copy asset name">${s.name}</code>
+        <code data-copy title="Click to copy asset name">${game ? SoundFeatures.escape(s.name) : s.name}</code>
         <span class="hint">click name to copy</span>
       </div>
-      <a class="icon-btn" data-sfx-dl href="${s.file}" download="${clipDownloadName(SOUNDS.find(c => c.file === s.file))}" title="Download current variant" aria-label="Download">
+      <a class="icon-btn" data-sfx-dl href="${s.file}" download="${game ? SoundFeatures.escape(s.downloadName) : clipDownloadName(SOUNDS.find(c => c.file === s.file))}" title="Download current variant" aria-label="Download">
         <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
+    ${game ? `<p class="card-technical">${s.channels}ch · ${s.rate}Hz · ${SoundFeatures.escape(s.codec || '')} · ${s.takes.length} ${s.takes.length === 1 ? 'variant' : 'variants'} on page</p>${SoundFeatures.card(s, 'game')}` : ''}
   </article>`;
 }
 
 /* ---------- waveform (lazy, persistent host-div pool so re-renders don't destroy players) ---------- */
 let io;
+const gameWaveFiles = new Set();
 const hostByFile = new Map();  // file -> our container <div> (holds the wavesurfer); survives grid rebuilds
 function observeWaves() {
   if (io) io.disconnect();
@@ -372,11 +375,25 @@ function ensureWave(card) {
     barWidth: 2, barGap: 1, barRadius: 0, cursorWidth: 0, normalize: true,
   });
   ws.setVolume(volume);
+  if (card.dataset.library === 'game') {
+    gameWaveFiles.add(file);
+    if (gameWaveFiles.size > 6) {
+      const old = gameWaveFiles.values().next().value;
+      gameWaveFiles.delete(old); wsByFile.get(old)?.destroy();
+      wsByFile.delete(old); hostByFile.delete(old); bufCache.delete(old);
+    }
+  }
   hostByFile.set(file, host);
   wsByFile.set(file, ws);
   ws._file = file;
   // wavesurfer is DISPLAY-ONLY; playback goes through the Web Audio engine (gapless loops).
-  ws.on('interaction', (t) => { const c = cardFor(file) || card; if (!active || active.sound.file !== file) playFromCard(c); else { const wd = active.ws.getDuration() || active.dur; engSeek((t / wd) * active.dur); } });
+  ws.on('interaction', (t) => {
+    const c = cardFor(file) || card;
+    if (!active || active.sound.file !== file) {
+      if (c.dataset.library === 'game') window.LibraryPlayer.replay?.(c);
+      else playFromCard(c);
+    } else {const wd = active.ws.getDuration() || active.dur; engSeek((t / wd) * active.dur);}
+  });
   return ws;
 }
 function cardFor(file) { return $(`.card[data-file="${CSS.escape(file)}"]`); }
@@ -395,13 +412,14 @@ async function getBuffer(file) {
   const ab = await (await fetch(file)).arrayBuffer();
   const buf = await AC.decodeAudioData(ab);
   bufCache.set(file, buf);
+  if (bufCache.size > 12) bufCache.delete(bufCache.keys().next().value);
   return buf;
 }
 function engStop() { // stop current source, keep selection
   portalPlayRequest++;
   window.BF6UI?.audition('portal', false);
   if (active && active.src) { active._manualStop = true; try { active.src.onended = null; active.src.stop(); } catch (e) {} active.src = null; }
-  if (active) cancelAnimationFrame(active.raf);
+  if (active) {active.loading = false; cancelAnimationFrame(active.raf);}
 }
 function engCurTime() {
   if (!active) return 0;
@@ -427,11 +445,12 @@ function engTick() {
 }
 async function engPlay(fromOffset) {
   const ticket = ++portalPlayRequest, sound = active.sound;
+  active.loading = true;
   window.BF6UI?.audition('portal', true);
   if (AC.state === 'suspended') { try { await AC.resume(); } catch (e) {} }
   let buf;
   try { buf = await getBuffer(sound.file); }
-  catch (error) { if (ticket === portalPlayRequest) { window.BF6UI?.audition('portal', false); toast('Audio unavailable'); } return; }
+  catch (error) { if (ticket === portalPlayRequest) { active.loading = false; window.BF6UI?.audition('portal', false); toast('Audio unavailable'); } return; }
   if (ticket !== portalPlayRequest || !active || active.sound !== sound) return;
   engStop();
   const src = AC.createBufferSource(); src.buffer = buf; src.loop = loopOn;
@@ -533,6 +552,9 @@ function updateDockTime(t, dur) {
 function reflectLoop() { $('#dockLoop').classList.toggle('on', loopOn); $('#dockLoop').setAttribute('aria-pressed', loopOn); }
 
 $('#dockPlay').addEventListener('click', () => { if (!active) return; if (active.playing) engPause(); else engPlay(active.offset || 0); });
+$('#dockDl').addEventListener('click', e => {
+  if (active?.sound.library === 'game') {e.preventDefault(); window.LibraryPlayer.download?.(active.sound.clip);}
+});
 $('#dockLoop').addEventListener('click', () => { loopOn = !loopOn; reflectLoop(); applyLoop(); toast(loopOn ? 'Loop on' : 'Loop off'); });
 const RADAR_KEY = 'bf6sb.radarClosed';
 function radarWanted() { try { return localStorage.getItem(RADAR_KEY) !== '1'; } catch { return true; } }
@@ -672,7 +694,7 @@ function recomputeWorld() {
   spWorld.z = (py / u) * spWorld.dist;               // -Z forward (py<0 = up = forward)
 }
 function drawRadar() {
-  const d3 = spSound && is3D(spSound.name);
+  const d3 = spSound && sound3D(spSound);
   radar.classList.toggle('is2d', !d3);
   RCTX.clearRect(0, 0, 340, 340);
   // rings
@@ -711,9 +733,10 @@ function refreshSpatialReadout() {
 }
 function genCode() {
   if (!spSound) return '';
-  const N = 'mod.RuntimeSpawn_Common.' + spSound.name;
+  if (spSound.library === 'game' && !spSound.portalName) return '// Game asset: ' + spSound.assetPath + '\n// This asset has no Portal PlaySound name.';
+  const N = 'mod.RuntimeSpawn_Common.' + (spSound.portalName || spSound.name);
   const sc = spScope ? ', ' + spScope : '';
-  if (is3D(spSound.name)) {
+  if (sound3D(spSound)) {
     const x = spWorld.x.toFixed(1), z = spWorld.z.toFixed(1);
     return [
       '// Position is relative to the listener. Add the player’s world position in-game.',
@@ -733,11 +756,11 @@ function openSpatial(sound) {
   spSound = sound;
   $('#spatial').hidden = false;
   $('#spName').textContent = pretty(sound.name);
-  $('#spMode').textContent = (is3D(sound.name) ? '3D positional' : '2D (non-positional)') + (sound.loop ? ' · loop' : '') + ' · ' + sound.name;
+  $('#spMode').textContent = (sound3D(sound) ? '3D positional' : '2D (non-positional)') + (sound.loop ? ' · loop' : '') + ' · ' + sound.name;
   refreshSpatialReadout();
 }
 function radarSet(e) {
-  if (!spSound || !is3D(spSound.name)) return;
+  if (!spSound || !sound3D(spSound)) return;
   const r = radar.getBoundingClientRect();
   const scale = 340 / r.width;
   spPx = (e.clientX - r.left) * scale - RC;
@@ -750,7 +773,7 @@ function playSpatial() {
   if (!spSound) return;
   engStop();
   const ws = wsByFile.get(spSound.file);
-  active = { sound: spSound, ws, card: cardFor(spSound.file), offset: 0, playing: false, dur: spSound.dur, spatial: is3D(spSound.name) };
+  active = { sound: spSound, ws, card: cardFor(spSound.file), offset: 0, playing: false, dur: spSound.dur, spatial: sound3D(spSound) };
   loopOn = !!spSound.loop; reflectLoop();
   setDock(spSound);
   engPlay(0);
@@ -780,7 +803,7 @@ async function initPortalFeatures() {
   const F = window.SoundFeatures;
   const [features,vocab] = await Promise.all([F.optional(portalFeatureBase+'portal-features.json'),F.optional(portalFeatureBase+'tags.json')]);
   for (const c of SOUNDS) if (features?.version === 1 && features.clips?.[c.file]) Object.assign(c,features.clips[c.file]);
-  portalFeatures = new window.SoundFeaturePanel('portal',document.getElementById('portalFeatures'),()=>{curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';$$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat===curCat));$$('.tpill').forEach(b=>b.classList.toggle('active',b.dataset.type===curType));curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;render();});
+  portalFeatures = new window.SoundFeaturePanel('portal',document.getElementById('portalFeatures'),()=>{curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';$$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat===curCat));$$('#typeFilter .tpill').forEach(b=>b.classList.toggle('active',b.dataset.type===curType));curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;render();});
   portalFeatures.data(vocab,SOUNDS);curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;
   // Maps call the predicate once per point per repaint, using a prepared set.
   portalFeatures.mapOptions=()=>{let names=new Set();return {section:'portal',base:portalFeatureBase,key:()=>JSON.stringify([portalFeatures.state,curCat,curType,curTerm]),prepare:()=>{names=new Set(filtered().flatMap(c=>[c.name,...(c.takes||Object.values(c.byStatus||{}).flat()).map(t=>t.name)]));},matches:p=>names.has(p.name),open:p=>openPortalFeature(p.name)};};
@@ -792,8 +815,50 @@ function decoratePortal() {$$('.card',$('#grid')).forEach(decoratePortalCard);}
 function openPortalFeature(name) {
   const c=CARDS.find(c=>c.name===name||(c.takes||Object.values(c.byStatus||{}).flat()).some(t=>t.name===name));if(!c){toast('Sound card unavailable');return;}
   curCat='All';curType='all';portalFeatures.state=SoundFeatures.empty();portalFeatures.state.query=c.name;portalFeatures.commit();
-  $$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat==='All'));$$('.tpill').forEach(b=>b.classList.toggle('active',b.dataset.type==='all'));
+  $$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat==='All'));$$('#typeFilter .tpill').forEach(b=>b.classList.toggle('active',b.dataset.type==='all'));
   const card=$$('.card',$('#grid')).find(el=>el.dataset.name===c.name);if(card){card.scrollIntoView({block:'center'});card.focus();const source=SOUNDS.find(s=>s.name===name);const status=card.querySelector('[data-vo-status]');if(status&&source?.event){status.value=source.event;status.dispatchEvent(new Event('change'));}card.tabIndex=-1;const button=card.querySelector('[data-play]');button?.click();}
 }
+
+/* Game Library shares the Portal renderer, dock, waveform and spatial engine. */
+const librarySelections = new Map();
+window.LibraryPlayer = {
+  card: sound => cardHTML(sound, 0, true),
+  isCurrent: file => active?.sound.file === file,
+  canToggle: file => active?.sound.file === file && (active.playing || active.loading || active.offset > 0),
+  play(sound, card, another = false) {
+    if (!another && this.canToggle(sound.file)) {
+      active.card = card;
+      if (active.playing || active.loading) engPause(); else engPlay(active.offset || 0);
+      return;
+    }
+    engPause();
+    const ws = ensureWave(card);
+    active = {sound, card, ws, offset:0, playing:false, dur:sound.dur, spatial:false};
+    loopOn = !!sound.loop; reflectLoop(); setDock(sound); engPlay(0);
+    if (!$('#spatial').hidden || radarWanted()) openSpatial(sound);
+  },
+  release() {
+    librarySelections.delete('game');
+    if (active?.sound.library === 'game') {engPause(); active = null; $('#dock').classList.remove('show'); $('#dock').setAttribute('aria-hidden','true'); $('#spatial').hidden = true;}
+  },
+  section(section) {
+    const spatialOpen = !$('#spatial').hidden;
+    engPause();
+    if (active) librarySelections.set(active.sound.library || 'portal', {active, spSound, spatialOpen, loopOn});
+    active = null; spSound = null;
+    $('#dock').classList.remove('show'); $('#dock').setAttribute('aria-hidden','true'); $('#spatial').hidden = true;
+    const saved = librarySelections.get(section);
+    if (saved) {
+      active = saved.active; spSound = saved.spSound; loopOn = saved.loopOn;
+      setDock(active.sound); reflectLoop(); setPlayingUI(active.card,false);
+      updateDockTime(active.offset || 0,active.dur); setWaveProgress(active.offset || 0);
+      if (saved.spatialOpen && spSound) openSpatial(spSound);
+    }
+  },
+  attach(card) {
+    if (active?.sound.file !== card.dataset.file) return;
+    active.card = card; active.ws = ensureWave(card); setPlayingUI(card,active.playing);
+  },
+};
 
 init();

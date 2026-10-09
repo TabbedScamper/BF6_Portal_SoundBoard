@@ -26,7 +26,7 @@ button,a,input,select,summary {touch-action:manipulation}
 .brand-resource {width:32px;height:32px;background:var(--txt);mask:url('assets/ui/effects.svg') center/contain no-repeat}
 .brand-text h1 {color:var(--txt)}
 .v100 {color:var(--txt);text-shadow:none}
-.topnav-tab,.discord-btn,.btn,.chip,.tpill,.tag,.icon-btn,.dock-toggle,.dock-dl,.about,.about-close,.search input,.search-clear,.spatial,.sp-reset,.sp-close,.sp-copy,.sp-code,#scopeSel,.toast,.dl-box,.game-sidebar,.game-sidebar button,.game-result,.game-toolbar input,.game-toolbar select {border-radius:0}
+.topnav-tab,.discord-btn,.btn,.chip,.tpill,.tag,.icon-btn,.dock-toggle,.dock-dl,.about,.about-close,.search input,.search-clear,.spatial,.sp-reset,.sp-close,.sp-copy,.sp-code,#scopeSel,.toast,.dl-box {border-radius:0}
 .topnav-tab,.btn,.chip,.tpill {font-family:'BF Sub',Arial,sans-serif;letter-spacing:.06em}
 .topnav-tab:hover,.btn:hover,.chip:hover,.tpill:hover {background:rgba(191,202,209,.08);border-color:var(--txt);box-shadow:none;transform:none}
 #uiSoundToggle[aria-pressed="true"] {color:var(--green);border-color:var(--green)}
@@ -58,17 +58,6 @@ button,a,input,select,summary {touch-action:manipulation}
 .sp-code {color:var(--txt2);background:#07090a}
 .radar-wrap {width:340px;max-width:100%}
 #radar {width:340px;max-width:100%;height:auto}
-.game-category-hero {min-height:150px;padding:24px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.60)),url('assets/art/limestone.webp') center/cover no-repeat}
-.game-category-hero[data-art="tungsten"] {background-image:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.60)),url('assets/art/tungsten.webp')}
-.game-category-hero[data-art="aftermath"] {background-image:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.60)),url('assets/art/aftermath.webp')}
-.game-category-hero h2 {font:700 36px/1 'BF Headline',Impact,sans-serif;margin:12px 0}
-#gameCategoryPath {font:13px 'BF Mono',monospace;overflow-wrap:anywhere}
-.game-sidebar h3 {font-size:16px;letter-spacing:.12em;margin-bottom:12px}
-.game-sidebar button[aria-current="true"] {background:rgba(191,202,209,.27);box-shadow:inset 3px 0 var(--txt)}
-.game-sidebar button:hover {background:rgba(191,202,209,.08);border-color:var(--txt)}
-.game-card {animation:none;transition:none;border-radius:0}
-.game-card:hover {border-color:var(--txt)}
-.game-card .card-tags {flex-wrap:nowrap;justify-content:flex-start}
 .loader {transition:opacity 250ms linear,visibility 250ms linear}
 .loader.hide {pointer-events:none}
 .loader-bars span,.card-wave .ph i,.ss-online i {animation:none}
@@ -79,7 +68,6 @@ button,a,input,select,summary {touch-action:manipulation}
   .archive-index {display:none}.archive-hero {margin-top:16px}
   .library-switch .btn {flex:1;justify-content:center;padding:14px 8px}
   .card-head {flex-wrap:wrap}.card-tags {justify-content:flex-start}
-  .game-sidebar {max-height:260px}.game-toolbar input[type="search"] {width:100%}
 }
 /* Includes modal/scroll/progress motion and generated WaveSurfer descendants. */
 @media(prefers-reduced-motion:reduce) {
@@ -106,8 +94,6 @@ button,a,input,select,summary {touch-action:manipulation}
 .sound-map canvas {display:block;width:100%;touch-action:none;cursor:crosshair;border:1px solid var(--line)}
 .map-legend {display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
 .map-legend span {padding-left:6px}
-.game-card .card-tags {flex-wrap:wrap}
-.game-card {height:350px;overflow:auto}
 /* Direct, static controls across the archive. */
 .spatial,.dl-spin {animation:none}
 button,input,select,fieldset {border-radius:0}
@@ -117,3 +103,12 @@ button,input,select,fieldset {border-radius:0}
 /* Hidden dock controls must stay outside keyboard and full-page capture flows. */
 .dock {transition:none}
 .dock:not(.show) {visibility:hidden;pointer-events:none}
+
+.game-intro,#gameStatus {font-size:13px;color:var(--muted);margin:12px 0}
+.game-breadcrumb {display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0;font-size:13px}
+.game-breadcrumb button {background:transparent;border:0;color:var(--txt);font-size:13px;cursor:pointer;padding:6px 0}
+.game-paging {display:flex;align-items:center;justify-content:center;gap:16px;margin:16px 0;font-size:13px}
+#gameList .card,#gameResults .card {content-visibility:auto;contain-intrinsic-size:auto 310px}
+.card-technical {font-size:13px;color:var(--muted);margin:8px 0 0}
+#gameStatus:empty {display:none}
+html {scroll-padding-bottom:calc(var(--dock-h) + 24px)}
