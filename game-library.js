@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const C = window.GameLibraryCore, F = window.SoundFeatures, player = window.LibraryPlayer;
-  const cfg = window.SB_CONFIG.gameLibrary;
+  const cfg = Object.assign({ baseUrl: 'https://pub-1da528aa57f643bc9e8c257d3ab2d853.r2.dev', fixtureBaseUrl: 'notes/fixture', useFixture: false }, (window.SB_CONFIG || {}).gameLibrary);
   const local = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
   const fixture = local && (cfg.useFixture || new URLSearchParams(location.search).get('gameFixture') === '1');
   const base = (fixture ? cfg.fixtureBaseUrl : cfg.baseUrl).replace(/\/$/, '');
