@@ -47,7 +47,10 @@
         return '<ul>' + nodes.map(n => {
           categories.set(n.id, n);
           const button = '<button data-category="' + esc(n.id) + '" title="' + esc(n.path || n.name) + '">' + esc(n.name) + '<small>' + Number(n.count || 0).toLocaleString() + ' · ' + duration(n.seconds) + '</small></button>';
-          return '<li>' + (n.children.length ? '<details><summary>' + esc(n.name) + '<small>' + Number(n.count || 0).toLocaleString() + ' · ' + duration(n.seconds) + '</small></summary>' + button + html(n.children) + '</details>' : button) + '</li>';
+          // `own` = clips directly in this category (the published index pages only those); parents without their own
+          // clips just expand. Older indexes without `own` keep the button.
+          const own = n.own === undefined || n.own > 0 ? button : '';
+          return '<li>' + (n.children.length ? '<details><summary>' + esc(n.name) + '<small>' + Number(n.count || 0).toLocaleString() + ' · ' + duration(n.seconds) + '</small></summary>' + own + html(n.children) + '</details>' : button) + '</li>';
         }).join('') + '</ul>';
       }
       q('gameTree').innerHTML = html(nodes);

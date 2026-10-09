@@ -63,7 +63,7 @@ function element() {
   const children=new Map();
   return {dataset:{},style:{},hidden:true,textContent:'',innerHTML:'',value:'',classList:{add(){},remove(){},toggle(){}},
     addEventListener(){},setAttribute(){},appendChild(){},querySelector(s){if(!children.has(s)) children.set(s,element());return children.get(s);},
-    querySelectorAll(){return [];},getContext(){return {};},click(){}};
+    querySelectorAll(){return [];},getContext(){return new Proxy({},{get:(t,k)=>k in t?t[k]:(()=>{}),set:(t,k,v)=>{t[k]=v;return true;}});},click(){}};
 }
 const document=element(); document.createElement=element; document.body=element(); document.head=element();
 const audioNode=()=>({threshold:{},knee:{},ratio:{},attack:{},release:{},gain:{},connect(){return this;},start(){},stop(){}});
