@@ -464,6 +464,12 @@ function wireCard(card) {
   });
 }
 function playFromCard(card) {
+  // The playing (or paused part-way) card toggles like any player: pause, then resume. Only a fresh play (finished,
+  // or coming from another card) moves a multi-variant card on to its next variant.
+  if (active && active.card === card && !active.spatial) {
+    if (active.playing) { engPause(); return; }
+    if ((active.offset || 0) > 0) { engPlay(active.offset); return; }
+  }
   const grouped = CARDS.find(c => !c.vo && c.name === card.dataset.name);
   if (grouped && grouped.takes.length > 1) {
     const index = sfxNextVariant.get(grouped.name) || 0;
