@@ -16,6 +16,7 @@ let curCat = 'All';
 let curType = 'all';
 let curTerm = '';
 let active = null;          // { ws, card, sound }
+let portalPlayRequest = 0;
 let loopOn = false;
 let volume = 0.8;
 const wsByFile = new Map(); // file -> wavesurfer (lazy)
@@ -224,10 +225,12 @@ function buildStats() {
 // eased count-up for any [data-count] numbers (SEC-style)
 function animateCounts(root) {
   root.querySelectorAll('[data-count]').forEach(el => {
-    const target = +el.dataset.count, dur = 1100;
-    const ease = t => 1 - Math.pow(1 - t, 3);
+    const target = +el.dataset.count, dur = 300;
+    if (window.BF6UI?.reducedMotion) { el.textContent = target.toLocaleString(); return; }
+    const ease = t => t;
     let t0 = null;
     function step(now) {
+      if (window.BF6UI?.reducedMotion) { el.textContent = target.toLocaleString(); return; }
       if (t0 === null) t0 = now;
       const p = Math.min(1, (now - t0) / dur);
       el.textContent = Math.round(target * ease(p)).toLocaleString();
@@ -363,7 +366,7 @@ function ensureWave(card) {
   cont.appendChild(host);
   const ws = WaveSurfer.create({
     container: host, url: file, height: 64,
-    waveColor: 'rgba(255,255,255,.18)', progressColor: '#ff6b1a',
+    waveColor: 'rgba(255,255,255,.18)', progressColor: '#BFCAD1',
     barWidth: 2, barGap: 1, barRadius: 2, cursorWidth: 0, normalize: true,
   });
   ws.setVolume(volume);
@@ -393,6 +396,8 @@ async function getBuffer(file) {
   return buf;
 }
 function engStop() { // stop current source, keep selection
+  portalPlayRequest++;
+  window.BF6UI?.audition('portal', false);
   if (active && active.src) { active._manualStop = true; try { active.src.onended = null; active.src.stop(); } catch (e) {} active.src = null; }
   if (active) cancelAnimationFrame(active.raf);
 }
@@ -419,10 +424,13 @@ function engTick() {
   active.raf = requestAnimationFrame(engTick);
 }
 async function engPlay(fromOffset) {
+  const ticket = ++portalPlayRequest, sound = active.sound;
+  window.BF6UI?.audition('portal', true);
   if (AC.state === 'suspended') { try { await AC.resume(); } catch (e) {} }
-  const sound = active.sound;
-  const buf = await getBuffer(sound.file);
-  if (!active || active.sound !== sound) return; // selection changed while decoding
+  let buf;
+  try { buf = await getBuffer(sound.file); }
+  catch (error) { if (ticket === portalPlayRequest) { window.BF6UI?.audition('portal', false); toast('Audio unavailable'); } return; }
+  if (ticket !== portalPlayRequest || !active || active.sound !== sound) return;
   engStop();
   const src = AC.createBufferSource(); src.buffer = buf; src.loop = loopOn;
   const gain = AC.createGain(); gain.gain.value = volume * ampParam * previewBoost();
@@ -436,12 +444,13 @@ async function engPlay(fromOffset) {
   const off = (((fromOffset || 0) % buf.duration) + buf.duration) % buf.duration;
   active.src = src; active.gain = gain; active.dur = buf.duration;
   active.offset = off; active.startedAt = AC.currentTime; active.playing = true; active._manualStop = false;
-  src.onended = () => { if (active && active.src === src && !active._manualStop) { active.playing = false; active.offset = 0; cancelAnimationFrame(active.raf); setPlayingUI(cardFor(sound.file), false); updateDockTime(active.dur, active.dur); setWaveProgress(0, true); } };
+  window.BF6UI?.audition('portal', true);
+  src.onended = () => { if (active && active.src === src && !active._manualStop) { window.BF6UI?.audition('portal', false); active.playing = false; active.offset = 0; cancelAnimationFrame(active.raf); setPlayingUI(cardFor(sound.file), false); updateDockTime(active.dur, active.dur); setWaveProgress(0, true); } };
   src.start(0, off);
   setPlayingUI(cardFor(sound.file), true);
   engTick();
 }
-function engPause() { if (!active || !active.playing) return; active.offset = engCurTime(); active.playing = false; engStop(); setPlayingUI(cardFor(active.sound.file), false); }
+function engPause() { if (!active || !active.playing) { engStop(); return; } active.offset = engCurTime(); active.playing = false; engStop(); setPlayingUI(cardFor(active.sound.file), false); }
 function engSeek(t) { if (!active) return; if (active.playing) engPlay(t); else { active.offset = t; updateDockTime(t, active.dur); setWaveProgress(t); } }
 function applyLoop() { if (active && active.src) active.src.loop = loopOn; }
 function applyGain() { if (active && active.gain) active.gain.gain.value = volume * ampParam * previewBoost(); }
@@ -656,25 +665,27 @@ function drawRadar() {
   for (let i = 1; i <= 4; i++) {
     const r = RR * i / 4;
     RCTX.beginPath(); RCTX.arc(RC, RC, r, 0, Math.PI * 2);
-    RCTX.strokeStyle = i === 4 ? 'rgba(255,107,26,.6)' : 'rgba(255,255,255,.10)';
+    RCTX.strokeStyle = i === 4 ? 'rgba(191,202,209,.6)' : 'rgba(255,255,255,.10)';
     RCTX.lineWidth = i === 4 ? 2 : 1; RCTX.stroke();
   }
   // axes
   RCTX.strokeStyle = 'rgba(255,255,255,.06)'; RCTX.lineWidth = 1;
   RCTX.beginPath(); RCTX.moveTo(RC - RR, RC); RCTX.lineTo(RC + RR, RC); RCTX.moveTo(RC, RC - RR); RCTX.lineTo(RC, RC + RR); RCTX.stroke();
   // forward label
-  RCTX.fillStyle = 'rgba(170,176,190,.6)'; RCTX.font = '10px Inter, sans-serif'; RCTX.textAlign = 'center';
+  RCTX.fillStyle = 'rgba(191,202,209,.60)';
+  RCTX.font = Math.max(19, 13 * radar.width / (radar.clientWidth || 240)) + 'px BF Sub, sans-serif';
+  RCTX.textAlign = 'center';
   RCTX.fillText('FRONT', RC, RC - RR + 14); RCTX.fillText('BACK', RC, RC + RR - 8);
   if (d3) {
     const sx = RC + spPx, sy = RC + spPy;
     RCTX.strokeStyle = 'rgba(255,255,255,.25)'; RCTX.lineWidth = 2;
     RCTX.beginPath(); RCTX.moveTo(RC, RC); RCTX.lineTo(sx, sy); RCTX.stroke();
     RCTX.beginPath(); RCTX.arc(sx, sy, 8, 0, Math.PI * 2);     // 3D source = cool blue (matches 3D badge)
-    RCTX.fillStyle = '#3aa0ff'; RCTX.shadowColor = '#3aa0ff'; RCTX.shadowBlur = 12; RCTX.fill(); RCTX.shadowBlur = 0;
+    RCTX.fillStyle = '#59BFF8'; RCTX.shadowColor = '#59BFF8'; RCTX.shadowBlur = 12; RCTX.fill(); RCTX.shadowBlur = 0;
   }
   // player (you) = BF6 orange
   RCTX.beginPath(); RCTX.arc(RC, RC, 7, 0, Math.PI * 2);
-  RCTX.fillStyle = '#ff6b1a'; RCTX.shadowColor = '#ff6b1a'; RCTX.shadowBlur = 14; RCTX.fill(); RCTX.shadowBlur = 0;
+  RCTX.fillStyle = '#BFCAD1'; RCTX.shadowColor = '#BFCAD1'; RCTX.shadowBlur = 14; RCTX.fill(); RCTX.shadowBlur = 0;
 }
 function refreshSpatialReadout() {
   recomputeWorld();

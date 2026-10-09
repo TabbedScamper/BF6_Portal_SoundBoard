@@ -1,0 +1,92 @@
+/* Palette bytes are the decoded linear-to-sRGB values in ui_color_palette.tsv.
+   Home gamemodeinfo_bundlecell: 300ms timeline, 250ms linear keys (2728/3168).
+   This is a responsive archive using the game's visual language, not a retail replica. */
+:root {
+  color-scheme:dark;
+  --bg:#07090a; --bg2:#07090a; --panel:rgba(17,20,22,.92); --panel2:#22272a;
+  --card:rgba(17,20,22,.94); --card-h:#22272a;
+  --txt:#BFCAD1; --txt2:#AEC0CC; --muted:#AEC0CC;
+  --line:rgba(191,202,209,.27); --line-h:#BFCAD1;
+  --cyan:#BFCAD1; --cyan-glow:transparent;
+  --blue:#59BFF8; --blue-glow:transparent;
+  --amber:#FFBD44; --green:#8EED6C; --red:#FB694D;
+  --grad:linear-gradient(#BFCAD1,#BFCAD1); --grad-wave:linear-gradient(#BFCAD1,#BFCAD1);
+  --shadow:0 12px 32px rgba(0,0,0,.6); --shadow-glow:none;
+  --r:0px; --r-sm:0px; --ease:250ms linear;
+}
+body {font-size:16px}
+button,input,select {font-family:'BF Sub',Arial,sans-serif}
+button,a,input,select,summary {touch-action:manipulation}
+:focus-visible {outline:2px solid #BFCAD1;outline-offset:4px}
+.bg-fx {background:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.60)),linear-gradient(0deg,#07090a,transparent 70%),url('assets/art/limestone.webp') center top/cover no-repeat}
+.bg-glow,.bg-grid,.bg-noise {display:none}
+.header,.header.small {background:rgba(7,9,10,.92);border-bottom:1px solid var(--line)}
+.brand-mark {background:transparent;border:1px solid var(--line);border-radius:0;box-shadow:none}
+.brand-mark::after {display:none}
+.brand-resource {width:32px;height:32px;background:var(--txt);mask:url('assets/ui/effects.svg') center/contain no-repeat}
+.brand-text h1 {background:none;-webkit-text-fill-color:var(--txt);color:var(--txt)}
+.v100 {color:var(--txt);background:none;-webkit-text-fill-color:var(--txt);text-shadow:none}
+.topnav-tab,.discord-btn,.btn,.chip,.tpill,.tag,.icon-btn,.dock-toggle,.dock-dl,.about,.about-close,.search input,.search-clear,.spatial,.sp-reset,.sp-close,.sp-copy,.sp-code,#scopeSel,.toast,.dl-box,.dl-cta,.game-sidebar,.game-sidebar button,.game-result,.game-toolbar input,.game-toolbar select {border-radius:0}
+.topnav-tab,.btn,.chip,.tpill {font-family:'BF Sub',Arial,sans-serif;letter-spacing:.06em}
+.topnav-tab:hover,.btn:hover,.chip:hover,.tpill:hover {background:rgba(191,202,209,.08);border-color:var(--txt);box-shadow:none;transform:none}
+#uiSoundToggle[aria-pressed="true"] {color:var(--green);border-color:var(--green)}
+.discord-btn {background:var(--panel2);color:var(--txt);box-shadow:none;border-color:var(--line)}
+.discord-btn::before {display:none}
+.topnav-tab::before {display:none}
+.dl-cta {background:var(--txt);color:#07090a;border-color:var(--txt);box-shadow:none}
+.spatial {background:rgba(7,9,10,.96)}
+.archive-hero {position:relative;overflow:hidden;min-height:clamp(210px,29vh,330px);margin-top:24px;padding:clamp(20px,4vh,44px);border:1px solid var(--line);background:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.27)),linear-gradient(0deg,rgba(7,9,10,.60),transparent),url('assets/art/limestone.webp') center/cover no-repeat}
+.archive-kicker {font:700 13px 'BF Sub',Arial,sans-serif;letter-spacing:.18em;color:#FFBD44}
+.archive-hero h2 {font:700 clamp(36px,6vh,66px)/.96 'BF Headline',Impact,sans-serif;margin:14px 0;color:var(--txt)}
+.archive-hero>p:last-of-type {font-size:15px;max-width:420px;color:var(--txt2)}
+.archive-index {position:absolute;right:24px;bottom:24px;font:13px 'BF Mono',monospace;border-top:1px solid var(--line);padding-top:8px;letter-spacing:.12em}
+.library-switch {gap:0;border-bottom:1px solid var(--line);margin-bottom:24px}
+.library-switch .btn {background:rgba(7,9,10,.60);padding:16px 24px;border:0;border-bottom:3px solid transparent;box-shadow:none}
+.library-switch [aria-pressed="true"] {background:rgba(191,202,209,.27);border-bottom-color:var(--txt);color:var(--txt)}
+.statband {background:rgba(7,9,10,.60)}
+.chip.active,.tpill.active {background:rgba(191,202,209,.27);color:var(--txt);border-color:var(--txt);box-shadow:none}
+.card {animation:none;transition:background 250ms linear,border-color 250ms linear}
+.card:hover {transform:none;box-shadow:none;border-color:var(--txt)}
+.card::before {display:none}
+.card.playing {border-color:var(--txt);box-shadow:inset 3px 0 var(--txt)}
+.card-tags {flex-wrap:wrap;justify-content:flex-end;gap:4px}
+.tag {padding:3px 6px;font-size:13px;letter-spacing:.02em;box-shadow:none}
+.play-btn,.dock-play {border-radius:0;box-shadow:none;background:var(--txt)}
+.play-btn:hover,.dock-play:hover {transform:none;box-shadow:none}
+.dock {transition:transform 250ms linear}
+.dock-inner {background:rgba(7,9,10,.96);border-radius:0;border-color:var(--line);backdrop-filter:blur(8px)}
+.dock-wave .pgfill {box-shadow:none}
+.sp-code {color:var(--txt2);background:#07090a}
+.radar-wrap {width:340px;max-width:100%}
+#radar {width:340px;max-width:100%;height:auto}
+.game-category-hero {min-height:150px;padding:24px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.60)),url('assets/art/limestone.webp') center/cover no-repeat}
+.game-category-hero[data-art="tungsten"] {background-image:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.60)),url('assets/art/tungsten.webp')}
+.game-category-hero[data-art="aftermath"] {background-image:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.60)),url('assets/art/aftermath.webp')}
+.game-category-hero h2 {font:700 36px/1 'BF Headline',Impact,sans-serif;margin:12px 0}
+#gameCategoryPath {font:13px 'BF Mono',monospace;overflow-wrap:anywhere}
+.game-sidebar h3 {font-size:16px;letter-spacing:.12em;margin-bottom:12px}
+.game-sidebar button[aria-current="true"] {background:rgba(191,202,209,.27);box-shadow:inset 3px 0 var(--txt)}
+.game-sidebar button:hover {background:rgba(191,202,209,.08);border-color:var(--txt)}
+.game-card {animation:none;transition:none;border-radius:0}
+.game-card:hover {border-color:var(--txt)}
+.game-card .card-tags {flex-wrap:nowrap;justify-content:flex-start}
+/* Only whole panels reveal; recycled rows have no animation or stagger. */
+.archive-hero,#portalSection,#gameLibrary,.about {animation:bf-panel-in 300ms linear both}
+@keyframes bf-panel-in {0% {opacity:0;transform:translateY(20px)}83.333333%,100% {opacity:1;transform:none}}
+.loader {transition:opacity 250ms linear,visibility 250ms linear}
+.loader.hide {pointer-events:none}
+.loader-bars span,.card-wave .ph i,.ss-online i {animation:none}
+.loader-bars span {height:24px;border-radius:0;box-shadow:none}
+@media(max-width:760px) {
+  .header-inner {gap:12px}.topnav {width:100%;flex-wrap:wrap;gap:6px}
+  .topnav-tab,.discord-btn {padding:10px 12px;min-height:40px}
+  .archive-index {display:none}.archive-hero {margin-top:16px}
+  .library-switch .btn {flex:1;justify-content:center;padding:14px 8px}
+  .card-head {flex-wrap:wrap}.card-tags {justify-content:flex-start}
+  .game-sidebar {max-height:260px}.game-toolbar input[type="search"] {width:100%}
+}
+/* Includes modal/scroll/progress motion and generated WaveSurfer descendants. */
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+.reduced-motion *,.reduced-motion *::before,.reduced-motion *::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}

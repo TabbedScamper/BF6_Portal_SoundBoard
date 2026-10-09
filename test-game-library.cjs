@@ -69,10 +69,10 @@ async function checkUI(missingSearch) {
     }
     return elements.get(id);
   }
-  const requests = [], players = [];
+  const requests = [], players = [], auditionLocks = new Map();
   let delayVO = false, releaseVO;
   const context = {
-    window: { GameLibraryCore: C, SB_CONFIG: { gameLibrary: { baseUrl: 'r2', fixtureBaseUrl: 'notes/fixture', useFixture: false } } },
+    window: { BF6UI: { audition: (owner, busy) => auditionLocks.set(owner, busy) }, GameLibraryCore: C, SB_CONFIG: { gameLibrary: { baseUrl: 'r2', fixtureBaseUrl: 'notes/fixture', useFixture: false } } },
     document: { getElementById: el, querySelectorAll: () => [], querySelector: () => el('searchClass') },
     location: { hostname: 'localhost', search: '?gameFixture=1' }, URLSearchParams, AbortController,
     requestAnimationFrame: fn => fn(), engPause() {}, render() {}, toast() {}, console,
@@ -83,7 +83,7 @@ async function checkUI(missingSearch) {
       const missing = missingSearch && file === 'search.json';
       return { ok: !missing, status: missing ? 404 : 200, json: async () => read(file), text: async () => JSON.stringify(read(file)) };
     },
-    WaveSurfer: { create: options => { const player = { options, handlers: {}, setVolume() {}, getMediaElement: () => ({}), on(name, fn) { this.handlers[name] = fn; }, pause() {}, destroy() {}, playPause: async () => {}, play: async () => {} }; players.push(player); return player; } },
+    WaveSurfer: { create: options => { const player = { options, handlers: {}, plays: 0, setVolume() {}, getMediaElement: () => ({}), on(name, fn) { this.handlers[name] = fn; }, pause() {}, destroy() {}, playPause: async () => {}, async play() { this.plays++; } }; players.push(player); return player; } },
   };
   vm.runInNewContext(fs.readFileSync(path.join(root, 'game-library.js'), 'utf8'), context);
   const settle = () => new Promise(resolve => setImmediate(resolve));
@@ -98,10 +98,16 @@ async function checkUI(missingSearch) {
   assert.equal(el('gamePrev').disabled, true); assert.equal(el('gameNext').disabled, false);
   const clickPlay = () => el('gameList').onclick({ target: { closest: selector => selector === '[data-group]' ? { dataset: { group: '0' } } : selector === '[data-game-play]' ? {} : null } });
   clickPlay(); clickPlay(); clickPlay();
+  assert.equal(auditionLocks.get('game'), true, 'Mute UI cues while loading an audition');
+  players.at(-1).handlers.pause(); assert.equal(auditionLocks.get('game'), false);
+  players.at(-1).handlers.play(); assert.equal(auditionLocks.get('game'), true);
+  players.at(-1).handlers.finish(); assert.equal(auditionLocks.get('game'), false);
+  players.at(-1).handlers.play();
   assert.deepEqual(players.map(p => p.options.url.split('/').pop()), ['shot-1.opus', 'shot-2.opus', 'shot-1.opus']);
   el('gameNext').onclick(); await settle();
   assert.equal(el('gamePage').textContent, 'Page 2 / 2'); assert.equal(el('gameNext').disabled, true);
   assert.equal(el('gamePlayer').hidden, true, 'Page change releases player');
+  assert.equal(auditionLocks.get('game'), false, 'Page change releases cue mute');
   el('gamePrev').onclick(); await settle();
   assert.equal(requests.filter(url => url.endsWith('/weapons.json')).length, 1, 'UI reuses cached page');
   el('gameSearch').value = 'missing'; el('gameSearch').oninput(); assert.equal(el('gameList').style.height, '0px');
@@ -117,7 +123,13 @@ async function checkUI(missingSearch) {
   el('gameTree').onclick({ target: { closest: () => ({ dataset: { category: 'weapons' } }) } }); await settle();
   releaseVO(); await settle();
   assert.equal(el('gamePage').textContent, 'Page 1 / 2', 'Late category response must not replace the current page');
+  el('gameSearch').value = ''; el('gameSearch').oninput();
+  clickPlay();
+  const pendingPlayer = players.at(-1);
   el('portalTab').onclick(); assert.equal(el('portalSection').hidden, false);
+  pendingPlayer.handlers.ready(); await settle();
+  assert.equal(pendingPlayer.plays, 0, 'Late ready must not start hidden playback');
+  assert.equal(auditionLocks.get('game'), false, 'Section switch releases pending cue mute');
   console.log('Headless Game Library UI: lazy load, paging/cache, variant player, section switch, ' + (missingSearch ? 'missing global index fallback' : 'global result navigation') + ' passed.');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

@@ -22,6 +22,7 @@
       engPause(); q('spatial').hidden = true; q('dock').classList.remove('show');
     } else {
       if (ws) ws.pause();
+      window.BF6UI?.audition('game', false);
       q('spatial').hidden = !savedSpatial;
       if (savedDock) q('dock').classList.add('show');
     }
@@ -69,7 +70,12 @@
     const ticket = ++request;
     if (controller) controller.abort();
     controller = new AbortController();
-    currentCategory = category; currentPage = null; shown = []; selected.clear(); nextVariants.clear();
+    currentCategory = category; currentPage = null;
+    const node = categories.get(category);
+    q('gameCategoryTitle').textContent = node.name;
+    q('gameCategoryPath').textContent = node.path || node.name;
+    q('gameCategoryHero').dataset.art = /tungsten/i.test(node.path || node.name) ? 'tungsten' : /aftermath/i.test(node.path || node.name) ? 'aftermath' : 'limestone';
+    shown = []; selected.clear(); nextVariants.clear();
     stop(); q('gameViewport').scrollTop = 0; draw(true); paging();
     message('Loading ' + categories.get(category).name + '…');
     q('gameTree').querySelectorAll('[data-category]').forEach(b => b.setAttribute('aria-current', String(b.dataset.category === category)));
@@ -150,6 +156,7 @@
     else if (e.target.closest('[data-game-download]')) download(clipFor(g));
   };
   function stop() {
+    window.BF6UI?.audition('game', false);
     if (ws) ws.destroy(); ws = null; playingClip = null; playingGroup = null;
     q('gamePlayer').hidden = true;
     q('gamePlayerWave').appendChild(q('gameWaveHost'));
@@ -160,20 +167,27 @@
     nextVariants.set(g.id, next); selected.set(g.id, clip.file);
     stop(); playingClip = clip; playingGroup = g.id;
     engPause();
+    window.BF6UI?.audition('game', true);
     q('gamePlayer').hidden = false; q('gamePlayingName').textContent = clip.name + ' · v' + clip.variant;
     q('gameLoop').checked = !!clip.loop;
     try {
-      ws = WaveSurfer.create({ container: q('gameWaveHost'), url: audioUrl(clip), height: 64, waveColor: '#827a6c', progressColor: '#ff6b1a', barWidth: 2, normalize: true });
+      ws = WaveSurfer.create({ container: q('gameWaveHost'), url: audioUrl(clip), height: 64, waveColor: '#AEC0CC', progressColor: '#BFCAD1', barWidth: 2, normalize: true });
       const player = ws;
       ws.setVolume(Number(q('gameVolume').value)); ws.getMediaElement().loop = !!clip.loop;
-      ws.on('error', error => message('Audio unavailable: ' + error.message));
-      ws.on('ready', () => { if (ws === player) player.play().catch(error => message('Playback failed: ' + error.message)); });
-      ws.on('play', () => { q('gamePause').textContent = 'Pause'; });
-      ws.on('pause', () => { q('gamePause').textContent = 'Resume'; });
+      ws.on('error', error => { if (ws === player) { window.BF6UI?.audition('game', false); message('Audio unavailable: ' + error.message); } });
+      ws.on('ready', () => { if (ws === player && !q('gameLibrary').hidden) player.play().catch(error => { if (ws === player) { window.BF6UI?.audition('game', false); message('Playback failed: ' + error.message); } }); });
+      ws.on('finish', () => { if (ws === player) window.BF6UI?.audition('game', false); });
+      ws.on('play', () => { if (ws === player) { window.BF6UI?.audition('game', true); q('gamePause').textContent = 'Pause'; } });
+      ws.on('pause', () => { if (ws === player) { window.BF6UI?.audition('game', false); q('gamePause').textContent = 'Resume'; } });
       draw(true);
-    } catch (error) { message('Playback failed: ' + error.message); }
+    } catch (error) { window.BF6UI?.audition('game', false); message('Playback failed: ' + error.message); }
   }
-  q('gamePause').onclick = () => { if (ws) ws.playPause().catch(error => message(error.message)); };
+  q('gamePause').onclick = () => {
+    if (!ws) return;
+    const player = ws;
+    if (!player.isPlaying?.()) window.BF6UI?.audition('game', true);
+    player.playPause().catch(error => { if (ws === player) { window.BF6UI?.audition('game', false); message(error.message); } });
+  };
   q('gameLoop').onchange = () => { if (ws) ws.getMediaElement().loop = q('gameLoop').checked; };
   q('gameVolume').oninput = () => { if (ws) ws.setVolume(Number(q('gameVolume').value)); };
   q('gamePlayingDownload').onclick = () => { if (playingClip) download(playingClip); };

@@ -6,10 +6,8 @@
 <title>BF6 Portal &mdash; SFX Library</title>
 <meta name="description" content="Battlefield 6 Portal sound effects library &mdash; browse, audition and download game SFX." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23ff6b1a'/%3E%3Cg fill='%23140a04'%3E%3Crect x='5' y='9' width='2' height='6' rx='1'/%3E%3Crect x='9' y='5' width='2' height='14' rx='1'/%3E%3Crect x='13' y='8' width='2' height='8' rx='1'/%3E%3Crect x='17' y='6' width='2' height='12' rx='1'/%3E%3C/g%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css?v=20" />
+<link rel="stylesheet" href="style.css?v=21" />
+<link rel="stylesheet" href="site-look.css?v=1" />
 </head>
 <body>
 
@@ -31,7 +29,7 @@
 <header class="header" id="header">
   <div class="header-inner">
     <div class="brand">
-      <div class="brand-mark"><span class="brand-wave"><i></i><i></i><i></i><i></i><i></i></span></div>
+      <div class="brand-mark"><span class="brand-resource" aria-hidden="true"></span></div>
       <div class="brand-text">
         <h1>SFX&nbsp;LIBRARY</h1>
         <p>Battlefield&nbsp;6 Portal &middot; sound&nbsp;effects</p>
@@ -39,6 +37,7 @@
     </div>
     <div class="ver" title="Library version"><span class="v100">V1.00</span></div>
     <nav class="topnav" aria-label="Site">
+      <button class="topnav-tab" id="uiSoundToggle" aria-pressed="false" title="Quiet interface cues; muted during clip playback">UI sounds: OFF</button>
       <button class="topnav-tab" id="creditsBtn">Credits</button>
       <button class="topnav-tab" id="aboutBtn">Info</button>
       <button class="topnav-tab" id="recorderBtn">Recorder Mod</button>
@@ -134,6 +133,13 @@
   </div>
 </div>
 
+<section class="container archive-hero" aria-label="Audio archive">
+  <p class="archive-kicker">BATTLEFIELD 6 / AUDIO ARCHIVE</p>
+  <h2>Every sound.<br>Ready to explore.</h2>
+  <p>Portal effects and the full game collection. Browse, audition, build.</p>
+  <span class="archive-index" aria-hidden="true">SOUND / 01</span>
+</section>
+
 <nav class="container library-switch" aria-label="Sound library">
   <button class="btn" id="portalTab" aria-pressed="true" aria-controls="portalSection">Portal Sounds</button>
   <button class="btn" id="gameTab" aria-pressed="false" aria-controls="gameLibrary">Game Library</button>
@@ -178,7 +184,7 @@
 </main>
 
 <section class="container" id="gameLibrary" aria-label="Game Library" hidden>
-  <h2>Game Library</h2>
+  <div class="game-category-hero" id="gameCategoryHero"><p class="archive-kicker">FULL GAME COLLECTION</p><h2 id="gameCategoryTitle">Game Library</h2><p id="gameCategoryPath">Select a category to explore its audio.</p></div>
   <p class="game-intro">Browse the full game audio collection, including sounds outside Portal. Audio streams from the game library host.</p>
   <div class="game-layout">
     <aside class="game-sidebar" aria-label="Game categories"><h3>Categories</h3><nav id="gameTree" aria-label="Category tree"></nav></aside>
@@ -299,8 +305,9 @@
 <script src="config.js"></script>
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="app.js?v=20"></script>
+<script src="ui-experience.js?v=1"></script>
+<script src="app.js?v=21"></script>
 <script src="game-library-core.js?v=1"></script>
-<script src="game-library.js?v=1"></script>
+<script src="game-library.js?v=2"></script>
 </body>
 </html>

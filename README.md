@@ -79,3 +79,45 @@ Headless Node checks cover index validation, nested categories, zero/one-based p
 Sounds are Battlefield 6 / EA DICE assets, surfaced for Portal modders. Sound tooling/API by **Aryo / Post (Sound)**.
 
 Real SFX audio comes from the **BF6 Modding SDK audio export**, decoded losslessly before the site's Vorbis encoding. Original in-game SFX and PlayVO recordings were captured using **BF6_SFX** by **TabbedScamper**.
+
+## Battlefield UI presentation
+
+The archive now uses the decoded front-end palette, hard corners, focus plates, layered readability scrims, local Battlefield fonts, loading-screen art and opt-in game UI sounds. Both library sections retain their playback, downloads and browsing behavior. The existing Bf6Revival control panel supplied the icon masking approach and decoded cues. This is an archive adapted to the game's visual language; it does not claim to reproduce the complete retail UI.
+
+Reference: `BF6_Frostbite_Research/systems/FRONTEND_UI_1TO1_RECONSTRUCTION.md` sections 4–6, `UI_INDEX.md`, and `data/ui_color_palette.tsv`. Linear palette values are already transferred to sRGB: neutral/focus `#BFCAD1`, economy `#FFBD44`, positive `#8EED6C`, progression bonus `#59BFF8`, negative `#FB694D`. Hover uses its own 0.08 layer; selection uses 0.27. Screen width remains responsive; hero sizes are limited by viewport height rather than stretching a 1920×1080 canvas.
+
+Panel reveals use `common/ui/home/widgets/gamemodeinfo/gamemodeinfo_bundlecell`'s **AnimateInWhole** timeline: 0.3000000119 seconds, with opacity curve **2728** (0→1) and vertical curve **3168** (20→0) completing at 0.25 seconds. Their decoded tangent slopes are +4 and −80 respectively, giving linear interpolation. These values come from `ui_timeline_entities.tsv`, `ui_float_curves.tsv` and `ui_float_curve_keys.tsv`; CSS rounds float serialization noise to 300/250 ms. Recycled Game Library rows and Portal cards have no entry animation. Reduced motion disables CSS animation, transitions and smooth scrolling and resolves count-up text immediately, including preference changes during a count.
+
+**UI sounds** in the header default to OFF, remember the explicit choice under localStorage key `bf6-ui-sounds`, and play at volume 0.12 only following user interaction. Remembering ON does not play anything on load. Hover/slider cues are throttled, cue polyphony is bounded at four, and both audition engines stop existing cues and suppress new cues while loading/playing clips. Turning sounds off immediately stops cues; reduced motion leaves sounds opt-in. Failed or unavailable audio does not block controls. Section changes cancel pending Portal playback and prevent a late Game Library ready event from starting hidden playback.
+
+All new visual/audio assets below are **Battlefield 6 / © EA & DICE** assets, used for reference and modding presentation, like the existing audio and fonts. The SVG is copied from Bf6Revival's local Portal mirror; seven WAVs are unchanged decoded files from its control panel. Existing `fonts/` assets are reused; no new font payloads were added.
+
+| Added asset | Bytes | Source / purpose |
+|---|---:|---|
+| `assets/art/limestone.webp` | 175,726 | `common/ui/assets/images/loadingscreen/t_ui_limestone_01_loadingscreen`; backdrop, archive hero and default category header |
+| `assets/art/tungsten.webp` | 97,846 | `common/ui/assets/images/loadingscreen/t_ui_tungsten_01_loadingscreen`; matching level category header |
+| `assets/art/aftermath.webp` | 153,422 | `common/ui/assets/images/loadingscreen/t_ui_aftermath_01_loadingscreen`; matching level category header |
+| `assets/ui/effects.svg` | 848 | `control-panel/portal/toolbox-actions-effects.svg`; header mark |
+| `assets/ui/hover.wav` | 14,608 | `control-panel/sounds/hover.wav`; pointer hover |
+| `assets/ui/select.wav` | 45,768 | `control-panel/sounds/select.wav`; control activation |
+| `assets/ui/back.wav` | 54,832 | `control-panel/sounds/back.wav`; close/back |
+| `assets/ui/tab_switch.wav` | 12,300 | `control-panel/sounds/tab_switch.wav`; library tabs |
+| `assets/ui/toggle_on.wav` | 76,628 | `control-panel/sounds/toggle_on.wav`; enable |
+| `assets/ui/toggle_off.wav` | 45,644 | `control-panel/sounds/toggle_off.wav`; checkbox disable |
+| `assets/ui/slider_tick.wav` | 7,460 | `control-panel/sounds/slider_tick.wav`; slider changes |
+
+Total added images including SVG: **427,842 bytes (0.428 MB)**; all added art and cues: **685,082 bytes (0.685 MB)**. The three 2560×1080 BC7 sRGB textures were exported read-only with bfreader `texture export`, decoded with `texture dds2png`, then resized to 1600×676 and encoded with ffmpeg `-c:v libwebp -quality 78`. Tungsten/Aftermath headers are selected by their identifier in the category path/name; other categories use the Limestone art.
+
+Validation from this worktree:
+
+```powershell
+node test-game-library.cjs
+node test-look.cjs
+node --check app.js
+node --check game-library.js
+node --check ui-experience.js
+```
+
+The first command includes the existing Portal regression harness. New checks cover reduced-motion counts, the sound toggle and persistence, no autoplay, playback mute lifecycle, and an ephemeral localhost HTTP server checking every referenced local asset (including all 6,531 Portal clips). No game process, EA service, browser screenshot or game-install write is needed.
+
+Human review: listen to cue loudness on your speakers/headphones; check clip start/stop, loops and cue suppression in both sections; inspect actual WaveSurfer rendering and radar labels; try a narrow phone viewport and an ultrawide display; switch the OS reduced-motion preference while the site is open. Use `/?gameFixture=1` on localhost for offline Game Library checks; live export category names and CDN availability still need review when the export is published.
