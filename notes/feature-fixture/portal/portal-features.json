@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "clips": {
+    "sounds/Alarm/000_SFX_Alarm.ogg": {
+      "f": {
+        "pitch": 440,
+        "note": "A4",
+        "bright": 800,
+        "lufs": -30,
+        "peak": -4,
+        "attack": 10,
+        "tonal": 0.9,
+        "width": 0.4,
+        "seam": 0.85,
+        "len": 0.8675208333333333
+      },
+      "tags": [
+        "ui",
+        "electric",
+        "beep"
+      ]
+    },
+    "sounds/CrashSounds/006_SFX_Levels_Brooklyn_Spots_EmergencyExit_SimpleLoop3D_v1.ogg": {
+      "f": {
+        "pitch": null,
+        "note": null,
+        "bright": 1500,
+        "lufs": -27,
+        "peak": -4,
+        "attack": 50,
+        "tonal": 0.2,
+        "width": null,
+        "seam": 0.3,
+        "len": 3.075
+      },
+      "tags": [
+        "metal",
+        "impact"
+      ]
+    },
+    "sounds/CrashSounds/006_SFX_Levels_Brooklyn_Spots_EmergencyExit_SimpleLoop3D_v10.ogg": {
+      "f": {
+        "pitch": 440,
+        "note": "A4",
+        "bright": 2200,
+        "lufs": -24,
+        "peak": -4,
+        "attack": 90,
+        "tonal": 0.9,
+        "width": 0.4,
+        "seam": 0.85,
+        "len": 3.075
+      },
+      "tags": [
+        "ui",
+        "electric",
+        "beep"
+      ]
+    },
+    "sounds/CrashSounds/006_SFX_Levels_Brooklyn_Spots_EmergencyExit_SimpleLoop3D_v11.ogg": {
+      "f": {
+        "pitch": null,
+        "note": null,
+        "bright": 2900,
+        "lufs": -21,
+        "peak": -4,
+        "attack": 130,
+        "tonal": 0.2,
+        "width": null,
+        "seam": 0.3,
+        "len": 3.075
+      },
+      "tags": [
+        "metal",
+        "impact"
+      ]
+    },
+    "sounds/CrashSounds/006_SFX_Levels_Brooklyn_Spots_EmergencyExit_SimpleLoop3D_v12.ogg": {
+      "f": {
+        "pitch": 440,
+        "note": "A4",
+        "bright": 3600,
+        "lufs": -18,
+        "peak": -4,
+        "attack": 170,
+        "tonal": 0.9,
+        "width": 0.4,
+        "seam": 0.85,
+        "len": 3.0749791666666666
+      },
+      "tags": [
+        "ui",
+        "electric",
+        "beep"
+      ]
+    },
+    "sounds/CrashSounds/006_SFX_Levels_Brooklyn_Spots_EmergencyExit_SimpleLoop3D_v13.ogg": {
+      "f": {
+        "pitch": null,
+        "note": null,
+        "bright": 4300,
+        "lufs": -15,
+        "peak": -4,
+        "attack": 210,
+        "tonal": 0.2,
+        "width": null,
+        "seam": 0.3,
+        "len": 3.075
+      },
+      "tags": [
+        "metal",
+        "impact"
+      ]
+    }
+  }
+}

@@ -63,14 +63,14 @@ function element() {
   const children=new Map();
   return {dataset:{},style:{},hidden:true,textContent:'',innerHTML:'',value:'',classList:{add(){},remove(){},toggle(){}},
     addEventListener(){},setAttribute(){},appendChild(){},querySelector(s){if(!children.has(s)) children.set(s,element());return children.get(s);},
-    querySelectorAll(){return [];},getContext(){return {};},click(){}};
+    querySelectorAll(){return [];},getContext(){return new Proxy({},{get:(t,k)=>k in t?t[k]:(()=>{}),set:(t,k,v)=>{t[k]=v;return true;}});},click(){}};
 }
 const document=element(); document.createElement=element; document.body=element(); document.head=element();
 const audioNode=()=>({threshold:{},knee:{},ratio:{},attack:{},release:{},gain:{},connect(){return this;},start(){},stop(){}});
 class AudioContext {state='running'; currentTime=0; destination={}; createDynamicsCompressor(){return audioNode();} createGain(){return audioNode();} createBufferSource(){return audioNode();} async decodeAudioData(){return {duration:1};}}
 let archived=[];
 class JSZip {constructor(){archived=[];} file(name){archived.push(name);} async generateAsync(){return {};}}
-const context=vm.createContext({document,window:{AudioContext},console,Map,Set,CSS:{escape:s=>s},fetch:async()=>({json:async()=>manifest,arrayBuffer:async()=>new ArrayBuffer(0)}),
+const context=vm.createContext({document,window:{AudioContext,BF6UI:{reducedMotion:true,audition(){}}},console,Map,Set,CSS:{escape:s=>s},fetch:async()=>({json:async()=>manifest,arrayBuffer:async()=>new ArrayBuffer(0)}),
   JSZip,URL:{createObjectURL:()=> 'blob:test',revokeObjectURL(){}},
   WaveSurfer:{create:()=>({setVolume(){},on(){},getDuration(){return 1;},setTime(){}})},
   setTimeout(){},clearTimeout(){},addEventListener(){},requestAnimationFrame(){return 1;},cancelAnimationFrame(){},IntersectionObserver:class {observe(){} disconnect(){}},navigator:{clipboard:{writeText:async()=>{}}}});
@@ -78,6 +78,9 @@ async function checkApp() {
   const app=fs.readFileSync(path.join(root,'app.js'),'utf8').replace(/init\(\);\s*$/,'globalThis.ready = init();');
   vm.runInContext(app,context); await context.ready;
   vm.runInContext(`
+    const reducedCount = { dataset: { count: '123' }, textContent: '' };
+    animateCounts({ querySelectorAll: () => [reducedCount] });
+    if (reducedCount.textContent !== '123') throw new Error('Reduced motion count must resolve immediately');
     if (SOUNDS.length !== ${manifest.length}) throw new Error('Manifest did not load');
     if (CARDS.filter(c=>!c.vo).length !== 937) throw new Error('SFX grouping count');
     globalThis.multi = CARDS.find(c=>!c.vo && c.takes.length>1);
@@ -107,6 +110,27 @@ async function checkApp() {
   vm.runInContext("globalThis.categoryCheck=zipDownload(SOUNDS.filter(s=>s.cat==='Crash Sounds'),'test-category.zip')",context);
   await context.categoryCheck;
   assert.equal(archived.length,manifest.filter(s=>s.cat==='Crash Sounds').length,'Category ZIP omitted variants');
+  vm.runInContext(`globalThis.playbackCheck = (async () => {
+    engPause();
+    let mute = false, release;
+    window.BF6UI.audition = (owner, busy) => { if (owner === 'portal') mute = busy; };
+    const originalBuffer = getBuffer;
+    getBuffer = () => new Promise(resolve => { release = resolve; });
+    active = { sound: multi.takes[0], spatial: false, playing: false };
+    const pending = engPlay(0);
+    if (!mute) throw new Error('Portal load must mute UI cues');
+    engPause(); release({ duration: 1 }); await pending;
+    if (active.src || mute) throw new Error('Cancelled decode started audio or retained cue mute');
+    getBuffer = async () => ({ duration: 1 });
+    await engPlay(0);
+    if (!mute) throw new Error('Portal playback must mute UI cues');
+    active.src.onended();
+    if (mute) throw new Error('Portal end must release cue mute');
+    await engPlay(0); engPause();
+    if (mute) throw new Error('Portal pause must release cue mute');
+    getBuffer = originalBuffer;
+  })()`, context);
+  await context.playbackCheck;
   console.log('Headless app: manifest load, SFX grouping, variant cycling/wrap, card/dock/all/category downloads, render persistence, markers and coverage passed.');
 }
 checkApp().catch(e=>{console.error(e);process.exitCode=1;});

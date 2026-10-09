@@ -1,0 +1,102 @@
+{
+  "category": "weapons",
+  "page": 0,
+  "pages": 2,
+  "clips": [
+    {
+      "id": "shot-1",
+      "name": "Fixture Rifle Shot",
+      "assetPath": "Weapons/Rifle/Shot",
+      "variant": 1,
+      "duration": 0.12,
+      "channels": 1,
+      "rate": 48000,
+      "codec": "opus",
+      "portalName": "SFX_Alarm",
+      "loop": null,
+      "file": "shot-1.opus",
+      "bytes": 617,
+      "lang": null,
+      "f": {
+        "pitch": 440,
+        "note": "A4",
+        "bright": 800,
+        "lufs": -30,
+        "peak": -4,
+        "attack": 10,
+        "tonal": 0.9,
+        "width": null,
+        "seam": 0.85,
+        "len": 0.12
+      },
+      "tags": [
+        "gunshot",
+        "metal",
+        "impact"
+      ]
+    },
+    {
+      "id": "shot-2",
+      "name": "Fixture Rifle Shot",
+      "assetPath": "Weapons/Rifle/Shot",
+      "variant": 2,
+      "duration": 0.12,
+      "channels": 1,
+      "rate": 48000,
+      "codec": "opus",
+      "portalName": "SFX_Alarm",
+      "loop": null,
+      "file": "shot-2.opus",
+      "bytes": 599,
+      "lang": null,
+      "f": {
+        "pitch": null,
+        "note": null,
+        "bright": 1500,
+        "lufs": -27,
+        "peak": -4,
+        "attack": 50,
+        "tonal": 0.2,
+        "width": null,
+        "seam": 0.3,
+        "len": 0.12
+      },
+      "tags": [
+        "gunshot",
+        "metal",
+        "impact"
+      ]
+    },
+    {
+      "id": "reload",
+      "name": "Fixture Reload",
+      "assetPath": "Weapons/Rifle/Reload",
+      "variant": 1,
+      "duration": 0.12,
+      "channels": 1,
+      "rate": 48000,
+      "codec": "opus",
+      "portalName": null,
+      "loop": null,
+      "file": "reload.opus",
+      "bytes": 599,
+      "lang": null,
+      "f": {
+        "pitch": 440,
+        "note": "A4",
+        "bright": 2200,
+        "lufs": -24,
+        "peak": -4,
+        "attack": 90,
+        "tonal": 0.9,
+        "width": null,
+        "seam": 0.85,
+        "len": 0.12
+      },
+      "tags": [
+        "metal",
+        "mechanical"
+      ]
+    }
+  ]
+}

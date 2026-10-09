@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BF6 Portal &mdash; SFX Library</title>
-<meta name="description" content="Battlefield 6 Portal sound effects library &mdash; browse, audition and download game SFX." />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23ff6b1a'/%3E%3Cg fill='%23140a04'%3E%3Crect x='5' y='9' width='2' height='6' rx='1'/%3E%3Crect x='9' y='5' width='2' height='14' rx='1'/%3E%3Crect x='13' y='8' width='2' height='8' rx='1'/%3E%3Crect x='17' y='6' width='2' height='12' rx='1'/%3E%3C/g%3E%3C/svg%3E" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css?v=19" />
+<title>BF6 Portal SFX Library V2.00</title>
+<meta name="description" content="Battlefield 6 Portal sound effects library V2.00. Portal Sounds and the full Game Library." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23ff6b1a'/%3E%3Cg fill='%23140a04'%3E%3Crect x='5' y='9' width='2' height='6'/%3E%3Crect x='9' y='5' width='2' height='14'/%3E%3Crect x='13' y='8' width='2' height='8'/%3E%3Crect x='17' y='6' width='2' height='12'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="stylesheet" href="style.css?v=23" />
+<link rel="stylesheet" href="site-look.css?v=4" />
 </head>
 <body>
 
@@ -19,7 +17,7 @@
   <div class="loader-text">LOADING SOUND LIBRARY</div>
 </div>
 
-<!-- animated background -->
+<!-- background -->
 <div class="bg-fx" aria-hidden="true">
   <div class="bg-grid"></div>
   <div class="bg-glow bg-glow--1"></div>
@@ -31,17 +29,17 @@
 <header class="header" id="header">
   <div class="header-inner">
     <div class="brand">
-      <div class="brand-mark"><span class="brand-wave"><i></i><i></i><i></i><i></i><i></i></span></div>
+      <div class="brand-mark"><span class="brand-resource" aria-hidden="true"></span></div>
       <div class="brand-text">
         <h1>SFX&nbsp;LIBRARY</h1>
         <p>Battlefield&nbsp;6 Portal &middot; sound&nbsp;effects</p>
       </div>
     </div>
-    <div class="ver" title="Library version"><span class="v100">V1.00</span></div>
+    <div class="ver" title="Library version"><span class="v100">V2.00</span></div>
     <nav class="topnav" aria-label="Site">
+      <button class="topnav-tab" id="uiSoundToggle" aria-pressed="false" title="Quiet interface cues; muted during clip playback">UI sounds: OFF</button>
       <button class="topnav-tab" id="creditsBtn">Credits</button>
       <button class="topnav-tab" id="aboutBtn">Info</button>
-      <button class="topnav-tab" id="recorderBtn">Recorder Mod</button>
       <a class="discord-btn" href="https://discord.gg/qFJU3PadJG" target="_blank" rel="noopener" title="Join the Battlefield Portal Hub Discord">
         <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.27 5.33A16.6 16.6 0 0 0 15.1 4l-.2.4a14.9 14.9 0 0 1 3.7 1.2 13.3 13.3 0 0 0-11.3 0A14.9 14.9 0 0 1 11 4.4L10.8 4a16.6 16.6 0 0 0-4.16 1.33C3.6 9.9 2.77 14.36 3.18 18.74a16.7 16.7 0 0 0 5.07 2.56l.4-.55a11 11 0 0 1-1.74-.83l.43-.34a11.9 11.9 0 0 0 10.13 0l.43.34c-.55.32-1.13.6-1.74.83l.4.55a16.7 16.7 0 0 0 5.07-2.56c.48-5.06-.82-9.48-2.86-13.41ZM9.5 16c-.95 0-1.74-.88-1.74-1.96 0-1.08.77-1.96 1.74-1.96.97 0 1.76.89 1.74 1.96 0 1.08-.78 1.96-1.74 1.96Zm5 0c-.95 0-1.74-.88-1.74-1.96 0-1.08.77-1.96 1.74-1.96.97 0 1.76.89 1.74 1.96 0 1.08-.77 1.96-1.74 1.96Z"/></svg>
         <span>Portal Hub</span>
@@ -50,15 +48,15 @@
   </div>
 </header>
 
-<!-- live stat band (animated count-up) -->
+<!-- library and visitor statistics -->
 <section class="statband" id="statband">
   <div class="statband-inner">
     <div class="header-stats" id="headerStats"></div>
     <div class="madeby">MADE BY TABBEDSCAMPER</div>
     <div class="sitestat" id="siteStat" hidden>
-      <span class="ss-online" id="ssOnlineWrap" title="People viewing right now"><i></i><b id="ssOnline">&ndash;</b> online</span>
+      <span class="ss-online" id="ssOnlineWrap" title="People viewing right now"><i></i><b id="ssOnline">-</b> online</span>
       <span class="ss-sep" id="ssSep">&middot;</span>
-      <span class="ss-total" id="ssTotalWrap" title="Total visits"><b id="ssTotal">&ndash;</b> visits</span>
+      <span class="ss-total" id="ssTotalWrap" title="Total visits"><b id="ssTotal">-</b> visits</span>
     </div>
   </div>
 </section>
@@ -71,13 +69,15 @@
       <button id="aboutClose" class="about-close" aria-label="Close">&times;</button>
     </div>
     <div class="about-body">
-      <p>Every sound here comes straight from the game's own asset list &mdash; nothing hand-picked. Battlefield&nbsp;6 Portal ships a generated SDK whose <code>RuntimeSpawn_Common</code> enum lists every spawnable asset; the entries beginning with <code>SFX_</code> are the sound effects the <code>PlaySound</code> function can play.</p>
-      <p>934 SFX sounds use real game audio with all 5,950 exported authored variants, encoded from the lossless decoded assets to Ogg Vorbis. Each play cycles to the next variant. The three sounds without an export retain their original in-game recordings and show a small <b>recorded</b> marker.</p>
-      <p>Because the list is read <b>directly from the SDK enum</b> (which DICE auto-generates from the game build), it <b>is</b> the complete, authoritative set for this version. <b>Portal SDK v<span id="sdkVer">?</span></b> lists <b id="sdkTotal">?</b> capturable SFX across <b id="sdkCats">?</b> categories &mdash; all captured. (The SDK has one extra SFX entry, <code>SFX_VOModule</code>, which is a silent carrier object <code>PlayVO</code> uses &mdash; it has no audio of its own, so it isn't listed.)</p>
+      <p><b>V2.00</b> has two libraries. <b>Portal Sounds</b> contains the 937 sounds Portal's <code>mod.PlaySound</code> can play. 934 use real game audio with all 5,950 authored variants. The other three keep their original recordings and are marked <b>recorded</b>.</p>
+      <p>The Portal list comes from <code>RuntimeSpawn_Common</code> in <b>Portal SDK v<span id="sdkVer">?</span></b>: <b id="sdkTotal">?</b> sounds across <b id="sdkCats">?</b> categories. <code>SFX_VOModule</code> is excluded because it is a silent carrier for <code>PlayVO</code>.</p>
       <div class="cov" id="coverage"></div>
-      <p><b>Announcer voice-overs</b> are separate from the SFX list: 61 game-action callouts triggered with <code>PlayVO</code>. On the live build the announcer fires the wrong line or stays silent at random (a known, still-open engine bug), so only a handful actually play. The ones that do are kept; the rest are listed as silent placeholders. They're the <b>Announcer</b> category.</p>
-      <p><b>Crash Sounds</b> are assets that crashed the game when played. Their original category and warning remain even when real game audio is available to preview here. Silent and unreliable flags also describe observed in-game behaviour, independently of the preview audio.</p>
-      <p class="about-note">Anything that produces no audio in-game &mdash; silent assets and unreliable VO &mdash; still appears for completeness, flagged with yellow caution tape; game-crashers get red.</p>
+      <p><b>Announcer</b> cards use recordings of <code>PlayVO</code> lines, grouped by event and objective flag. Some events played the wrong line or stayed silent during testing. Their warnings and silent placeholders remain.</p>
+      <p><b>Game Library</b> contains every sound in the game: 287,216 clips across 14,637 sounds, about 195 hours of audio. Categories follow the game's own folders. Clips stream from Cloudflare R2. Description and name search uses the whole library index. Measurement filters apply to the loaded page.</p>
+      <p>Each new play cycles to another variant when available. Portal cards have a <b>Try another variant</b> button. Game Library uses the same variant control. Card and dock downloads save the current variant; Portal category and full-library ZIPs include every variant.</p>
+      <p>Game loops keep their full authored sample range and repeat through the Web Audio API. Recorded loops keep their existing matched loop points. The dock controls playback, seeking, volume and looping.</p>
+      <p><b>RADAR</b> opens the spatial panel. For 3D sounds, drag the source around the listener and set the range, amplitude and scope. The panel generates TypeScript to spawn the sound and call <code>mod.PlaySound</code>. Coordinates are relative to the listener; add the player's world position in your script. 2D sounds play without positional attenuation. The preview's falloff is approximate.</p>
+      <p class="about-note">Crash, silent and unreliable warnings describe observed Portal behaviour. An available game-file preview does not remove those warnings.</p>
     </div>
   </div>
 </div>
@@ -90,51 +90,27 @@
       <button id="creditsClose" class="about-close" aria-label="Close">&times;</button>
     </div>
     <div class="about-body">
-      <p><b>Sounds</b> &mdash; all audio is from <b>Battlefield&nbsp;6</b> / Portal (&copy; EA &amp; DICE), decoded or captured for reference and modding use.</p>
-      <p><b>Game audio</b> &mdash; lossless decoded assets from the BF6 Modding SDK audio export; all authored variants supplied by that export are included.</p>
-      <p><b>Capture tool</b> &mdash; <b>BF6_SFX</b>, the in-game Portal harness used for the original recordings and behaviour checks. It ships in this repo for auditioning and recording SFX and PlayVO lines.</p>
-      <p><b>Built by</b> &mdash; TabbedScamper.</p>
-      <p><b>Thanks</b> &mdash; the <b>Battlefield Portal Hub</b> community for the SDK research and testing this relies on (sound behaviour, announcer-VO quirks, attenuation notes).</p>
+      <p><b>Sounds</b>: all audio is from <b>Battlefield&nbsp;6</b> / Portal (&copy; EA &amp; DICE), used for reference and modding. Portal SFX and Game Library clips come from game files, except the three retained SFX recordings and announcer PlayVO recordings.</p>
+      <p><b>Game audio</b>: lossless decoded assets from the BF6 Modding SDK audio export; all authored variants supplied by that export are included.</p>
+      <p><b>Built by</b>: TabbedScamper.</p>
+      <p><b>Thanks</b>: the <b>Battlefield Portal Hub</b> community for the SDK research and testing this relies on (sound behaviour, announcer-VO quirks, attenuation notes).</p>
       <p class="about-note">Fonts are Battlefield brand typefaces, used for presentation only.</p>
     </div>
   </div>
 </div>
 
-<!-- recorder mod modal: download the in-game capture experience + how to use it -->
-<div class="about-overlay" id="recorderOverlay" hidden>
-  <div class="about" role="dialog" aria-label="Recorder Mod">
-    <div class="about-head">
-      <h2>Get the recorder mod</h2>
-      <button id="recorderClose" class="about-close" aria-label="Close">&times;</button>
-    </div>
-    <div class="about-body">
-      <p><b>BF6_SFX</b> is the in-game Portal experience used for the original recordings, including the announcer lines and the SFX still marked <b>recorded</b>. It reads the SDK asset list at runtime and gives you an on-screen menu to audition and record every <code>SFX_</code> sound and announcer <code>PlayVO</code> line.</p>
-      <p style="text-align:center;margin:18px 0">
-        <a class="dl-cta" href="BF6_SFX.json" download="BF6_SFX.json">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Download BF6_SFX.json
-        </a>
-      </p>
-      <h3 class="about-sub">How to use it</h3>
-      <ol class="about-steps">
-        <li>Sign in at <a href="https://portal.battlefield.com" target="_blank" rel="noopener">portal.battlefield.com</a>.</li>
-        <li>Click <b>Import</b> and choose the downloaded <code>BF6_SFX.json</code> (gamemode, map rotation and rules are all inside it &mdash; no need to create an experience first).</li>
-        <li>Press <b>Save</b>. <b>Tip:</b> just save &mdash; you don't need to <i>publish</i> it. Keeping it unpublished avoids cluttering the public server list (you can still Host Locally / play it).</li>
-      </ol>
-      <h3 class="about-sub">In-game controls</h3>
-      <ul class="about-steps">
-        <li>You auto-deploy into a capture booth with the menu open.</li>
-        <li><b>Category</b> + <b>Prev/Next</b> to browse sounds; <b>Play</b> to audition; the live log shows what's happening.</li>
-        <li><b>REC</b> buttons record a category / from a point / a queue; <b>VO GROUP</b> cycles the announcer set (Objective / MCom / Sector / CheckPoint / Broadcast) and <b>REC VO GROUP</b> records it.</li>
-        <li>Big red <b>STOP EVERYTHING</b> halts all audio; <b>triple-tap INTERACT</b> hides/shows the panel.</li>
-        <li>Record your screen (e.g. OBS) while it plays; the clips are split out afterward by the logged game-time.</li>
-      </ul>
-      <p class="about-note">Source for the mod lives in the repo under <code>BF6_SFX/</code> (deluca-format TypeScript) with a full <code>VOICEOVERS.md</code> guide. Audio is from Battlefield&nbsp;6 / Portal (&copy; EA &amp; DICE).</p>
-    </div>
-  </div>
-</div>
+<section class="container archive-hero" aria-label="Audio archive">
+  <p class="archive-kicker">BATTLEFIELD 6 / AUDIO ARCHIVE</p>
+  <h2>Every sound.<br>Ready to explore.</h2>
+  <p>Portal sounds and every clip in the game files.</p>
+  <span class="archive-index" aria-hidden="true">SOUND / 01</span>
+</section>
 
-<main class="container">
+<nav class="container library-switch" aria-label="Sound library">
+  <button class="btn" id="portalTab" aria-pressed="true" aria-controls="portalSection">Portal Sounds</button>
+  <button class="btn" id="gameTab" aria-pressed="false" aria-controls="gameLibrary">Game Library</button>
+</nav>
+<main class="container" id="portalSection">
 
   <!-- toolbar -->
   <section class="toolbar">
@@ -167,11 +143,35 @@
     <button class="tpill" data-type="loop">Loop</button>
   </div>
 
+  <section id="portalFeatures" aria-label="Portal sound features"></section>
   <!-- results -->
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" hidden>No sounds match &ldquo;<span id="emptyTerm"></span>&rdquo;.</div>
 
 </main>
+
+<section class="container" id="gameLibrary" aria-label="Game Library" hidden>
+  <section class="toolbar">
+    <div class="search" id="gameSearchBox">
+      <svg viewBox="0 0 24 24" class="search-ico" aria-hidden="true"><path d="M21 21l-4.3-4.3M11 19a8 8 0 110-16 8 8 0 010 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="gameSearch" type="search" placeholder="Search sounds...  (e.g. rocket, sniper, loop)" aria-label="Search Game Library descriptions and names" autocomplete="off" spellcheck="false" />
+      <button id="gameSearchClear" class="search-clear" title="Clear" aria-label="Clear search">&times;</button>
+    </div>
+    <div class="tool-actions"><button id="gameDownload" class="btn btn-ghost" disabled><svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>Download this sound</span></button></div>
+  </section>
+  <nav class="chips" id="gameTree" aria-label="Game categories"></nav>
+  <nav class="game-breadcrumb" id="gameBreadcrumb" aria-label="Category breadcrumb" hidden></nav>
+  <nav class="chips" id="gameChildren" aria-label="Subcategories" hidden></nav>
+  <div class="typefilter" id="gameLanguage" aria-label="Filter by language"></div>
+  <section id="gameFeatures" aria-label="Game Library sound features"></section>
+  <p class="game-intro" id="gameTotals">287,216 clips, 14,637 sounds, about 195 hours from the game files.</p>
+  <p id="gameStatus" role="status" aria-live="polite"></p>
+  <button class="btn" id="gameRetry" hidden>Retry</button>
+  <div class="game-paging" id="gamePaging" hidden><button class="btn" id="gamePrev" disabled>Previous</button><span id="gamePage"></span><button class="btn" id="gameNext" disabled>Next</button></div>
+  <div id="gameResults" class="grid" hidden></div>
+  <div id="gameViewport"><div class="grid" id="gameList"></div></div>
+  <div class="game-paging" id="gamePagingBottom" hidden><button class="btn" id="gamePrevBottom" disabled>Previous</button><span id="gamePageBottom"></span><button class="btn" id="gameNextBottom" disabled>Next</button></div>
+</section>
 
 <!-- spatial preview panel -->
 <aside class="spatial" id="spatial" hidden aria-label="Spatial preview">
@@ -181,7 +181,7 @@
   </div>
   <div class="sp-body">
     <div class="sp-left">
-      <div class="sp-name" id="spName">&mdash;</div>
+      <div class="sp-name" id="spName">No sound selected</div>
       <div class="sp-mode" id="spMode"></div>
       <div class="radar-wrap">
         <canvas id="radar" width="340" height="340" aria-label="Radar: click to place the sound; centre is the player"></canvas>
@@ -220,7 +220,7 @@
           <pre class="sp-code" id="spCode"></pre>
           <button id="spCopy" class="sp-copy" title="Copy code">copy</button>
         </div>
-        <p class="sp-note">Attenuation is approximate &mdash; in-game falloff differs per sound (per Aryo/Post). This is a preview.</p>
+        <p class="sp-note">Attenuation is approximate. In-game falloff differs per sound (per Aryo/Post). This is a preview.</p>
       </div>
     </div>
   </div>
@@ -234,7 +234,7 @@
       <svg class="ico-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/></svg>
     </button>
     <div class="dock-meta">
-      <div class="dock-title" id="dockTitle">&mdash;</div>
+      <div class="dock-title" id="dockTitle">No sound selected</div>
       <div class="dock-sub" id="dockSub"></div>
     </div>
     <div class="dock-wave" id="dockWave"></div>
@@ -242,8 +242,9 @@
     <button class="dock-toggle" id="dockLoop" title="Loop" aria-pressed="false">
       <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M17 2l4 4-4 4M3 11V9a4 4 0 014-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 01-4 4H3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <button class="dock-toggle" id="dockSpatial" title="Spatial preview (radar)" aria-label="Spatial preview">
+    <button class="dock-toggle dock-radar" id="dockSpatial" title="Radar, options and PlaySound code" aria-label="Radar and code">
       <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg>
+      <span class="dock-radar-label">RADAR</span>
     </button>
     <div class="dock-vol">
       <svg viewBox="0 0 24 24" class="ico" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 010 7M18 6a8 8 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -269,6 +270,11 @@
 <script src="config.js"></script>
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="app.js?v=20"></script>
+<script src="ui-experience.js?v=1"></script>
+<script src="sound-features-core.js?v=2"></script>
+<script src="sound-features-ui.js?v=2"></script>
+<script src="app.js?v=23"></script>
+<script src="game-library-core.js?v=1"></script>
+<script src="game-library.js?v=4"></script>
 </body>
 </html>

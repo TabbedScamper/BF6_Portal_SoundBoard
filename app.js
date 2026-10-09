@@ -1,4 +1,4 @@
-/* BF6 Portal SFX Library — soundboard logic
+/* BF6 Portal SFX Library: soundboard logic
    - lazy SoundCloud-style waveforms (wavesurfer.js), one player active at a time
    - Spotify-style now-playing dock, seamless loop for loop assets
    - search + category filter, click-to-copy asset names, single/zip downloads (JSZip) */
@@ -11,11 +11,12 @@ let SOUNDS = [];     // raw manifest entries (one per clip)
 let CARDS = [];      // display list: SFX variants by asset + VO cards by event/flag
 const sfxNextVariant = new Map();
 const sfxCurrentFile = new Map();
-const clipDownloadName = s => s.name + (!s.vo && s.variant ? '_v' + s.variant : '') + '.ogg';
+const clipDownloadName = s => s.downloadName || s.name + (!s.vo && s.variant ? '_v' + s.variant : '') + '.ogg';
 let curCat = 'All';
 let curType = 'all';
 let curTerm = '';
 let active = null;          // { ws, card, sound }
+let portalPlayRequest = 0;
 let loopOn = false;
 let volume = 0.8;
 const wsByFile = new Map(); // file -> wavesurfer (lazy)
@@ -28,12 +29,13 @@ let spPx = 0, spPy = -60;   // sound position on the radar, pixels from centre (
 let spWorld = { x: 0, z: -10, dist: 10, ang: 0 }; // derived world offset for the panner
 // the authoritative SFX set for the current Portal SDK (RuntimeSpawn_Common enum, verified from index.d.ts)
 const SDK_VERSION = '1.3.2.0';
-// real capturable SFX categories. (The 938th SDK SFX entry, SFX_VOModule, is a silent PlayVO carrier — excluded.)
+// Portal PlaySound categories. (The 938th SDK SFX entry, SFX_VOModule, is a silent PlayVO carrier, excluded.)
 const SDK_CATS = { UI: 331, Soldier: 200, Levels: 138, Gadgets: 103, Destruction: 68, GameModes: 61, Projectiles: 31, Gamemodes: 4, Alarm: 1 };
 const SDK_TOTAL = Object.values(SDK_CATS).reduce((a, b) => a + b, 0); // 937
 
 /* ---------- helpers ---------- */
 const is3D = (name) => /3D$/i.test(name);
+const sound3D = sound => sound.library === 'game' ? sound.channels === 1 : is3D(sound.name);
 function pretty(name) {
   let s = name.replace(/^SFX_/, '');
   s = s.replace(/_(OneShot|SimpleLoop|Loop|Simple)?_?(2D|3D)$/i, '');
@@ -63,7 +65,7 @@ const FLAG_NAMES = { A: 'Alpha', B: 'Bravo', C: 'Charlie', D: 'Delta', E: 'Echo'
 const isTeamRelEvent = (ev) => /Winning|Losing|Friendly|Enemy|Attacker|Defender|Attacking|Defending|Kills|Capture/i.test(ev);
 const voPretty = (ev) => ev.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/_/g, ' ').trim();
 const voEventLabel = (ev) => voPretty(ev).replace(/^Objective\s+/, '').replace(/^M\s?Com\s+/i, 'MCom ');
-// flag families get their OWN letter-card sets (MCom only A-D exist; Objective A-I) — never share letter cards.
+// flag families get their OWN letter-card sets (MCom only A-D exist; Objective A-I). Never share letter cards.
 const voFamily = (ev) => /^MCom/i.test(ev) ? 'MCom' : /^Objective/i.test(ev) ? 'Objective' : /^CheckPoint/i.test(ev) ? 'CheckPoint' : /^Sector/i.test(ev) ? 'Sector' : 'Other';
 const live = (clips) => clips.filter(s => !s.silent);
 const poolFiles = (clips) => (live(clips).length ? live(clips) : clips).map(s => s.file);  // random-play pool
@@ -134,16 +136,16 @@ const voFoot = (file) => '<div class="card-foot">'
 function voCardHTML(c, i) {
   const tags = '<div class="card-tags"><span class="tag tag-2d">2D</span><span class="tag tag-vo">VO</span><span class="tag tag-dur">' + fmt(c.dur, c.dur) + '</span></div>';
   const dead = c.silent;
-  const banner = dead ? '<div class="caution caution--warn"><span>&#9888; DID NOT PLAY IN-GAME</span></div>' : '';
+  const banner = dead ? '<div class="caution caution--warn"><span>DID NOT PLAY IN-GAME</span></div>' : '';
   const cls = dead ? ' card--warn' : '';
-  const open = (extra) => '\n  <article class="card vo-card' + cls + '" data-vo="1" ' + extra + ' data-name="' + c.name + '" data-cat="Announcer" data-file="' + c.file + '" style="animation-delay:' + Math.min(i * 18, 360) + 'ms">' + banner;
+  const open = (extra) => '\n  <article class="card vo-card' + cls + '" data-vo="1" ' + extra + ' data-name="' + c.name + '" data-cat="Announcer" data-file="' + c.file + '">' + banner;
   if (c.voType === 'event') {
     return open('data-votype="event" data-event="' + c.event + '"')
       + '<div class="card-head"><div class="card-title">' + voPretty(c.event) + '</div>' + tags + '</div>'
       + '<div class="vo-controls"><span class="vo-variants" data-vo-variants></span></div>'
       + voFoot(c.file) + '</article>';
   }
-  const statusOpts = c.events.map(ev => '<option value="' + ev + '">' + voEventLabel(ev) + (voFlDead(c.family, c.flag, ev) ? '  — no audio' : '') + '</option>').join('');
+  const statusOpts = c.events.map(ev => '<option value="' + ev + '">' + voEventLabel(ev) + (voFlDead(c.family, c.flag, ev) ? ': no audio' : '') + '</option>').join('');
   return open('data-votype="flag" data-family="' + c.family + '" data-flag="' + c.flag + '"')
     + '<div class="card-head"><div class="card-title">' + c.family + ' &middot; Flag ' + c.flag + ' (' + FLAG_NAMES[c.flag] + ')</div>' + tags + '</div>'
     + '<div class="vo-controls"><label class="vo-flag-wrap">Line <select class="vo-flag" data-vo-status>' + statusOpts + '</select></label><span class="vo-variants" data-vo-variants></span></div>'
@@ -159,11 +161,11 @@ function wireVoCard(card) {
   const show = () => {
     const clips = clipsFor(), vars = voVariants(clips), dead = clips.length > 0 && clips.every(s => s.silent);
     vi = 0;
-    vEl.textContent = dead ? '⚠ did not play in-game' : (vars.length + (vars.length === 1 ? ' variant' : ' variants'));
+    vEl.textContent = dead ? 'did not play in-game' : (vars.length + (vars.length === 1 ? ' variant' : ' variants'));
     vEl.classList.toggle('vo-dead', dead);
     card.classList.toggle('card--warn', dead);
     const rep = vars[0] && vars[0][0];
-    if (rep) { dl.href = rep.file; dl.download = rep.name + '.ogg'; }
+    if (rep) { dl.href = rep.file; dl.download = rep.name + '.ogg'; card.dataset.file=rep.file; if(portalFeatures)decoratePortalCard(card); }
   };
   const playNext = () => {
     const vars = voVariants(clipsFor());
@@ -174,6 +176,7 @@ function wireVoCard(card) {
     const take = cl[Math.floor(vi / vars.length) % cl.length];
     vi++;
     card.dataset.file = take.file;
+    if (portalFeatures) decoratePortalCard(card);
     playFromCard(card);
   };
   if (type === 'event') {
@@ -199,6 +202,7 @@ async function init() {
     $('#grid').innerHTML = '<div class="empty">Could not load manifest.json. Serve this folder over http (GitHub Pages or a local server), not file://.</div>';
     hideLoader(); return;
   }
+  if (window.SoundFeatures) await initPortalFeatures();
   CARDS = buildCards();
   buildStats();
   buildChips();
@@ -221,19 +225,10 @@ function buildStats() {
     stat(n2, '2D') + stat(n3, '3D') + stat(loops, 'loops');
   animateCounts($('#headerStats'));
 }
-// eased count-up for any [data-count] numbers (SEC-style)
+// Display library totals immediately.
 function animateCounts(root) {
   root.querySelectorAll('[data-count]').forEach(el => {
-    const target = +el.dataset.count, dur = 1100;
-    const ease = t => 1 - Math.pow(1 - t, 3);
-    let t0 = null;
-    function step(now) {
-      if (t0 === null) t0 = now;
-      const p = Math.min(1, (now - t0) / dur);
-      el.textContent = Math.round(target * ease(p)).toLocaleString();
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
+    el.textContent = (+el.dataset.count).toLocaleString();
   });
 }
 
@@ -249,21 +244,25 @@ function buildChips() {
   chips.innerHTML = all + rest;
   $$('.chip', chips).forEach(ch => ch.addEventListener('click', () => {
     curCat = ch.dataset.cat;
+    if(portalFeatures){if(curCat==='All')delete portalFeatures.state.context.category;else portalFeatures.state.context.category=curCat;portalFeatures.commit();}
     $$('.chip', chips).forEach(c => c.classList.toggle('active', c === ch));
     render();
   }));
+  $$('.chip',chips).forEach(b=>b.classList.toggle('active',b.dataset.cat===curCat));
 }
 function buildTypeFilter() {
   const n3 = CARDS.filter(s => is3D(s.name)).length;
   const n2 = CARDS.length - n3;
   const nl = CARDS.filter(s => s.loop).length;
   const counts = { all: CARDS.length, '3d': n3, '2d': n2, loop: nl };
-  $$('.tpill').forEach(b => {
+  $$('#typeFilter .tpill').forEach(b => {
     const t = b.dataset.type;
+    b.classList.toggle('active',t===curType);
     b.innerHTML = b.textContent.trim().split(' ')[0] + ' <span class="cnt">' + (counts[t] ?? 0) + '</span>';
     b.addEventListener('click', () => {
       curType = t;
-      $$('.tpill').forEach(x => x.classList.toggle('active', x === b));
+      if(portalFeatures){if(t==='all')delete portalFeatures.state.context.type;else portalFeatures.state.context.type=t;portalFeatures.commit();}
+      $$('#typeFilter .tpill').forEach(x => x.classList.toggle('active', x === b));
       render();
     });
   });
@@ -281,9 +280,12 @@ function filtered() {
     const label = s.vo
       ? (s.voType === 'event' ? voPretty(s.event) : (s.family + ' Flag ' + s.flag + ' ' + FLAG_NAMES[s.flag] + ' ' + (s.events || []).map(voEventLabel).join(' ')))
       : pretty(s.name);
-    if (curTerm && !(s.name.toLowerCase().includes(curTerm) || label.toLowerCase().includes(curTerm))) return false;
+    if (portalFeatures) {
+      const takes = s.takes || Object.values(s.byStatus || {}).flat();
+      if (!takes.some(c => SoundFeatures.matches(c, portalFeatures.state) && SoundFeatures.score({...c, label}, curTerm, portalFeatures.vocab))) return false;
+    } else if (curTerm && !(s.name.toLowerCase().includes(curTerm) || label.toLowerCase().includes(curTerm))) return false;
     return true;
-  }).sort((a, b) => sortRank(a) - sortRank(b)); // Array.sort is stable -> keeps category/name order within each rank
+  }).sort((a, b) => sortRank(a) - sortRank(b) || (portalFeatures ? portalScore(b) - portalScore(a) : 0)); // Array.sort is stable -> keeps category/name order within each rank
 }
 function render() {
   const grid = $('#grid');
@@ -292,6 +294,7 @@ function render() {
   $('#emptyTerm').textContent = curTerm;
   grid.innerHTML = list.map((s, i) => cardHTML(s, i)).join('');
   $$('.card', grid).forEach(card => wireCard(card));
+  if (portalFeatures) { decoratePortal(); portalFeatures.map?.draw(); }
   observeWaves();
   // re-link the currently playing sound to its fresh card (if still visible)
   if (active) {
@@ -299,29 +302,29 @@ function render() {
     if (c) { ensureWave(c); active.card = c; active.ws = wsByFile.get(active.sound.file); setPlayingUI(c, active.playing); }
   }
 }
-function cardHTML(s, i) {
-  if (s.vo) return voCardHTML(s, i);
-  const title = pretty(s.name);
-  const dimTag = is3D(s.name) ? '<span class="tag tag-3d">3D</span>' : '<span class="tag tag-2d">2D</span>';
+function cardHTML(s, i, game = false) {
+  if (!game && s.vo) return voCardHTML(s, i);
+  const title = game ? SoundFeatures.escape(pretty(s.name)) : pretty(s.name);
+  const dimTag = (game ? sound3D(s) : is3D(s.name)) ? '<span class="tag tag-3d">3D</span>' : '<span class="tag tag-2d">2D</span>';
   const loopTag = s.loop ? '<span class="tag tag-loop">Loop</span>' : '';
   const crashTag = s.crash ? '<span class="tag tag-crash" title="Crashes the game when played in Portal, even with real audio available here">crash</span>' : '';
-  const variantsTag = s.takes.length > 1 ? `<span class="tag">${s.takes.length} variants</span>` : '';
+  const variantsTag = !game && s.takes.length > 1 ? `<span class="tag">${s.takes.length} variants</span>` : '';
   const recordedTag = s.source === 'recorded' ? '<span class="tag" title="Game export unavailable; original in-game recording">recorded</span>' : '';
   // "warn" = anything that doesn't reliably work in-game: no audio (silent) OR fires randomly (unreliable VO).
   const warn = !s.crash && (s.silent || s.unreliable);
   const warnLabel = s.silent ? 'DID NOT PLAY IN-GAME' : 'UNRELIABLE &middot; MAY NOT PLAY';
   const warnTitle = s.silent ? 'No audio when played in-game (silent / conditional asset)'
-    : 'Announcer voice-over: fires randomly / often silent on the live build (engine bug) — may not play in your mod';
+    : 'Announcer voice-over: fires randomly / often silent on the live build (engine bug). May not play in your mod';
   const warnTag = warn ? `<span class="tag tag-unreliable" title="${warnTitle}">${s.silent ? 'no audio' : 'unreliable'}</span>` : '';
   const cls = s.crash ? ' card--crash' : (warn ? ' card--warn' : '');
-  const banner = s.crash ? '<div class="caution caution--crash"><span>&#9888; CRASHES THE GAME</span></div>'
-    : (warn ? `<div class="caution caution--warn"><span>&#9888; ${warnLabel}</span></div>` : '');
+  const banner = s.crash ? '<div class="caution caution--crash"><span>CRASHES THE GAME</span></div>'
+    : (warn ? `<div class="caution caution--warn"><span>${warnLabel}</span></div>` : '');
   return `
-  <article class="card${cls}" data-file="${s.file}" data-name="${s.name}" data-cat="${s.cat}" data-loop="${s.loop}" style="animation-delay:${Math.min(i * 18, 360)}ms">
+  <article class="card${cls}" ${game ? `data-library="game" title="${SoundFeatures.escape(s.assetPath || s.name)}"` : ''} data-file="${s.file}" data-name="${game ? SoundFeatures.escape(s.name) : s.name}" data-cat="${s.cat}" data-loop="${s.loop}">
     ${banner}
     <div class="card-head">
       <div class="card-title">${title}</div>
-      <div class="card-tags">${dimTag}${loopTag}${crashTag}${warnTag}${variantsTag}${recordedTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
+      <div class="card-tags">${dimTag}${loopTag}${game && s.lang ? `<span class="tag tag-vo">${SoundFeatures.escape(s.lang)}</span>` : ''}${crashTag}${warnTag}${variantsTag}${recordedTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
     </div>
     <div class="card-wave" data-wave>
       <div class="ph"><i style="height:10px"></i><i style="height:24px"></i><i style="height:16px"></i><i style="height:32px"></i><i style="height:12px"></i><i style="height:26px"></i><i style="height:18px"></i></div>
@@ -335,18 +338,20 @@ function cardHTML(s, i) {
         <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>` : ''}
       <div class="asset">
-        <code data-copy title="Click to copy asset name">${s.name}</code>
+        <code data-copy title="Click to copy asset name">${game ? SoundFeatures.escape(s.name) : s.name}</code>
         <span class="hint">click name to copy</span>
       </div>
-      <a class="icon-btn" data-sfx-dl href="${s.file}" download="${clipDownloadName(SOUNDS.find(c => c.file === s.file))}" title="Download current variant" aria-label="Download">
+      <a class="icon-btn" data-sfx-dl href="${s.file}" download="${game ? SoundFeatures.escape(s.downloadName) : clipDownloadName(SOUNDS.find(c => c.file === s.file))}" title="Download current variant" aria-label="Download">
         <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
+    ${game ? `<p class="card-technical">${s.channels}ch · ${s.rate}Hz · ${SoundFeatures.escape(s.codec || '')} · ${s.takes.length} ${s.takes.length === 1 ? 'variant' : 'variants'} on page</p>${SoundFeatures.card(s, 'game')}` : ''}
   </article>`;
 }
 
 /* ---------- waveform (lazy, persistent host-div pool so re-renders don't destroy players) ---------- */
 let io;
+const gameWaveFiles = new Set();
 const hostByFile = new Map();  // file -> our container <div> (holds the wavesurfer); survives grid rebuilds
 function observeWaves() {
   if (io) io.disconnect();
@@ -366,15 +371,29 @@ function ensureWave(card) {
   cont.appendChild(host);
   const ws = WaveSurfer.create({
     container: host, url: file, height: 64,
-    waveColor: 'rgba(255,255,255,.18)', progressColor: '#ff6b1a',
-    barWidth: 2, barGap: 1, barRadius: 2, cursorWidth: 0, normalize: true,
+    waveColor: 'rgba(255,255,255,.18)', progressColor: '#BFCAD1',
+    barWidth: 2, barGap: 1, barRadius: 0, cursorWidth: 0, normalize: true,
   });
   ws.setVolume(volume);
+  if (card.dataset.library === 'game') {
+    gameWaveFiles.add(file);
+    if (gameWaveFiles.size > 6) {
+      const old = gameWaveFiles.values().next().value;
+      gameWaveFiles.delete(old); wsByFile.get(old)?.destroy();
+      wsByFile.delete(old); hostByFile.delete(old); bufCache.delete(old);
+    }
+  }
   hostByFile.set(file, host);
   wsByFile.set(file, ws);
   ws._file = file;
   // wavesurfer is DISPLAY-ONLY; playback goes through the Web Audio engine (gapless loops).
-  ws.on('interaction', (t) => { const c = cardFor(file) || card; if (!active || active.sound.file !== file) playFromCard(c); else { const wd = active.ws.getDuration() || active.dur; engSeek((t / wd) * active.dur); } });
+  ws.on('interaction', (t) => {
+    const c = cardFor(file) || card;
+    if (!active || active.sound.file !== file) {
+      if (c.dataset.library === 'game') window.LibraryPlayer.replay?.(c);
+      else playFromCard(c);
+    } else {const wd = active.ws.getDuration() || active.dur; engSeek((t / wd) * active.dur);}
+  });
   return ws;
 }
 function cardFor(file) { return $(`.card[data-file="${CSS.escape(file)}"]`); }
@@ -393,11 +412,14 @@ async function getBuffer(file) {
   const ab = await (await fetch(file)).arrayBuffer();
   const buf = await AC.decodeAudioData(ab);
   bufCache.set(file, buf);
+  if (bufCache.size > 12) bufCache.delete(bufCache.keys().next().value);
   return buf;
 }
 function engStop() { // stop current source, keep selection
+  portalPlayRequest++;
+  window.BF6UI?.audition('portal', false);
   if (active && active.src) { active._manualStop = true; try { active.src.onended = null; active.src.stop(); } catch (e) {} active.src = null; }
-  if (active) cancelAnimationFrame(active.raf);
+  if (active) {active.loading = false; cancelAnimationFrame(active.raf);}
 }
 function engCurTime() {
   if (!active) return 0;
@@ -422,10 +444,14 @@ function engTick() {
   active.raf = requestAnimationFrame(engTick);
 }
 async function engPlay(fromOffset) {
+  const ticket = ++portalPlayRequest, sound = active.sound;
+  active.loading = true;
+  window.BF6UI?.audition('portal', true);
   if (AC.state === 'suspended') { try { await AC.resume(); } catch (e) {} }
-  const sound = active.sound;
-  const buf = await getBuffer(sound.file);
-  if (!active || active.sound !== sound) return; // selection changed while decoding
+  let buf;
+  try { buf = await getBuffer(sound.file); }
+  catch (error) { if (ticket === portalPlayRequest) { active.loading = false; window.BF6UI?.audition('portal', false); toast('Audio unavailable'); } return; }
+  if (ticket !== portalPlayRequest || !active || active.sound !== sound) return;
   engStop();
   const src = AC.createBufferSource(); src.buffer = buf; src.loop = loopOn;
   const gain = AC.createGain(); gain.gain.value = volume * ampParam * previewBoost();
@@ -439,12 +465,13 @@ async function engPlay(fromOffset) {
   const off = (((fromOffset || 0) % buf.duration) + buf.duration) % buf.duration;
   active.src = src; active.gain = gain; active.dur = buf.duration;
   active.offset = off; active.startedAt = AC.currentTime; active.playing = true; active._manualStop = false;
-  src.onended = () => { if (active && active.src === src && !active._manualStop) { active.playing = false; active.offset = 0; cancelAnimationFrame(active.raf); setPlayingUI(cardFor(sound.file), false); updateDockTime(active.dur, active.dur); setWaveProgress(0, true); } };
+  window.BF6UI?.audition('portal', true);
+  src.onended = () => { if (active && active.src === src && !active._manualStop) { window.BF6UI?.audition('portal', false); active.playing = false; active.offset = 0; cancelAnimationFrame(active.raf); setPlayingUI(cardFor(sound.file), false); updateDockTime(active.dur, active.dur); setWaveProgress(0, true); } };
   src.start(0, off);
   setPlayingUI(cardFor(sound.file), true);
   engTick();
 }
-function engPause() { if (!active || !active.playing) return; active.offset = engCurTime(); active.playing = false; engStop(); setPlayingUI(cardFor(active.sound.file), false); }
+function engPause() { if (!active || !active.playing) { engStop(); return; } active.offset = engCurTime(); active.playing = false; engStop(); setPlayingUI(cardFor(active.sound.file), false); }
 function engSeek(t) { if (!active) return; if (active.playing) engPlay(t); else { active.offset = t; updateDockTime(t, active.dur); setWaveProgress(t); } }
 function applyLoop() { if (active && active.src) active.src.loop = loopOn; }
 function applyGain() { if (active && active.gain) active.gain.gain.value = volume * ampParam * previewBoost(); }
@@ -478,6 +505,7 @@ function playFromCard(card, nextVariant = false) {
     dl.href = take.file; dl.download = clipDownloadName(take);
     $('.tag-dur', card).textContent = fmt(take.dur, take.dur);
   }
+  if (portalFeatures) decoratePortalCard(card);
   ensureWave(card);
   const file = card.dataset.file;
   const ws = wsByFile.get(file);
@@ -489,7 +517,8 @@ function playFromCard(card, nextVariant = false) {
   reflectLoop();
   setDock(sound);
   engPlay(0);
-  if (!$('#spatial').hidden) openSpatial(sound); // keep the radar panel + its options in sync with the playing sound
+  // The radar/code panel slides up with every play unless the visitor closed it (remembered per browser).
+  if (!$('#spatial').hidden || radarWanted()) openSpatial(sound);
 }
 function setPlayingUI(card, playing) {
   $$('.card.playing').forEach(c => { if (c !== card) c.classList.remove('playing'); });
@@ -523,9 +552,16 @@ function updateDockTime(t, dur) {
 function reflectLoop() { $('#dockLoop').classList.toggle('on', loopOn); $('#dockLoop').setAttribute('aria-pressed', loopOn); }
 
 $('#dockPlay').addEventListener('click', () => { if (!active) return; if (active.playing) engPause(); else engPlay(active.offset || 0); });
+$('#dockDl').addEventListener('click', e => {
+  if (active?.sound.library === 'game') {e.preventDefault(); window.LibraryPlayer.download?.(active.sound.clip);}
+});
 $('#dockLoop').addEventListener('click', () => { loopOn = !loopOn; reflectLoop(); applyLoop(); toast(loopOn ? 'Loop on' : 'Loop off'); });
+const RADAR_KEY = 'bf6sb.radarClosed';
+function radarWanted() { try { return localStorage.getItem(RADAR_KEY) !== '1'; } catch { return true; } }
+function rememberRadar(closed) { try { localStorage.setItem(RADAR_KEY, closed ? '1' : '0'); } catch { /* storage blocked */ } }
 $('#dockSpatial').addEventListener('click', () => {
-  if (!$('#spatial').hidden) { $('#spatial').hidden = true; return; }   // toggle: button while open closes it
+  if (!$('#spatial').hidden) { $('#spatial').hidden = true; rememberRadar(true); return; }   // toggle: button while open closes it
+  rememberRadar(false);
   if (active && active.sound) openSpatial(active.sound); else toast('Play a sound first');
 });
 $('#vol').addEventListener('input', (e) => { volume = +e.target.value; applyGain(); });
@@ -581,7 +617,7 @@ function buildAbout() {
     if (c === 'Crash Sounds') { const m = s.name.match(/^SFX_([A-Za-z]+)_/); if (m) c = m[1]; } // count crashers toward their SFX category
     cap[c] = (cap[c] || 0) + 1;
   });
-  const rows = ['<div class="cov-row head"><span>Category</span><span>captured / SDK</span><span>coverage</span></div>'];
+  const rows = ['<div class="cov-row head"><span>Category</span><span>listed / SDK</span><span>coverage</span></div>'];
   let capTotal = 0;
   Object.keys(SDK_CATS).sort((a, b) => SDK_CATS[b] - SDK_CATS[a]).forEach(c => {
     const got = cap[c] || 0, tot = SDK_CATS[c]; capTotal += Math.min(got, tot);
@@ -598,19 +634,17 @@ $('#aboutOverlay').addEventListener('click', (e) => { if (e.target.id === 'about
 $('#creditsBtn').addEventListener('click', () => { $('#creditsOverlay').hidden = false; });
 $('#creditsClose').addEventListener('click', () => { $('#creditsOverlay').hidden = true; });
 $('#creditsOverlay').addEventListener('click', (e) => { if (e.target.id === 'creditsOverlay') $('#creditsOverlay').hidden = true; });
-$('#recorderBtn').addEventListener('click', () => { $('#recorderOverlay').hidden = false; });
-$('#recorderClose').addEventListener('click', () => { $('#recorderOverlay').hidden = true; });
-$('#recorderOverlay').addEventListener('click', (e) => { if (e.target.id === 'recorderOverlay') $('#recorderOverlay').hidden = true; });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('#aboutOverlay').hidden = true; $('#creditsOverlay').hidden = true; $('#recorderOverlay').hidden = true; } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('#aboutOverlay').hidden = true; $('#creditsOverlay').hidden = true; } });
 
 /* ---------- search ---------- */
 const search = $('#search');
 search.addEventListener('input', () => {
   curTerm = search.value.trim().toLowerCase();
+  if (portalFeatures) { portalFeatures.state.query = curTerm; portalFeatures.commit(); }
   $('.search').classList.toggle('has-text', !!curTerm);
   render();
 });
-$('#searchClear').addEventListener('click', () => { search.value = ''; curTerm = ''; $('.search').classList.remove('has-text'); render(); search.focus(); });
+$('#searchClear').addEventListener('click', () => { search.value = ''; curTerm = ''; if (portalFeatures) { portalFeatures.state.query = ''; portalFeatures.commit(); } $('.search').classList.remove('has-text'); render(); search.focus(); });
 
 /* ---------- header shrink ---------- */
 addEventListener('scroll', () => $('#header').classList.toggle('small', scrollY > 20));
@@ -660,32 +694,34 @@ function recomputeWorld() {
   spWorld.z = (py / u) * spWorld.dist;               // -Z forward (py<0 = up = forward)
 }
 function drawRadar() {
-  const d3 = spSound && is3D(spSound.name);
+  const d3 = spSound && sound3D(spSound);
   radar.classList.toggle('is2d', !d3);
   RCTX.clearRect(0, 0, 340, 340);
   // rings
   for (let i = 1; i <= 4; i++) {
     const r = RR * i / 4;
     RCTX.beginPath(); RCTX.arc(RC, RC, r, 0, Math.PI * 2);
-    RCTX.strokeStyle = i === 4 ? 'rgba(255,107,26,.6)' : 'rgba(255,255,255,.10)';
+    RCTX.strokeStyle = i === 4 ? 'rgba(191,202,209,.6)' : 'rgba(255,255,255,.10)';
     RCTX.lineWidth = i === 4 ? 2 : 1; RCTX.stroke();
   }
   // axes
   RCTX.strokeStyle = 'rgba(255,255,255,.06)'; RCTX.lineWidth = 1;
   RCTX.beginPath(); RCTX.moveTo(RC - RR, RC); RCTX.lineTo(RC + RR, RC); RCTX.moveTo(RC, RC - RR); RCTX.lineTo(RC, RC + RR); RCTX.stroke();
   // forward label
-  RCTX.fillStyle = 'rgba(170,176,190,.6)'; RCTX.font = '10px Inter, sans-serif'; RCTX.textAlign = 'center';
+  RCTX.fillStyle = 'rgba(191,202,209,.60)';
+  RCTX.font = Math.max(19, 13 * radar.width / (radar.clientWidth || 240)) + 'px BF Sub, sans-serif';
+  RCTX.textAlign = 'center';
   RCTX.fillText('FRONT', RC, RC - RR + 14); RCTX.fillText('BACK', RC, RC + RR - 8);
   if (d3) {
     const sx = RC + spPx, sy = RC + spPy;
     RCTX.strokeStyle = 'rgba(255,255,255,.25)'; RCTX.lineWidth = 2;
     RCTX.beginPath(); RCTX.moveTo(RC, RC); RCTX.lineTo(sx, sy); RCTX.stroke();
     RCTX.beginPath(); RCTX.arc(sx, sy, 8, 0, Math.PI * 2);     // 3D source = cool blue (matches 3D badge)
-    RCTX.fillStyle = '#3aa0ff'; RCTX.shadowColor = '#3aa0ff'; RCTX.shadowBlur = 12; RCTX.fill(); RCTX.shadowBlur = 0;
+    RCTX.fillStyle = '#59BFF8'; RCTX.shadowColor = '#59BFF8'; RCTX.shadowBlur = 12; RCTX.fill(); RCTX.shadowBlur = 0;
   }
   // player (you) = BF6 orange
   RCTX.beginPath(); RCTX.arc(RC, RC, 7, 0, Math.PI * 2);
-  RCTX.fillStyle = '#ff6b1a'; RCTX.shadowColor = '#ff6b1a'; RCTX.shadowBlur = 14; RCTX.fill(); RCTX.shadowBlur = 0;
+  RCTX.fillStyle = '#BFCAD1'; RCTX.shadowColor = '#BFCAD1'; RCTX.shadowBlur = 14; RCTX.fill(); RCTX.shadowBlur = 0;
 }
 function refreshSpatialReadout() {
   recomputeWorld();
@@ -697,18 +733,20 @@ function refreshSpatialReadout() {
 }
 function genCode() {
   if (!spSound) return '';
-  const N = 'mod.RuntimeSpawn_Common.' + spSound.name;
+  if (spSound.library === 'game' && !spSound.portalName) return '// Game asset: ' + spSound.assetPath + '\n// This asset has no Portal PlaySound name.';
+  const N = 'mod.RuntimeSpawn_Common.' + (spSound.portalName || spSound.name);
   const sc = spScope ? ', ' + spScope : '';
-  if (is3D(spSound.name)) {
+  if (sound3D(spSound)) {
     const x = spWorld.x.toFixed(1), z = spWorld.z.toFixed(1);
     return [
-      '// position is RELATIVE to the listener — add the player’s world pos in-game',
+      '// Position is relative to the listener. Add the player’s world position in-game.',
       'const pos = mod.CreateVector(' + x + ', 0, ' + z + ')',
       'const sfx = mod.SpawnObject(' + N + ', pos, mod.CreateVector(0,0,0), mod.CreateVector(1,1,1))',
       'mod.PlaySound(sfx, ' + ampParam.toFixed(1) + ', pos, ' + attenRange + sc + ')',
     ].join('\n');
   }
   return [
+    'const pos = mod.CreateVector(0, 0, 0)',
     'const sfx = mod.SpawnObject(' + N + ', pos, mod.CreateVector(0,0,0), mod.CreateVector(1,1,1))',
     'mod.PlaySound(sfx, ' + ampParam.toFixed(1) + sc + ')',
   ].join('\n');
@@ -718,11 +756,11 @@ function openSpatial(sound) {
   spSound = sound;
   $('#spatial').hidden = false;
   $('#spName').textContent = pretty(sound.name);
-  $('#spMode').textContent = (is3D(sound.name) ? '3D positional' : '2D (non-positional)') + (sound.loop ? ' · loop' : '') + ' · ' + sound.name;
+  $('#spMode').textContent = (sound3D(sound) ? '3D positional' : '2D (non-positional)') + (sound.loop ? ' · loop' : '') + ' · ' + sound.name;
   refreshSpatialReadout();
 }
 function radarSet(e) {
-  if (!spSound || !is3D(spSound.name)) return;
+  if (!spSound || !sound3D(spSound)) return;
   const r = radar.getBoundingClientRect();
   const scale = 340 / r.width;
   spPx = (e.clientX - r.left) * scale - RC;
@@ -735,7 +773,7 @@ function playSpatial() {
   if (!spSound) return;
   engStop();
   const ws = wsByFile.get(spSound.file);
-  active = { sound: spSound, ws, card: cardFor(spSound.file), offset: 0, playing: false, dur: spSound.dur, spatial: is3D(spSound.name) };
+  active = { sound: spSound, ws, card: cardFor(spSound.file), offset: 0, playing: false, dur: spSound.dur, spatial: sound3D(spSound) };
   loopOn = !!spSound.loop; reflectLoop();
   setDock(spSound);
   engPlay(0);
@@ -748,12 +786,79 @@ $('#rangeSlider').addEventListener('input', (e) => { attenRange = +e.target.valu
 $('#ampSlider').addEventListener('input', (e) => { ampParam = +e.target.value; refreshSpatialReadout(); applyGain(); });
 $('#scopeSel').addEventListener('change', (e) => { spScope = e.target.value; $('#spCode').textContent = genCode(); });
 $('#spPlay').addEventListener('click', playSpatial);
-$('#spClose').addEventListener('click', () => { $('#spatial').hidden = true; });
+$('#spClose').addEventListener('click', () => { $('#spatial').hidden = true; rememberRadar(true); });
 $('#spReset').addEventListener('click', () => {
   spPx = 0; spPy = -60;                       // back to the default forward position
   refreshSpatialReadout();
   if (active && active.spatial && active.panner) { active.panner.positionX.value = spWorld.x; active.panner.positionZ.value = spWorld.z; }
 });
 $('#spCopy').addEventListener('click', () => navigator.clipboard.writeText(genCode()).then(() => toast('Code copied')).catch(() => toast('Copy failed')));
+
+
+let portalFeatures = null;
+let portalFeatureBase = '';
+async function initPortalFeatures() {
+  const fixture = ['localhost','127.0.0.1','[::1]'].includes(location.hostname) && new URLSearchParams(location.search).get('soundFixture') === '1';
+  portalFeatureBase = fixture ? 'notes/feature-fixture/portal/' : '';
+  const F = window.SoundFeatures;
+  const [features,vocab] = await Promise.all([F.optional(portalFeatureBase+'portal-features.json'),F.optional(portalFeatureBase+'tags.json')]);
+  for (const c of SOUNDS) if (features?.version === 1 && features.clips?.[c.file]) Object.assign(c,features.clips[c.file]);
+  portalFeatures = new window.SoundFeaturePanel('portal',document.getElementById('portalFeatures'),()=>{curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';$$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat===curCat));$$('#typeFilter .tpill').forEach(b=>b.classList.toggle('active',b.dataset.type===curType));curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;render();});
+  portalFeatures.data(vocab,SOUNDS);curCat=portalFeatures.state.context.category||'All';curType=portalFeatures.state.context.type||'all';curTerm=portalFeatures.state.query.toLowerCase();$('#search').value=portalFeatures.state.query;
+  // Maps call the predicate once per point per repaint, using a prepared set.
+  portalFeatures.mapOptions=()=>{let names=new Set();return {section:'portal',base:portalFeatureBase,key:()=>JSON.stringify([portalFeatures.state,curCat,curType,curTerm]),prepare:()=>{names=new Set(filtered().flatMap(c=>[c.name,...(c.takes||Object.values(c.byStatus||{}).flat()).map(t=>t.name)]));},matches:p=>names.has(p.name),open:p=>openPortalFeature(p.name)};};
+  $('#grid').addEventListener('click',async e=>{const tag=e.target.closest('[data-feature-tag]');if(tag){portalFeatures.tag(tag.dataset.featureTag);return;}const similar=e.target.closest('[data-similar]');if(similar){const data=await F.optional(portalFeatureBase+'portal-similar.json');const valid=new Set(SOUNDS.map(s=>s.name));portalFeatures.neighbours((data?.[similar.dataset.similar]||[]).filter(r=>valid.has(r[0])).slice(0,20).map(r=>({name:r[0],score:r[1],href:SoundFeatures.link(location.href,'portal',{...SoundFeatures.empty(),query:r[0]})})),r=>openPortalFeature(r.name));}});
+}
+function portalScore(c) {return Math.max(0,...(c.takes||Object.values(c.byStatus||{}).flat()).map(t=>SoundFeatures.matches(t,portalFeatures.state)?SoundFeatures.score(t,curTerm,portalFeatures.vocab):0));}
+function decoratePortalCard(card) {const c=SOUNDS.find(s=>s.file===card.dataset.file);if(!c)return;let host=card.querySelector('.sound-details');const html=SoundFeatures.card(c,'portal');if(host)host.outerHTML=html;else card.insertAdjacentHTML('beforeend',html);}
+function decoratePortal() {$$('.card',$('#grid')).forEach(decoratePortalCard);}
+function openPortalFeature(name) {
+  const c=CARDS.find(c=>c.name===name||(c.takes||Object.values(c.byStatus||{}).flat()).some(t=>t.name===name));if(!c){toast('Sound card unavailable');return;}
+  curCat='All';curType='all';portalFeatures.state=SoundFeatures.empty();portalFeatures.state.query=c.name;portalFeatures.commit();
+  $$('#chips .chip').forEach(b=>b.classList.toggle('active',b.dataset.cat==='All'));$$('#typeFilter .tpill').forEach(b=>b.classList.toggle('active',b.dataset.type==='all'));
+  const card=$$('.card',$('#grid')).find(el=>el.dataset.name===c.name);if(card){card.scrollIntoView({block:'center'});card.focus();const source=SOUNDS.find(s=>s.name===name);const status=card.querySelector('[data-vo-status]');if(status&&source?.event){status.value=source.event;status.dispatchEvent(new Event('change'));}card.tabIndex=-1;const button=card.querySelector('[data-play]');button?.click();}
+}
+
+/* Game Library shares the Portal renderer, dock, waveform and spatial engine. */
+const librarySelections = new Map();
+window.LibraryPlayer = {
+  card: sound => cardHTML(sound, 0, true),
+  isCurrent: file => active?.sound.file === file,
+  canToggle: file => active?.sound.file === file && (active.playing || active.loading || active.offset > 0),
+  play(sound, card, another = false) {
+    if (!another && this.canToggle(sound.file)) {
+      active.card = card;
+      if (active.playing || active.loading) engPause(); else engPlay(active.offset || 0);
+      return;
+    }
+    engPause();
+    const ws = ensureWave(card);
+    active = {sound, card, ws, offset:0, playing:false, dur:sound.dur, spatial:false};
+    loopOn = !!sound.loop; reflectLoop(); setDock(sound); engPlay(0);
+    if (!$('#spatial').hidden || radarWanted()) openSpatial(sound);
+  },
+  release() {
+    librarySelections.delete('game');
+    if (active?.sound.library === 'game') {engPause(); active = null; $('#dock').classList.remove('show'); $('#dock').setAttribute('aria-hidden','true'); $('#spatial').hidden = true;}
+  },
+  section(section) {
+    const spatialOpen = !$('#spatial').hidden;
+    engPause();
+    if (active) librarySelections.set(active.sound.library || 'portal', {active, spSound, spatialOpen, loopOn});
+    active = null; spSound = null;
+    $('#dock').classList.remove('show'); $('#dock').setAttribute('aria-hidden','true'); $('#spatial').hidden = true;
+    const saved = librarySelections.get(section);
+    if (saved) {
+      active = saved.active; spSound = saved.spSound; loopOn = saved.loopOn;
+      setDock(active.sound); reflectLoop(); setPlayingUI(active.card,false);
+      updateDockTime(active.offset || 0,active.dur); setWaveProgress(active.offset || 0);
+      if (saved.spatialOpen && spSound) openSpatial(spSound);
+    }
+  },
+  attach(card) {
+    if (active?.sound.file !== card.dataset.file) return;
+    active.card = card; active.ws = ensureWave(card); setPlayingUI(card,active.playing);
+  },
+};
 
 init();

@@ -1,0 +1,114 @@
+/* Palette bytes are the decoded linear-to-sRGB values in ui_color_palette.tsv.
+   Home gamemodeinfo_bundlecell: 300ms timeline, 250ms linear keys (2728/3168).
+   This is a responsive archive using the game's visual language, not a retail replica. */
+:root {
+  color-scheme:dark;
+  --bg:#07090a; --bg2:#07090a; --panel:rgba(17,20,22,.92); --panel2:#22272a;
+  --card:rgba(17,20,22,.94); --card-h:#22272a;
+  --txt:#BFCAD1; --txt2:#AEC0CC; --muted:#AEC0CC;
+  --line:rgba(191,202,209,.27); --line-h:#BFCAD1;
+  --cyan:#BFCAD1; --cyan-glow:transparent;
+  --blue:#59BFF8; --blue-glow:transparent;
+  --amber:#FFBD44; --green:#8EED6C; --red:#FB694D;
+  --grad:linear-gradient(#BFCAD1,#BFCAD1); --grad-wave:linear-gradient(#BFCAD1,#BFCAD1);
+  --shadow:0 12px 32px rgba(0,0,0,.6); --shadow-glow:none;
+  --ease:250ms linear;
+}
+body {font-size:16px}
+button,input,select {font-family:'BF Sub',Arial,sans-serif}
+button,a,input,select,summary {touch-action:manipulation}
+:focus-visible {outline:2px solid #BFCAD1;outline-offset:4px}
+.bg-fx {background:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.60)),linear-gradient(0deg,#07090a,transparent 70%),url('assets/art/limestone.webp') center top/cover no-repeat}
+.bg-glow,.bg-grid,.bg-noise {display:none}
+.header,.header.small {background:rgba(7,9,10,.92);border-bottom:1px solid var(--line)}
+.brand-mark {background:transparent;border:1px solid var(--line);border-radius:0;box-shadow:none}
+.brand-mark::after {display:none}
+.brand-resource {width:32px;height:32px;background:var(--txt);mask:url('assets/ui/effects.svg') center/contain no-repeat}
+.brand-text h1 {color:var(--txt)}
+.v100 {color:var(--txt);text-shadow:none}
+.topnav-tab,.discord-btn,.btn,.chip,.tpill,.tag,.icon-btn,.dock-toggle,.dock-dl,.about,.about-close,.search input,.search-clear,.spatial,.sp-reset,.sp-close,.sp-copy,.sp-code,#scopeSel,.toast,.dl-box {border-radius:0}
+.topnav-tab,.btn,.chip,.tpill {font-family:'BF Sub',Arial,sans-serif;letter-spacing:.06em}
+.topnav-tab:hover,.btn:hover,.chip:hover,.tpill:hover {background:rgba(191,202,209,.08);border-color:var(--txt);box-shadow:none;transform:none}
+#uiSoundToggle[aria-pressed="true"] {color:var(--green);border-color:var(--green)}
+.discord-btn {background:var(--panel2);color:var(--txt);box-shadow:none;border-color:var(--line)}
+.discord-btn::before {display:none}
+.topnav-tab::before {display:none}
+.spatial {background:rgba(7,9,10,.96);animation:none}
+.archive-hero {position:relative;overflow:hidden;min-height:clamp(210px,29vh,330px);margin-top:24px;padding:clamp(20px,4vh,44px);border:1px solid var(--line);background:linear-gradient(90deg,rgba(7,9,10,.92),rgba(7,9,10,.27)),linear-gradient(0deg,rgba(7,9,10,.60),transparent),url('assets/art/limestone.webp') center/cover no-repeat}
+.archive-kicker {font:700 13px 'BF Sub',Arial,sans-serif;letter-spacing:.18em;color:#FFBD44}
+.archive-hero h2 {font:700 clamp(36px,6vh,66px)/.96 'BF Headline',Impact,sans-serif;margin:14px 0;color:var(--txt)}
+.archive-hero>p:last-of-type {font-size:15px;max-width:420px;color:var(--txt2)}
+.archive-index {position:absolute;right:24px;bottom:24px;font:13px 'BF Mono',monospace;border-top:1px solid var(--line);padding-top:8px;letter-spacing:.12em}
+.library-switch {gap:0;border-bottom:1px solid var(--line);margin-bottom:24px}
+.library-switch .btn {background:rgba(7,9,10,.60);padding:16px 24px;border:0;border-bottom:3px solid transparent;box-shadow:none}
+.library-switch [aria-pressed="true"] {background:rgba(191,202,209,.27);border-bottom-color:var(--txt);color:var(--txt)}
+.statband {background:rgba(7,9,10,.60)}
+.chip.active,.tpill.active {background:rgba(191,202,209,.27);color:var(--txt);border-color:var(--txt);box-shadow:none}
+.card {animation:none;transition:background 250ms linear,border-color 250ms linear}
+.card:hover {transform:none;box-shadow:none;border-color:var(--txt)}
+.card::before {display:none}
+.card.playing {border-color:var(--txt);box-shadow:inset 3px 0 var(--txt)}
+.card-tags {flex-wrap:wrap;justify-content:flex-end;gap:4px}
+.tag {padding:3px 6px;font-size:13px;letter-spacing:.02em;box-shadow:none}
+.play-btn,.dock-play {border-radius:0;box-shadow:none;background:var(--txt)}
+.play-btn:hover,.dock-play:hover {transform:none;box-shadow:none}
+.dock {transition:transform 250ms linear}
+.dock-inner {background:rgba(7,9,10,.96);border-radius:0;border-color:var(--line);backdrop-filter:blur(8px)}
+.dock-wave .pgfill {box-shadow:none}
+.sp-code {color:var(--txt2);background:#07090a}
+.radar-wrap {width:340px;max-width:100%}
+#radar {width:340px;max-width:100%;height:auto}
+.loader {transition:opacity 250ms linear,visibility 250ms linear}
+.loader.hide {pointer-events:none}
+.loader-bars span,.card-wave .ph i,.ss-online i {animation:none}
+.loader-bars span {height:24px;border-radius:0;box-shadow:none}
+@media(max-width:760px) {
+  .header-inner {gap:12px}.topnav {width:100%;flex-wrap:wrap;gap:6px}
+  .topnav-tab,.discord-btn {padding:10px 12px;min-height:40px}
+  .archive-index {display:none}.archive-hero {margin-top:16px}
+  .library-switch .btn {flex:1;justify-content:center;padding:14px 8px}
+  .card-head {flex-wrap:wrap}.card-tags {justify-content:flex-start}
+}
+/* Includes modal/scroll/progress motion and generated WaveSurfer descendants. */
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+.reduced-motion *,.reduced-motion *::before,.reduced-motion *::after {animation:none!important;transition:none!important;scroll-behavior:auto!important}
+.feature-panel {border:1px solid var(--line);padding:14px;background:var(--panel);margin:16px 0}
+.feature-panel summary {cursor:pointer;font-size:16px;letter-spacing:.06em}
+.feature-ranges {display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:12px;margin:12px 0}
+.feature-panel fieldset {border:1px solid var(--line);padding:10px;min-width:0}
+.feature-panel legend,.feature-panel label,.feature-panel output,.feature-active,.feature-readout,.feature-neighbours,.sound-map {font-size:13px;line-height:1.6}
+.feature-panel label {display:flex;gap:8px;align-items:center}
+.feature-panel input[type=range] {width:100%;min-width:0;accent-color:var(--txt)}
+.feature-panel output {display:block;color:var(--amber)}
+.feature-tags {display:flex;flex-wrap:wrap;gap:12px;margin:12px 0}
+.feature-tags fieldset {flex:1;min-width:200px}
+.feature-tags button,.sound-details button,.map-selection button {margin:3px;cursor:pointer}
+[data-feature-tag][aria-pressed=true] {border-color:var(--amber);color:var(--amber);background:var(--panel2)}
+.feature-toolbar {display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.feature-active {margin:10px 0;overflow-wrap:anywhere}
+.sound-details {border-top:1px solid var(--line);padding:10px 0;margin-top:10px}
+.feature-readout {color:var(--txt2);margin:0 0 6px}
+.feature-neighbours,.sound-map {border:1px solid var(--line);background:var(--panel);padding:14px;margin:12px 0}
+.sound-map canvas {display:block;width:100%;touch-action:none;cursor:crosshair;border:1px solid var(--line)}
+.map-legend {display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.map-legend span {padding-left:6px}
+/* Direct, static controls across the archive. */
+.spatial,.dl-spin {animation:none}
+button,input,select,fieldset {border-radius:0}
+.sound-details .tag,.feature-tags .tag,.map-selection .tag,.feature-neighbours .tag {display:inline-block;border:1px solid var(--line);background:transparent;color:var(--txt);text-decoration:none;font-family:'BF Sub',Arial,sans-serif;font-size:13px;cursor:pointer}
+.sound-details .tag:hover,.feature-tags .tag:hover,.map-selection .tag:hover,.feature-neighbours .tag:hover {border-color:var(--txt);background:var(--panel2)}
+.feature-tags [aria-pressed=true] {color:var(--amber);border-color:var(--amber)}
+/* Hidden dock controls must stay outside keyboard and full-page capture flows. */
+.dock {transition:none}
+.dock:not(.show) {visibility:hidden;pointer-events:none}
+
+.game-intro,#gameStatus {font-size:13px;color:var(--muted);margin:12px 0}
+.game-breadcrumb {display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0;font-size:13px}
+.game-breadcrumb button {background:transparent;border:0;color:var(--txt);font-size:13px;cursor:pointer;padding:6px 0}
+.game-paging {display:flex;align-items:center;justify-content:center;gap:16px;margin:16px 0;font-size:13px}
+#gameList .card,#gameResults .card {content-visibility:auto;contain-intrinsic-size:auto 310px}
+.card-technical {font-size:13px;color:var(--muted);margin:8px 0 0}
+#gameStatus:empty {display:none}
+html {scroll-padding-bottom:calc(var(--dock-h) + 24px)}

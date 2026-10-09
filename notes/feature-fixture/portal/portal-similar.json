@@ -1,0 +1,14 @@
+{
+  "SFX_Alarm": [
+    [
+      "SFX_Levels_Brooklyn_Spots_EmergencyExit_SimpleLoop3D",
+      1
+    ]
+  ],
+  "SFX_Levels_Brooklyn_Spots_EmergencyExit_SimpleLoop3D": [
+    [
+      "SFX_Alarm",
+      1
+    ]
+  ]
+}
