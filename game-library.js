@@ -7,6 +7,12 @@
   const fixture = local && (cfg.useFixture || new URLSearchParams(location.search).get('gameFixture') === '1');
   const base = (fixture ? cfg.fixtureBaseUrl : cfg.baseUrl).replace(/\/$/, '');
   const q = id => document.getElementById(id), esc = F.escape;
+  // Turned off: Portal Sounds only. Local fixture runs keep it on for the tests.
+  if (cfg.enabled === false && !fixture) {
+    q('librarySwitch')?.remove(); q('gameLibrary')?.remove();
+    document.querySelectorAll('[data-game-library]').forEach(e => e.remove());
+    return;
+  }
   const store = new C.PageStore((...args) => fetch(...args), base);
   const categories = new Map(), parents = new Map(), firstPages = new Map();
   let roots = [], initialized = false, initializing = false, currentCategory = null, currentPage = null;

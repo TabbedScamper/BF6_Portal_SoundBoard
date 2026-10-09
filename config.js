@@ -2,6 +2,8 @@
    Fill them in to turn the counters on; leave blank/null to hide them. */
 window.SB_CONFIG = {
   gameLibrary: {
+    // false hides the Game Library (the site shows Portal Sounds only). The R2 data stays online.
+    enabled: false,
     baseUrl: 'https://pub-1da528aa57f643bc9e8c257d3ab2d853.r2.dev',
     fixtureBaseUrl: 'notes/fixture',
     // Local hosts only. Alternatively visit /?gameFixture=1 (no config edit needed).

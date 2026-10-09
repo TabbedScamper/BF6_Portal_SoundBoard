@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>BF6 Portal SFX Library V2.00</title>
-<meta name="description" content="Battlefield 6 Portal sound effects library V2.00. Portal Sounds and the full Game Library." />
+<meta name="description" content="Battlefield 6 Portal sound effects library V2.00. Every sound Portal can play, with real game audio." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23ff6b1a'/%3E%3Cg fill='%23140a04'%3E%3Crect x='5' y='9' width='2' height='6'/%3E%3Crect x='9' y='5' width='2' height='14'/%3E%3Crect x='13' y='8' width='2' height='8'/%3E%3Crect x='17' y='6' width='2' height='12'/%3E%3C/g%3E%3C/svg%3E" />
 <link rel="stylesheet" href="style.css?v=24" />
 <link rel="stylesheet" href="site-look.css?v=6" />
@@ -69,12 +69,12 @@
       <button id="aboutClose" class="about-close" aria-label="Close">&times;</button>
     </div>
     <div class="about-body">
-      <p><b>V2.00</b> has two libraries. <b>Portal Sounds</b> contains the 937 sounds Portal's <code>mod.PlaySound</code> can play. 934 use real game audio with all 5,950 authored variants. The other three keep their original recordings and are marked <b>recorded</b>.</p>
+      <p><b>V2.00</b> contains the 937 sounds Portal's <code>mod.PlaySound</code> can play. 934 use real game audio with all 5,950 authored variants. The other three keep their original recordings and are marked <b>recorded</b>.</p>
       <p>The Portal list comes from <code>RuntimeSpawn_Common</code> in <b>Portal SDK v<span id="sdkVer">?</span></b>: <b id="sdkTotal">?</b> sounds across <b id="sdkCats">?</b> categories. <code>SFX_VOModule</code> is excluded because it is a silent carrier for <code>PlayVO</code>.</p>
       <div class="cov" id="coverage"></div>
       <p><b>Announcer</b> cards use recordings of <code>PlayVO</code> lines, grouped by event and objective flag. Some events played the wrong line or stayed silent during testing. Their warnings and silent placeholders remain.</p>
-      <p><b>Game Library</b> contains every sound in the game: 287,216 clips across 14,637 sounds, about 195 hours of audio. Categories follow the game's own folders. Clips stream from Cloudflare R2. Description and name search uses the whole library index. Measurement filters apply to the loaded page.</p>
-      <p>Each new play cycles to another variant when available. Portal cards have a <b>Try another variant</b> button. Game Library uses the same variant control. Card and dock downloads save the current variant; Portal category and full-library ZIPs include every variant.</p>
+      <p data-game-library><b>Game Library</b> contains every sound in the game: 287,216 clips across 14,637 sounds, about 195 hours of audio. Categories follow the game's own folders. Clips stream from Cloudflare R2. Description and name search uses the whole library index. Measurement filters apply to the loaded page.</p>
+      <p>Each new play cycles to another variant when available. Cards with variants have a <b>Try another variant</b> button. Card and dock downloads save the current variant; category and full-library ZIPs include every variant.</p>
       <p>Game loops keep their full authored sample range and repeat through the Web Audio API. Recorded loops keep their existing matched loop points. The dock controls playback, seeking, volume and looping.</p>
       <p><b>RADAR</b> opens the spatial panel. For 3D sounds, drag the source around the listener and set the range, amplitude and scope. The panel generates TypeScript to spawn the sound and call <code>mod.PlaySound</code>. Coordinates are relative to the listener; add the player's world position in your script. 2D sounds play without positional attenuation. The preview's falloff is approximate.</p>
       <p class="about-note">Crash, silent and unreliable warnings describe observed Portal behaviour. An available game-file preview does not remove those warnings.</p>
@@ -90,7 +90,7 @@
       <button id="creditsClose" class="about-close" aria-label="Close">&times;</button>
     </div>
     <div class="about-body">
-      <p><b>Sounds</b>: all audio is from <b>Battlefield&nbsp;6</b> / Portal (&copy; EA &amp; DICE), used for reference and modding. Portal SFX and Game Library clips come from game files, except the three retained SFX recordings and announcer PlayVO recordings.</p>
+      <p><b>Sounds</b>: all audio is from <b>Battlefield&nbsp;6</b> / Portal (&copy; EA &amp; DICE), used for reference and modding. Portal SFX come from game files, except the three retained SFX recordings and announcer PlayVO recordings.</p>
       <p><b>Game audio</b>: lossless decoded assets from the BF6 Modding SDK audio export; all authored variants supplied by that export are included.</p>
       <p><b>Built by</b>: TabbedScamper.</p>
       <p><b>Thanks</b>: the <b>Battlefield Portal Hub</b> community for the SDK research and testing this relies on (sound behaviour, announcer-VO quirks, attenuation notes).</p>
@@ -102,11 +102,11 @@
 <section class="container archive-hero" aria-label="Audio archive">
   <p class="archive-kicker">BATTLEFIELD 6 / AUDIO ARCHIVE</p>
   <h2>Every sound.<br>Ready to explore.</h2>
-  <p>Portal sounds and every clip in the game files.</p>
+  <p>Every sound Portal can play, with real game audio.</p>
   <span class="archive-index" aria-hidden="true">SOUND / 01</span>
 </section>
 
-<nav class="container library-switch" aria-label="Sound library">
+<nav class="container library-switch" id="librarySwitch" aria-label="Sound library">
   <button class="btn" id="portalTab" aria-pressed="true" aria-controls="portalSection">Portal Sounds</button>
   <button class="btn" id="gameTab" aria-pressed="false" aria-controls="gameLibrary">Game Library</button>
 </nav>
@@ -267,7 +267,7 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="config.js?v=2"></script>
+<script src="config.js?v=3"></script>
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="ui-experience.js?v=2"></script>
@@ -275,6 +275,6 @@
 <script src="sound-features-ui.js?v=3"></script>
 <script src="app.js?v=25"></script>
 <script src="game-library-core.js?v=2"></script>
-<script src="game-library.js?v=6"></script>
+<script src="game-library.js?v=7"></script>
 </body>
 </html>
