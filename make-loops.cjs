@@ -8,7 +8,9 @@
  * seamless with NO fade. Cut [S,E].
  *
  * Usage:  FFMPEG=... FFPROBE=... node make-loops.cjs     (processes soundboard/sounds/<cat>/*Loop*.ogg in place)
- * Originals are preserved in ../sound-split/clips/.
+ * Game audio already contains the authored period: preserve its full sample range.
+ * Default runs audit a sample of game-loop seams without modifying any files.
+ * --trim-recorded explicitly enables the legacy capture matcher for recorded loops only.
  */
 'use strict';
 const { spawnSync } = require('child_process');
@@ -18,6 +20,10 @@ const path = require('path');
 const SB = __dirname;
 const FFMPEG  = process.env.FFMPEG  || 'ffmpeg';
 const FFPROBE = process.env.FFPROBE || 'ffprobe';
+const manifest = JSON.parse(fs.readFileSync(path.join(SB, 'manifest.json'), 'utf8'));
+const trimRecorded = process.argv.includes('--trim-recorded');
+const sourceDir = process.argv.find(a => a.startsWith('--source='))?.slice('--source='.length);
+const sourceClips = sourceDir ? JSON.parse(fs.readFileSync(path.join(sourceDir,'manifest.json'),'utf8')).clips : [];
 // sounds that loop by BEHAVIOUR but lack a "Loop" suffix in their name (observed as a long continuous capture)
 const FORCE_LOOP = ['SFX_Alarm', 'Switchblade_Engine_Propellar'];
 const isLoopName = (f) => /loop/i.test(f) || FORCE_LOOP.some(n => f.includes(n));
@@ -74,7 +80,7 @@ function cut(file, tS, tE) {
   const tmp = path.join(SB, '.looptmp.ogg');
   const r = spawnSync(FFMPEG, ['-nostdin','-hide_banner','-loglevel','error','-y','-i',file,
     '-af', `atrim=${tS.toFixed(4)}:${tE.toFixed(4)},asetpts=PTS-STARTPTS`,
-    '-vn','-ac','2','-c:a','libvorbis','-q:a','5', tmp], { maxBuffer: 1 << 30 });
+    '-vn','-c:a','libvorbis','-q:a','3', tmp], { maxBuffer: 1 << 30 });
   if (r.status !== 0) throw new Error('cut failed: ' + (r.stderr || ''));
   // retry the overwrite — Dropbox/AV can briefly lock the target (EPERM on rename)
   for (let i = 0; i < 10; i++) {
@@ -84,20 +90,55 @@ function cut(file, tS, tE) {
 }
 
 function listLoops() {
-  const only = process.argv[2];   // optional: limit to one category (avoids re-trimming already-matched ones)
-  const out = [];
-  const sounds = path.join(SB, 'sounds');
-  for (const cat of fs.readdirSync(sounds)) {
-    if (only && cat.toLowerCase() !== only.toLowerCase()) continue;
-    const dir = path.join(sounds, cat);
-    if (!fs.statSync(dir).isDirectory()) continue;
-    for (const f of fs.readdirSync(dir)) if (f.endsWith('.ogg') && isLoopName(f)) out.push(path.join(dir, f));
-  }
-  return out;
+  const only = process.argv.slice(2).find(a => !a.startsWith('--'));
+  return manifest.filter(s => s.loop && (!only || s.file.split('/')[1].toLowerCase() === only.toLowerCase()));
 }
 
+const loops = listLoops();
+const gameLoops = loops.filter(s => s.source === 'game');
+// Spread checks across categories/durations; inspect native channels at 48 kHz, without downmixing.
+const samples = gameLoops.filter((s, i) => i % Math.max(1, Math.floor(gameLoops.length / 12)) === 0).slice(0, 12);
+for (const s of gameLoops) {
+  if (!samples.some(x=>x.cat===s.cat)) samples.push(s);
+}
+const pigeon = gameLoops.find(s=>s.name.includes('PigeonTowerCreak'));
+if (pigeon && !samples.includes(pigeon)) samples.push(pigeon);
+for (const s of samples) {
+  const f = path.join(SB, s.file);
+  const probe = spawnSync(FFPROBE, ['-v','error','-show_entries','stream=channels,sample_rate','-of','json',f], {encoding:'utf8'});
+  if (probe.status !== 0) throw new Error('probe failed: ' + f);
+  const {channels, sample_rate} = JSON.parse(probe.stdout).streams[0];
+  if (Number(sample_rate) !== 48000) throw new Error('Expected 48 kHz: ' + f);
+  const decoded = spawnSync(FFMPEG, ['-nostdin','-v','error','-i',f,'-f','f32le','-'], {maxBuffer:1<<30});
+  if (decoded.status !== 0) throw new Error('decode failed: ' + f);
+  const b = decoded.stdout;
+  const frames = b.length / (4 * channels);
+  let seam = 0, peak = 0;
+  for (let ch=0; ch<channels; ch++) seam = Math.max(seam, Math.abs(b.readFloatLE(ch*4)-b.readFloatLE(b.length-channels*4+ch*4)));
+  for (let i=0; i<b.length; i+=4) peak = Math.max(peak, Math.abs(b.readFloatLE(i)));
+  let sourceSeam = '';
+  if (sourceDir) {
+    const clips = sourceClips.filter(c=>c.portalName===s.name);
+    const c = clips.find(c=>c.variantIndex===(clips.length>1 ? s.variant-1 : 0));
+    if (!c) throw new Error('Missing source variant: ' + s.file);
+    const wav = spawnSync(FFMPEG, ['-nostdin','-v','error','-i',path.join(sourceDir,c.file),'-ar','48000','-f','f32le','-'], {maxBuffer:1<<30});
+    if (wav.status !== 0) throw new Error('Source decode failed: ' + c.file);
+    const w = wav.stdout;
+    // FFmpeg's native Vorbis decoder can omit the initial overlap block; the Ogg
+    // final granule is the authored length, independently checked by check-audio.cjs.
+    const sourceFrames = w.length / (channels*4);
+    const decoderDelta = sourceFrames-frames;
+    if (Math.abs(decoderDelta)>1024) throw new Error('Unexpected decoder length difference: ' + s.file);
+    let delta = 0;
+    for (let ch=0;ch<channels;ch++) delta = Math.max(delta,Math.abs(w.readFloatLE(ch*4)-w.readFloatLE(w.length-channels*4+ch*4)));
+    sourceSeam = `, source delta=${delta.toFixed(6)}, source frames=${sourceFrames}, decoder difference=${decoderDelta}`;
+  }
+  console.log(`preserved ${frames} frames, ${channels}ch; first/last max delta=${seam.toFixed(6)}${sourceSeam}, peak=${peak.toFixed(6)} ${s.file}`);
+}
+console.log(`Preserved ${gameLoops.length} game loop variants and ${loops.length-gameLoops.length} recorded loops. Seam measurements need listening to assess clicks.`);
 let n = 0;
-for (const f of listLoops()) {
+for (const s of trimRecorded ? loops.filter(s => s.source !== 'game') : []) {
+  const f = path.join(SB, s.file);
   try {
     const x = decodeMono(f);
     const r = findLoop(x);

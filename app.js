@@ -8,7 +8,10 @@ const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
 let SOUNDS = [];     // raw manifest entries (one per clip)
-let CARDS = [];      // display list: non-VO clips as-is + VO clips collapsed to ONE card per announcer event
+let CARDS = [];      // display list: SFX variants by asset + VO cards by event/flag
+const sfxNextVariant = new Map();
+const sfxCurrentFile = new Map();
+const clipDownloadName = s => s.name + (!s.vo && s.variant ? '_v' + s.variant : '') + '.ogg';
 let curCat = 'All';
 let curType = 'all';
 let curTerm = '';
@@ -77,9 +80,14 @@ function voVariants(clips, gap = 0.30) {
   return out;
 }
 function buildCards() {
-  const nonVo = [], evCards = new Map(), flCards = new Map();
+  const sfxCards = new Map(), evCards = new Map(), flCards = new Map();
   for (const s of SOUNDS) {
-    if (!s.vo) { nonVo.push(s); continue; }
+    if (!s.vo) {
+      let c = sfxCards.get(s.name);
+      if (!c) { c = { ...s, takes: [] }; sfxCards.set(s.name, c); }
+      c.takes.push(s);
+      continue;
+    }
     if (!s.flag) {                                            // non-flag sound -> its own box
       let c = evCards.get(s.event);
       if (!c) { c = { vo: true, voType: 'event', cat: 'Announcer', event: s.event, name: 'VO_' + s.event, takes: [] }; evCards.set(s.event, c); }
@@ -98,6 +106,12 @@ function buildCards() {
   for (const c of fl) { c.events = Object.keys(c.byStatus).sort(); const all = Object.values(c.byStatus).flat(); c.dur = all.reduce((m, s) => Math.max(m, s.dur || 0), 0); c.silent = all.length > 0 && all.every(s => s.silent); c.file = all[0] ? all[0].file : ''; }
   const famOrder = ['Objective', 'MCom', 'CheckPoint', 'Sector', 'Other'];
   fl.sort((a, b) => (famOrder.indexOf(a.family) - famOrder.indexOf(b.family)) || a.flag.localeCompare(b.flag));
+  const nonVo = [...sfxCards.values()];
+  for (const c of nonVo) {
+    c.takes.sort((a, b) => a.variant - b.variant);
+    const current = c.takes.find(s => s.file === sfxCurrentFile.get(c.name)) || c.takes[0];
+    c.file = current.file; c.dur = current.dur;
+  }
   return nonVo.concat(ev, fl);
 }
 const voEvCard = (event) => CARDS.find(c => c.vo && c.voType === 'event' && c.event === event);
@@ -240,10 +254,10 @@ function buildChips() {
   }));
 }
 function buildTypeFilter() {
-  const n3 = SOUNDS.filter(s => is3D(s.name)).length;
-  const n2 = SOUNDS.length - n3;
-  const nl = SOUNDS.filter(s => s.loop).length;
-  const counts = { all: SOUNDS.length, '3d': n3, '2d': n2, loop: nl };
+  const n3 = CARDS.filter(s => is3D(s.name)).length;
+  const n2 = CARDS.length - n3;
+  const nl = CARDS.filter(s => s.loop).length;
+  const counts = { all: CARDS.length, '3d': n3, '2d': n2, loop: nl };
   $$('.tpill').forEach(b => {
     const t = b.dataset.type;
     b.innerHTML = b.textContent.trim().split(' ')[0] + ' <span class="cnt">' + (counts[t] ?? 0) + '</span>';
@@ -290,7 +304,9 @@ function cardHTML(s, i) {
   const title = pretty(s.name);
   const dimTag = is3D(s.name) ? '<span class="tag tag-3d">3D</span>' : '<span class="tag tag-2d">2D</span>';
   const loopTag = s.loop ? '<span class="tag tag-loop">Loop</span>' : '';
-  const crashTag = s.crash ? '<span class="tag tag-crash" title="Crashes the game when played in Portal — audio here is whatever was captured right before the crash">crash</span>' : '';
+  const crashTag = s.crash ? '<span class="tag tag-crash" title="Crashes the game when played in Portal, even with real audio available here">crash</span>' : '';
+  const variantsTag = s.takes.length > 1 ? `<span class="tag">${s.takes.length} variants</span>` : '';
+  const recordedTag = s.source === 'recorded' ? '<span class="tag" title="Game export unavailable; original in-game recording">recorded</span>' : '';
   // "warn" = anything that doesn't reliably work in-game: no audio (silent) OR fires randomly (unreliable VO).
   const warn = !s.crash && (s.silent || s.unreliable);
   const warnLabel = s.silent ? 'DID NOT PLAY IN-GAME' : 'UNRELIABLE &middot; MAY NOT PLAY';
@@ -305,7 +321,7 @@ function cardHTML(s, i) {
     ${banner}
     <div class="card-head">
       <div class="card-title">${title}</div>
-      <div class="card-tags">${dimTag}${loopTag}${crashTag}${warnTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
+      <div class="card-tags">${dimTag}${loopTag}${crashTag}${warnTag}${variantsTag}${recordedTag}<span class="tag tag-dur">${fmt(s.dur, s.dur)}</span></div>
     </div>
     <div class="card-wave" data-wave>
       <div class="ph"><i style="height:10px"></i><i style="height:24px"></i><i style="height:16px"></i><i style="height:32px"></i><i style="height:12px"></i><i style="height:26px"></i><i style="height:18px"></i></div>
@@ -319,7 +335,7 @@ function cardHTML(s, i) {
         <code data-copy title="Click to copy asset name">${s.name}</code>
         <span class="hint">click name to copy</span>
       </div>
-      <a class="icon-btn" href="${s.file}" download="${s.name}.ogg" title="Download .ogg" aria-label="Download">
+      <a class="icon-btn" data-sfx-dl href="${s.file}" download="${clipDownloadName(SOUNDS.find(c => c.file === s.file))}" title="Download current variant" aria-label="Download">
         <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
@@ -361,9 +377,10 @@ function ensureWave(card) {
 function cardFor(file) { return $(`.card[data-file="${CSS.escape(file)}"]`); }
 /* ---------- Web Audio playback engine (sample-accurate gapless loops; clips pre-matched to seamless points) ---------- */
 const AC = new (window.AudioContext || window.webkitAudioContext)();
-// global loudness: game SFX are recorded at the default in-game amplitude (quiet), so lift everything
-// and route through a limiter to catch peaks (no harsh clipping on the few loud ones).
+// Original captures need the existing boost; decoded game audio uses its native level.
+// Route both through the existing limiter to catch peaks.
 const GAIN_BOOST = 2.6;
+const previewBoost = () => active && active.sound.source === 'game' ? 1 : GAIN_BOOST;
 const LIMITER = AC.createDynamicsCompressor();
 LIMITER.threshold.value = -8; LIMITER.knee.value = 6; LIMITER.ratio.value = 12; LIMITER.attack.value = 0.003; LIMITER.release.value = 0.25;
 LIMITER.connect(AC.destination);
@@ -408,7 +425,7 @@ async function engPlay(fromOffset) {
   if (!active || active.sound !== sound) return; // selection changed while decoding
   engStop();
   const src = AC.createBufferSource(); src.buffer = buf; src.loop = loopOn;
-  const gain = AC.createGain(); gain.gain.value = volume * ampParam * GAIN_BOOST;
+  const gain = AC.createGain(); gain.gain.value = volume * ampParam * previewBoost();
   if (active.spatial) {                       // 3D: route through a positional panner (radar)
     const p = AC.createPanner();
     p.panningModel = 'HRTF'; p.distanceModel = 'linear';
@@ -427,7 +444,7 @@ async function engPlay(fromOffset) {
 function engPause() { if (!active || !active.playing) return; active.offset = engCurTime(); active.playing = false; engStop(); setPlayingUI(cardFor(active.sound.file), false); }
 function engSeek(t) { if (!active) return; if (active.playing) engPlay(t); else { active.offset = t; updateDockTime(t, active.dur); setWaveProgress(t); } }
 function applyLoop() { if (active && active.src) active.src.loop = loopOn; }
-function applyGain() { if (active && active.gain) active.gain.gain.value = volume * ampParam * GAIN_BOOST; }
+function applyGain() { if (active && active.gain) active.gain.gain.value = volume * ampParam * previewBoost(); }
 
 /* ---------- playback ---------- */
 function wireCard(card) {
@@ -438,6 +455,18 @@ function wireCard(card) {
   });
 }
 function playFromCard(card) {
+  const grouped = CARDS.find(c => !c.vo && c.name === card.dataset.name);
+  if (grouped && grouped.takes.length > 1) {
+    const index = sfxNextVariant.get(grouped.name) || 0;
+    const take = grouped.takes[index % grouped.takes.length];
+    sfxNextVariant.set(grouped.name, index + 1);
+    sfxCurrentFile.set(grouped.name, take.file);
+    grouped.file = take.file; grouped.dur = take.dur;
+    card.dataset.file = take.file;
+    const dl = $('[data-sfx-dl]', card);
+    dl.href = take.file; dl.download = clipDownloadName(take);
+    $('.tag-dur', card).textContent = fmt(take.dur, take.dur);
+  }
   ensureWave(card);
   const file = card.dataset.file;
   const ws = wsByFile.get(file);
@@ -464,7 +493,7 @@ function setDock(sound) {
   $('#dockSub').textContent = sound.cat + (sound.loop ? ' · loop' : '') + ' · ' + sound.name;
   $('#dockDur').textContent = fmt(sound.dur, sound.dur);
   $('#dockCur').textContent = fmt(0, sound.dur);
-  const dl = $('#dockDl'); dl.href = sound.file; dl.download = sound.name + '.ogg';
+  const dl = $('#dockDl'); dl.href = sound.file; dl.download = clipDownloadName(sound);
   // build/refresh seek bar
   const w = $('#dockWave');
   w.innerHTML = '<div class="pgwrap"><div class="pgfill"></div></div>';
@@ -535,7 +564,7 @@ function buildAbout() {
   $('#sdkTotal').textContent = SDK_TOTAL;
   $('#sdkCats').textContent = Object.keys(SDK_CATS).length;
   const cap = {};
-  SOUNDS.forEach(s => {
+  CARDS.forEach(s => {
     let c = s.cat;
     if (c === 'Announcer') return;                                  // VO is tracked separately (prose), not in SFX coverage
     if (c === 'Crash Sounds') { const m = s.name.match(/^SFX_([A-Za-z]+)_/); if (m) c = m[1]; } // count crashers toward their SFX category

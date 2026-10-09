@@ -1,0 +1,7498 @@
+{
+  "SFX_Alarm": {
+    "cat": "Alarm",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_EmergencyExit_SimpleLoop3D": {
+    "cat": "Crash Sounds",
+    "loop": true,
+    "silent": false,
+    "crash": true,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_Water_Splash_Head_SimpleLoop3D": {
+    "cat": "Crash Sounds",
+    "loop": true,
+    "silent": false,
+    "crash": true,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_CrowsNest_Collapse_All_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_CrowsNest_Collapse_Close_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_CrowsNest_Collapse_Distant_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_CrowsNest_Collapse_LFE_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_CrowsNest_Preamble_Distant_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_CrowsNest_Preamble_LFE_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_CrowsNest_Preamble_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_GasStation_Collapse_Distant_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_GasStation_Collapse_LFE_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_GasStation_Collapse_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_HouseCollapse_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_SolarArray_Large_Distant_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_SolarArray_Large_LFE_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_SolarArray_Large_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_SolarArray_Medium_Distant_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_SolarArray_Medium_LFE_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Buildings_SolarArray_Medium_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Fuse_Loop_EngineCrackle_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Fuse_Loop_GasFire_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Fuse_Loop_LingeringWreckFire_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Fuse_Loop_WreckFire_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Fuse_OneShot_GasFireIgnition_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Fuse_OneShot_OilSpill_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Fuse_OneShot_VehicleIgnition_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Impacts_BrickWall_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Impacts_Brick_Small_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Impacts_Concrete_Prop_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Impacts_Metal_Prop_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Impacts_Metal_Structural_Medium_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Impacts_Plaster_Structural_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Impacts_Plastic_Prop_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Impacts_Tile_Large_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Impacts_Vehicle_Car_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_PreAmble_Brick_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Props_FX_Electric_PropExplosionPowerline_Medium_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Props_Liquids_WaterTank_Large_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Props_Paper_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Props_Special_Piano_DestroyedState_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Props_Special_Piano_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Props_Wood_Generic_Small_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Structural_CloseDebris_Generic_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Structural_CloseDebris_Wood_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Structural_Debrispile_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Structural_Metal_GasStation_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": true,
+    "crash": false,
+    "unreliable": false,
+    "source": "recorded"
+  },
+  "SFX_Destruction_Structures_BrickWall_Small_Close_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Dead_Collision_Large_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Leafy_Collision_Large_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Leafy_Collision_Medium_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Leafy_Falling_Medium_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Leafy_Start_Large_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Leafy_Start_Medium_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Palm_Collision_Large_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Palm_Falling_Large_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Palm_Falling_Medium_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Palm_Start_Large_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_PineLoblolly_Collision_Large_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_PineLoblolly_Collision_Medium_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_PineLoblolly_Collision_Small_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_PineLoblolly_Falling_Large_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_PineLoblolly_Falling_Small_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_PineLoblolly_Start_Large_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_PineLoblolly_Start_Small_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Poplar_Falling_Small_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Poplar_Start_Medium_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Walnut_Start_Small_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_WhooshTest_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction_Tree_Whoosh_Large_SimpleLoop3D": {
+    "cat": "Destruction",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Destruction__Old_Ceramic_Generic_OneShot3D": {
+    "cat": "Destruction",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_ATMine_Bounce_Soft_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_ATMine_Equip_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_ATMine_Equip_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_ATMine_Pickup_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_ATMine_Pickup_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_ATMine_UnEquip_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_ATMine_UnEquip_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_1pExperience_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_1pExperience_SimpleLoop2D": {
+    "cat": "Gadgets",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_1pRiser_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_1pStop_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_Commando_1pExperience_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_Effort_Female_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_Effort_Male_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_Start_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_Start_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_Stop_Early_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_Stop_Early_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_Stop_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_AdrenalineShot_Stop_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Activate_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Activate_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Deploy_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Deploy_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Spawnable_Pickup_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Spawnable_Spawn_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Throw_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Throw_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Undeploy_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_C4_Undeploy_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_ConcussionGrenade_ConcussionLoop_SimpleLoop2D": {
+    "cat": "Gadgets",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_ConcussionGrenade_ConcussionStart_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Decoy_WeaponFireVar01_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Decoy_WeaponFireVar02_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Decoy_WeaponFireVar03_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Decoy_WeaponFireVar04_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Decoy_WeaponFireVar05_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_ChargeHum_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_ChargeHum_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_ChargeRub_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_ChargeRub_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Charge_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Charge_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Charged_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Charged_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Deploy_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Deploy_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Fire_Miss_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Fire_Miss_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Fire_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Fire_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Revive_Hit_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Undeploy_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Defibrillator_Equipped_Undeploy_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Damage_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Deploy_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Deploy_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Destruction_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Pickup_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Place_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Throw_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Throw_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Undeploy_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_DeployableCover_Undeploy_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Drone_Spawnable_Fire_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Drone_Spawnable_TargetLockInProgress_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Drone_Spawnable_TargetLockReady_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Drone_Switchblade_Engine_Propellar_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Drone_Switchblade_HiFi_Fire_Wings_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Drone_Switchblade_HiFi_Fire_Wings_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EIDOS_Disabled_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EIDOS_Enable_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EIDOS_Equip_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EIDOS_Equip_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EIDOS_Fire_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EIDOS_Idle_SimpleLoop3D": {
+    "cat": "Gadgets",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EIDOS_Pickup_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EIDOS_Place_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EIDOS_Place_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_Arm_Horizontal_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_Arm_Vertical_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_Chassis_Rattle_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_Deploy_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_Deploy_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_Engine_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_Idle_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_MineFire_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_Start_Idle_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EoDBot_Spawnable_Stop_Idle_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_Charge_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_Charge_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_Flip_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_Flip_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_HalfWay_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_HalfWay_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_Injection_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_Injection_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_ReviveDone_1p_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_Undeploy_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_EpiPen_Undeploy_OneShot3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Flashbang_FlashbangLoop_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_Flashbang_FlashbangStart_OneShot2D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gadgets_SupplyDrop_CrateExplode_3D": {
+    "cat": "Gadgets",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Appear_OneShot2D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gamemodes_Payload_Breacher_Decel_OneShot3D": {
+    "cat": "Gamemodes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Boundary_SimpleLoop2D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gamemodes_Payload_Breacher_Exterior_Accel_SimpleLoop3D": {
+    "cat": "Gamemodes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_DamageStart_Loop2D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gamemodes_Payload_Breacher_Idle_SimpleLoop3D": {
+    "cat": "Gamemodes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_DamageStart_Loop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Gamemodes_Payload_Breacher_Tracks_SimpleLoop3D": {
+    "cat": "Gamemodes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_DamageStop_Loop2D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_DamageStop_Loop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Damage_OneShot2D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Damage_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_DeathWarning_SimpleLoop2D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_DeathWarning_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Debris_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_Close_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_Distant_High_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_Distant_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_Embers_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_High_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_Mid_Distant_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_Perimeter_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_Phase_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_VeryHigh_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Fire_Wide_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_FlareUp_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Circle_Wind_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_MidroundRespawn_RespawnTower_Capture_OneShot2D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_MidroundRespawn_RespawnTower_PanelReset_OneShot2D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_MidroundRespawn_RespawnTower_Stow_OneShot2D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_CTF_DataDrive_Insert_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_CTF_Download_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_CTF_DriveCarrierTracking_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_DataExtraction_DataCase_PickUp_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_DemoCrewAlarmClose_SimpleLoop_3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_DemoCrew_Alarm_Close_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_DemoCrew_Alarm_Distant_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_DemoCrew_BombPickUp_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_DemoCrew_BombPlace_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_RetrievalBeaconBeep_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_WeaponCache_BoltCutter_Pickup_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_WeaponCache_Open_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_Wreckage_BombBeeping_Loop_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_Wreckage_BombBeeping_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_Mission_Wreckage_ComputerAlarm_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_RespawnTower_Activate_Alarm_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_RespawnTower_Activate_Close_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_RespawnTower_Activate_Distant_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_UXUI_CIrcleShrink_Stop_OneShot2D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_BR_UXUI_CircleShrink_Start_OneShot2D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Gauntlet_Mission_Beacons_Beeping_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Gauntlet_Mission_Circuit_TerminalSpotLoop_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Gauntlet_Mission_Heist_AltCacheCarrierBeep_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Gauntlet_Mission_Heist_CacheBeep_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Gauntlet_Mission_Heist_PlayerPickupCache_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Gauntlet_Mission_Wreckage_ActiveBombNearby_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Gauntlet_Mission_Wreckage_BombPickup3D_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Gauntlet_Mission_Wreckage_KeyboardTyping_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Rush_Alarm_Leadout_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Rush_Alarm_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Rush_Arm_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Rush_Armed_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Rush_Defused_OneShot3D": {
+    "cat": "GameModes",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Rush_Defusing_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_GameModes_Rush_Telemetry_SimpleLoop3D": {
+    "cat": "GameModes",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_SP_Attack_FX_SteamManhole_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_Water_Splash_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_FireAlarm_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_Birds_Falcons_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_WindChime_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_FoodTrailer_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_Birds_Finches_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_ACUnit_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_Fridge_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_Birds_Grebs_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_BridgeFire_L_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_GarbageCluster_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_Birds_Pigeons_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_BridgeMovement_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_MonitorStatic_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_Birds_Swallows_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_BridgeOverpass_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_PoliceChatter_OneShot_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_BuildingGroan_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_PoliceChatter_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_CarHorn_Angry_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_RadioChatter_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_EmergSirensMisc_Far_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_Riverside_Calm_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_EmergSirensMisc_Near_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_Riverside_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_InteriorWoodCreak_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_SaxophoneInWall_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_MouseSqueak_Urban_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_SmallRadio_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_WoodDoorOpen_Distant_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_Vista_Riverside_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_BigWorld_WoodDoorShut_Distant_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Spots_WelcomeSign_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_AirDuct_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_BigWorld_TheklaLarkSong_OneShot2D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_CarAlarm_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_Birds_Palace_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_Fountain_Water_Head_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_BusWreck_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_Fountain_Water_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_Firealarm_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_GarbageFlies_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_Fountain_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_HeavyMetalStress_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_HangingLamp_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_Hydrant_Burst_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_HighwayTraffic_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_Hydrant_Ground_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_HighwayWreckFire_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_Hydrant_Splatter_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_Intercom_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_Hydrant_Spray_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_RatsInVent_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_MetalStress_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Abbasid_Spots_Waterpipe_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_MiceFighting_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_ExcavatorEngine_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_PaperSwirls_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_PigeonTowerCreak_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_PipeStress_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_RatsEating_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_VariousBirds_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_TrashPile_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_WaterTrickle_Stone_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_Wind_ClothFlaps_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Brooklyn_Shared_Spots_WaterTrickle_Wood_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_Wind_DesertWindGusts_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_Wind_HeavyGusts_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_Wind_HowlingHollow_High_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_Wind_HowlingWarm_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_Wind_MetalWindGusts_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_Wind_RoadWind_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Outskirts_Spots_Wind_Whistling_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Shared_Bigworld_AmbWar_Weapons_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Shared_Bigworld_Animals_EgyptianGoose_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Shared_Bigworld_Traffic_Carhorn_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Shared_Bigworld_Winds_CItySandMist_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_MP_Shared_Bigworld_Winds_SandMist_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_BigWorld_AluminiumCanDrop_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_BigWorld_BullhornSiren_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_BigWorld_Glass_BottleDrop_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_BigWorld_Glass_WindowSmash_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_BigWorld_Object_ClotheslineRustle_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_BigWorld_Object_RugFlap_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_FireDrippingLow_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_FlareShotExplode_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_FlareShot_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_Flare_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_IvyXS_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_PalaceFabric_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_PalaceFurniture_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_PalaceSmall_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_PalaceSmoke_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_PalaceTiny_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_PalaceVegetation_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_ProjectileMolotovLand_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_ProjectileMolotovThrow_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_RiotMolotovLand_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Fire_SparksGround_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_HelicopterWind_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_HighwayUnderneath_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_LightbulbMoths_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Molotov_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_MotorScooterIdle_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_PalaceFireAlarm_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Riot_Activity_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Riot_CrowdRumble_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Riot_FenceShake_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Riot_MetalDestruction_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Riot_TearGas_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_RockHit_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_RopeStress_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_ScaffoldingTarp_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Sewers_WaterDrippingLarge_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Sewers_WaterDrippingMedium_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Sewers_WaterDrippingSmall_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Sewers_WaterDrips_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Sewers_WaterSquirt_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_SwingSet_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Walla_RiotBullhorn_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Walla_RiotCrowdCheer_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Walla_RiotCrowd_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Walla_Riot_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_WashingMachine_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_SP_NightRaid_Spots_Whistle_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_BigWorld_SirenBy_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_Spots_Banner_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_Spots_BirdsAlley_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_Spots_CommonMynah_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_Spots_DistantChants_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_Spots_Highway_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_Spots_Insects_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_Spots_Locusts_OneShot3D": {
+    "cat": "Levels",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_Spots_OliveTree_Crickets_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Levels_Cairo_Shared_Spots_VehicleStress_SimpleLoop3D": {
+    "cat": "Levels",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_FlyBys_Large_GrenadeLauncher_40mm_Close_SimpleLoop3D": {
+    "cat": "Projectiles",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_FlyBys_Large_GrenadeLauncher_40mm_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_FlyBys_Shells_Artillery_Incoming_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Crack_DMR_Distant_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Crack_Intermediate_Close_Indoor_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Crack_Intermediate_Close_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Crack_Intermediate_Distant_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Crack_Rifle_Close_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Crack_Rifle_Distant_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Crack_Sniper_Close_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Crack_Sniper_Distant_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Whizby_Intermediate_Main_Distant_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Whizby_Intermediate_Main_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Whizby_Intermediate_Main_Underwater_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Whizby_Intermediate_Sweetener_Buckshot_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Whizby_Intermediate_Sweetener_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Bullet_Whizby_Sniper_Main_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Large_AutoCannon_40mm_FlyBy_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Large_Cannon_Shell_120mm_Distant_SimpleLoop3D": {
+    "cat": "Projectiles",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Large_Cannon_Shell_120mm_FlyBy_Close_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Large_Cannon_Shell_120mm_FlyBy_Distant_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Large_Rocket_Missile_FlyBy_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Large_Rocket_Missile_Ignite_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Large_Rocket_Missile_Trail_SimpleLoop3D": {
+    "cat": "Projectiles",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Large_Rocket_RPG_FlyBy_Distant_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Large_Rocket_RocketPod_Trail_Distant_SimpleLoop3D": {
+    "cat": "Projectiles",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Shared_Projectile_Flyby_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Shared_Projectile_MissileTrail_SimpleLoop3D": {
+    "cat": "Projectiles",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Shared_RocketStart_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Shared_SmallAntiTank_SimpleLoop3D": {
+    "cat": "Projectiles",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Projectiles_Flybys_Shared_SmallAntiTank_Starter_OneShot3D": {
+    "cat": "Projectiles",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_ArmorBreakSelf_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_ArmorDamage_Enemy_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_ArmorDamage_Hard_Self_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_ArmorDamage_Soft_Self_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_BarbedWire_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_BarbedWire_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_BulletThump_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Bullet_Death_NoRevive_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Bullet_HeadshotAdd_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Bullet_Headshot_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Bullet_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Defibs_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Defibs_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Destruction_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Destruction_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Drowning_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_ExplosionDebris_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Explosion_Crack_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Explosion_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Explosion_Ring_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Fall_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Fall_Low_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Fall_Medium_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Fire_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Fire_Normal_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Fire_Small_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Fire_Start_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_MeleeBlunt_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_MeleeKnife_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_MeleeKnife_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Melee_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Ring_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Ring_Normal_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Ring_Start_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Sabotage_Death_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Sabotage_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_Throwable_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Damage_ThrowingKnife_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_Damage_BreathFemale_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_Damage_BreathMale_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_BreathFemale_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_BreathFemale_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_BreathMale_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_BreathMale_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_DeathSigh_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_DeathStingerSkipRevive_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_DeathStinger_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Drone_BleedOut_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Drone_HighIntensity_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_EnterNoDeployScreen_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Enter_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Foley_FoleyOnGroundStart_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Foley_MovementLoop_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Foley_OnGround_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Foley_SkipReviveStart_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Foley_SkipReviveStop_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_GeneralDrone_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_HeartBeat_EKG_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_HeartBeat_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_LandOnGround_EffortFemale_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_LandOnGround_EffortMale_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_LowHealth_Drone_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_LowHealth_Enter_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_ReviveSickness_Drone_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Skip_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Events_SoldierDown_Skip_Start_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_FieldUpgrade_Engineer_Repairtool_Start_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_FieldUpgrade_Engineer_Repairtool_Stop_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_FieldUpgrade_Support_ActiveMedic_Start_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_FieldUpgrade_Support_ActiveMedic_Stop_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Health_FullHealth_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Health_Start_Regenerate_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Interact_KeycardPickup_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Interact_Pickup_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Interact_UpgradeKitPickup_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Interact_WeaponPickup_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_AttackFoley_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_AttackFoley_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Hit_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Hit_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_ArmFoley_Stab_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_ArmFoley_Stab_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_CollectDogtag_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_CollectDogtag_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_EndKnife_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_EndKnife_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_Equip_Knife_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_Equip_Knife_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_Equip_Sledgehammer_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_Equip_Sledgehammer_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_Female_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_Female_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_GrabShoulder_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_GrabShoulder_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_KnifePullOutFrontBody_Fast_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_KnifePullOutFrontBody_Fast_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_KnifeStabFrontBody_Fast_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_KnifeStabFrontBody_Fast_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_Male_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_Male_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_SledgehammerHit_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_SledgehammerHit_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_SledgehammerSwing_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_SledgehammerSwing_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_StartKnifeGrabShoulder_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_StartKnifeGrabShoulder_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_StartSledgehammerGrabShoulder_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Attacker_StartSledgehammerGrabShoulder_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_HurtHigh_Female_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_HurtHigh_Female_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_HurtHigh_Male_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_HurtHigh_Male_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_PanicScream_Female_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_PanicScream_Female_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_PanicScream_Male_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_PanicScream_Male_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Struggle_Female_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Struggle_Female_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Struggle_Male_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Struggle_Male_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_ThroatSlice_Female_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_ThroatSlice_Female_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_ThroatSlice_Male_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_ThroatSlice_Male_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Victim_FallToGround_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Victim_FallToGround_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Victim_TurnAround_SlowShort_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_Takedown_Victim_TurnAround_SlowShort_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_WorldHit_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Melee_WorldHit_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_CameraNoise_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Drag_Grab_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Drag_Release_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Drag_Release_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Breathing_SoldierFemale_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Breathing_SoldierFemale_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Breathing_SoldierMale_LoopStop_Loop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Breathing_SoldierMale_LoopStop_Loop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Breathing_SoldierMale_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Breathing_SoldierMale_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Breathing_Soldier_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Breathing_Soldier_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_CockpitEject_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Crouch_Female_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Crouch_Female_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Crouch_Male_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Efforts_Crouch_Male_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Foley_ProneMovement_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Foley_WeaponAdd_AR_Mount_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Foley_WeaponAdd_LMGMag_Mount_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Foley_WeaponAdd_SMG_Mount_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Foley_WeaponAdd_Shotgun_Mount_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Foley_WeaponAdd_Sniper_Mount_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Slide_FoleyEnd_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Slide_FoleyStart_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Water_Splash_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Water_Swim_ArmStroke_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Water_Swim_FootStroke_Surface_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Water_Swim_FootStroke_Surface_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Water_Swim_FootStroke_Underwater_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Water_Swim_FootStroke_Underwater_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Water_Wade_Sprint_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Water_Wade_Walk_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Movement_Wind_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_Cut_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_Deploy_Effort_Female_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_Deploy_Effort_Female_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_Deploy_Effort_Male_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_Deploy_Effort_Male_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_Deploy_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_Glide_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_Land_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_Rain_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_ToggleGrab_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_TogglePull_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Parachute_ToggleRelease_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Ragdoll_OnDeath_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_BeingRevived_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_BeingRevived_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Effort_FemaleHurt_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Effort_FemaleHurt_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Effort_MaleEpipenStab_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Effort_MaleHurt_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Effort_MaleNoseBreathing_End_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Epipen_Prepare_Distant_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Epipen_Prepare_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_FemaleNoseBreathingLoop_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_FemaleNoseBreathingLoop_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_GettingRevived_BreathFemale_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_GettingRevived_BreathFemale_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_GettingRevived_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_MaleNoseBreathingLoop_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_MaleNoseBreathingLoop_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_RevivedBreath_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Revived_Foley_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Revived_SimpleLoop3D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_Revive_Start_OneShot3D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_States_Local_UnderwaterTransition_In_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_States_Local_UnderwaterTransition_Out_OneShot2D": {
+    "cat": "Soldier",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_Soldier_States_Local_Underwater_SimpleLoop2D": {
+    "cat": "Soldier",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Commorose_OnClose_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Commorose_OnOpen_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Deploy_Screen_ActionSuccess_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Deploy_Screen_FadeIn_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Deploy_Screen_VehicleAvailable_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_EOR_Counting_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_EOR_MasteryRankUp_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_EOR_NavigationTab_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_EOR_RankUp_Extra_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_EOR_RankUp_Normal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_EOR_RoundOutcome_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_EOR_Vehicles_Abrams_OneShot_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_EOR_Vehicles_JetFlyBy_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_EOR_XP_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_AreaUnlock_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CaptureLeadinEnemy_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CaptureLeadinFriendly_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CaptureLeadinNeutral_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CaptureLeadinThump_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CaptureNeutralize_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CaptureStartedByEnemy_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CaptureStartedByFriendly_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingDroneEnemy_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingDroneFriendly_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingThumpEnemy_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingThumpFriendly_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingTickEnemy_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingTickFriendly_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingTickIcon_IsFriendly_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingTickInBetweenEnemy_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingTickInBetweenFriendly_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingTick_IsEnemy_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_CapturingTick_IsFriendly_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_ObjectiveOnEnter_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_ObjectiveOnExit_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_ObjetiveUnlockCountdownRiser_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_ObjetiveUnlockCountdownTick_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_ObjetiveUnlockReveal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_OnCapturedByFriendly_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_OnContested_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_CaptureObjectives_OnContested_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_Intro_Countdown_Final_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_Intro_Countdown_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_Intro_FinalImpact_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_Intro_Reveal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_Intro_TransitionToCountdown_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_LeadChange_Negative_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_LeadChange_Positive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_OutOfBounds_Countdown_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_OutOfBounds_ReturnAreaEcho_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gamemode_Shared_OutOfBounds_SFXLoop_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Beacons_BeaconPickup_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Beacons_CalibrationBegin_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Beacons_CalibrationComplete_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Beacons_CalibrationTickUrgency_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Beacons_CalibrationTick_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Beacons_Drop_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Beacons_EnemyCalibrationBeeping_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Beacons_SignalLost_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Circuit_ChainStateChange_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Circuit_TerminalCaptureLoop_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Circuit_TerminalCaptureStart_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Circuit_TerminalCaptureStop_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Circuit_TerminalCaptured_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Circuit_TerminalEnemyCapturing_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Circuit_TerminalFriendlyCapturing_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Circuit_TerminalLost_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Contract_SquadWipe_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_DataUpload_DataDepositLoop_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_DataUpload_DataDepositPointDisable_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_DataUpload_DataDepositPointEnable_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_DataUpload_DataDepositStart_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_DataUpload_DataDepositStop_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_DataUpload_DataDeposit_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_DataUpload_DataLost_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_DataUpload_DataPickup_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Dogtags_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_AdvanceCardArrive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_AdvanceCardReveal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_AdvanceScreen_In_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_CountdownTick_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_DefeatCardReveal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_DefeatScreen_Arrive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_DefeatScreen_Out_LeadIn_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_Defeat_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_PlayerSquadCardDetails_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_Qualified_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_Qualified_ReceiveReinforcement_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_Reassigned_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_ReinforcementCardReveal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_ReinforcementsGiven_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_ReinforcementsReceived_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_EOM_TopAdvanceCardReveal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_AltCacheStolen_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_AltEnemyCapturedCache_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_AltFriendlyRecoveredCache_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_AltRecoveringCacheStart_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_AltRecoveringCacheStop_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_AltRecoveringCacheTimer_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_EnemyCapturedCache_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_EnemyPickedUpCache_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_FriendlyCapturedCache_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Heist_FriendlyPickedUpCache_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Base_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Circuit_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Contract_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Decryption_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Extraction_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Heist_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Rodeo_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Standoff_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Vendetta_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_MissionBriefing_Wreckage_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Qualifier_Disqualified_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Qualifier_PositionGained_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Qualifier_PositionLost_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Qualifier_Qualified_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Rodeo_TankAcquired_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Rodeo_TankKillPoint_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Rodeo_TanksAvailable_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Rodeo_TanksLockerUnlocking_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Standoff_ZoneAlmostDepleted_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Standoff_ZoneCaptureTick_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Standoff_ZoneCaptured_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Standoff_ZoneContested_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Standoff_ZoneEnter_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Standoff_ZoneExit_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Vendetta_FriendlyHVTKilled_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Vendetta_IncomingHVTSelection_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Vendetta_NewHVT_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Vendetta_PlayerKilledHVT_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Vendetta_YouAreTheTarget_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_BombBeeping_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_BombCarrier_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_BombKilledSelf_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_BombPickup_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_BombPlantLoop_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_BombPlantStart_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_BombPlantStop_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_BombPlanted_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_BompDropped_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_EnemyCarrierKilled_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_FriendlyBombPlanted_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_FuseLow_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Gauntlet_Wreckage_MCOMDestroyed_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Highlight_A_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Highlight_B_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MainMenu_PressPlay_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_Close_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_MapMovement_IsZooming_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_MapMovement_PanSpeed_SimpleLoop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_MapMovement_PanStart_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_MapMovement_PanStop_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_MapMovement_ResetZoom_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_MapMovement_ZoomBlocked_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_MapMovement_ZoomIn_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_MapMovement_ZoomOut_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Map_Open_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Matchmaking_FoundMatch_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Matchmaking_Start_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Background_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Badge_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_DogTag_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Equip_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Focus_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Loading_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Pin_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Remove_Button_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Remove_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Tag_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigatin_Profile_Playercard_Title_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_DateMenuSelect_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_HoverChallengeCategory_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_HoverChallenge_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_MultiTierChallengeSelections_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_RerollConfirm_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_RerollMenuCancel_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_RerollMenu_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_ScreenArrive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_SelectChallengeCategory_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_SelectChallenge_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_Track_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Challenges_Untrack_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_EnumSelection_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_Focus_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_GoBack_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_Highlight_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_HoverIn_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_PrimaryActivation_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_PrimarySelect_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_SecondaryActivation_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_SecondarySelect_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_SlidersClickDown_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_ToggleOff_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Default_ToggleOn_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Equip_AddLayer_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Haptics_ResetpackageLoading_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "recorded"
+  },
+  "SFX_UI_MenuNavigation_Haptics_Shared_Select_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "recorded"
+  },
+  "SFX_UI_MenuNavigation_Home_ActivateXPBooster_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_ExitPartyMenu_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_OpenPartyMenu_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_OpenXPBoosterWindow_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_PlayCategoryActivation_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_PlayItemHover_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_PlayItemScroll_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_PlayerTabActivation_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_ScreenArrive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_SelectPlayCategory_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_SquadfillPrivate_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_SquadfillPublic_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Home_StartGame_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_ClickSelectLoadout_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_CollapseWeaponStats_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipCharacterSkin_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipFieldSpecCloth_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipFieldSpecUIHit_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipFieldSpecfull_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipGadget_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipKnifeMeleeKnife_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipKnifeMeleeSledgehammer_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipPrimaryWeapon_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipSecondaryWeapon_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipThrowableGranade_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquipThrowableKnife_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_EquippedClassProficiency_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_ExpandWeaponStats_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_Inspectactivation_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_ModifyWeapon_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_ResetPackageEnd_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_ResetPackageStart_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_ResetPackage_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_ResetpackageLoading_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_ScreenArrive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_SelectCharacterSkin_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_Swapfaction_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Loadout_Testweaponactivation_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Notification_ToasterPopUp_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_Options_ScreenArrive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_EquipGunnerEquipment_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_EquipGunnerWeapon_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_EquipVehicleDecal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_EquipVehicleEquipment_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_EquipVehiclePassive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_EquipVehicleSkin_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_EquipVehicleWeapon_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectGunnerEquipment_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectGunnerWeapon_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleAA_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleArmoredCarrier_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleAttackPlane_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleDecal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleEquipment_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleFighterPlane_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleHelicopter_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleIFV_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehiclePassive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleSkin_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleTank_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_SelectVehicleWeapon_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_VehicleLoadout_VehiclePresetActivation_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_WeaponAttachment_AlreadyEquipped_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_WeaponAttachment_AttachmentSlot_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_WeaponAttachment_EquipAttachment_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_WeaponAttachment_Focus_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_MenuNavigation_WeaponAttachment_NoPoints_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_FieldUpgrade_Main_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_FieldUpgrade_OnTrait_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_FieldUpgrade_RankFinal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_FieldUpgrade_RankOne_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_FieldUpgrade_RankTwo_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_FieldUpgrade_RankUnlock_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_ObjectiveSecured_FadeIn_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_ObjectiveSecured_FillIn_Negative_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_ObjectiveSecured_FillIn_Neutral_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_ObjectiveSecured_FillIn_Positive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_A_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_B_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_C_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_D_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_E_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_F_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_G_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_H_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_I_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_Primary_J_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SectorBonus_NumberChange_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SectorBonus_ProgressBarFillingUp_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SectorBonus_ProgressBarFinished_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SectorNext_FadeIn_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SectorNext_FlyOut_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SectorPerformance_Start_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SectorTaken_Counter_Negative_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SectorTaken_Counter_Positive_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SectorTaken_Reveal_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SharedGamemode_GameModeArrowsFirst_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SharedGamemode_GameModeArrowsSubsequent_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SharedGamemode_GameModeArrows_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SharedGamemode_GameModeCritical_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SidePanel_CenterSwipeOut_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SidePanel_ChallengeComplete_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SidePanel_ChallengeCriteriaComplete_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SidePanel_ChallengeCriteriaProgressed_Loop2D": {
+    "cat": "UI",
+    "loop": true,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SidePanel_ChallengeCriteriaProgressed_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SidePanel_ChallengeProgressed_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Notification_SidePanel_Mastery_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_PreRoundLobby_SquadMateAdded_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_PreRoundLobby_SquadMateRemoved_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_SP_Collectibles_Dogtag_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_SP_ObjectiveReceived_In_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_SP_ObjectiveReceived_Out_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Scorelog_AccoladeCareerBest_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Scorelog_Accolades_AccoladeTypes_CareerBest_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Scorelog_Accolades_CareerBest_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Scorelog_Hide_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Scorelog_Show_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Select_A_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Select_B_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Select_Gear_A_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Select_Gear_B_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Select_Gear_C_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Select_Gear_D_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Select_Gear_E_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Select_Gear_F_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Shared_Button_Moist_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Shared_Countdown_Appear_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Shared_Countdown_Tick_Final_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Shared_Countdown_Tick_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Shared_Countdown_Tick_Urgent_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Shared_Tutorial_Prompt_OneShot2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Submenu_Close_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  },
+  "SFX_UI_Submenu_Open_2D": {
+    "cat": "UI",
+    "loop": false,
+    "silent": false,
+    "crash": false,
+    "unreliable": false,
+    "source": "game"
+  }
+}

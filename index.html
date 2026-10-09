@@ -72,11 +72,11 @@
     </div>
     <div class="about-body">
       <p>Every sound here comes straight from the game's own asset list &mdash; nothing hand-picked. Battlefield&nbsp;6 Portal ships a generated SDK whose <code>RuntimeSpawn_Common</code> enum lists every spawnable asset; the entries beginning with <code>SFX_</code> are the sound effects the <code>PlaySound</code> function can play.</p>
-      <p>An in-game tool reads that enum at runtime (<code>Object.keys(mod.RuntimeSpawn_Common)</code>), keeps the <code>SFX_</code> ones, and plays each at an isolated point while the audio is recorded &mdash; then the recording is split back into one clip per sound by the game-time it played.</p>
+      <p>934 SFX sounds use real game audio with all 5,950 exported authored variants, encoded from the lossless decoded assets to Ogg Vorbis. Each play cycles to the next variant. The three sounds without an export retain their original in-game recordings and show a small <b>recorded</b> marker.</p>
       <p>Because the list is read <b>directly from the SDK enum</b> (which DICE auto-generates from the game build), it <b>is</b> the complete, authoritative set for this version. <b>Portal SDK v<span id="sdkVer">?</span></b> lists <b id="sdkTotal">?</b> capturable SFX across <b id="sdkCats">?</b> categories &mdash; all captured. (The SDK has one extra SFX entry, <code>SFX_VOModule</code>, which is a silent carrier object <code>PlayVO</code> uses &mdash; it has no audio of its own, so it isn't listed.)</p>
       <div class="cov" id="coverage"></div>
       <p><b>Announcer voice-overs</b> are separate from the SFX list: 61 game-action callouts triggered with <code>PlayVO</code>. On the live build the announcer fires the wrong line or stays silent at random (a known, still-open engine bug), so only a handful actually play. The ones that do are kept; the rest are listed as silent placeholders. They're the <b>Announcer</b> category.</p>
-      <p><b>Crash Sounds</b> are the few assets that crash the game when played. Their audio (captured right up to the crash) is kept and flagged in red so you don't trigger them in a mod.</p>
+      <p><b>Crash Sounds</b> are assets that crashed the game when played. Their original category and warning remain even when real game audio is available to preview here. Silent and unreliable flags also describe observed in-game behaviour, independently of the preview audio.</p>
       <p class="about-note">Anything that produces no audio in-game &mdash; silent assets and unreliable VO &mdash; still appears for completeness, flagged with yellow caution tape; game-crashers get red.</p>
     </div>
   </div>
@@ -90,8 +90,9 @@
       <button id="creditsClose" class="about-close" aria-label="Close">&times;</button>
     </div>
     <div class="about-body">
-      <p><b>Sounds</b> &mdash; all audio is from <b>Battlefield&nbsp;6</b> / Portal (&copy; EA &amp; DICE), captured for reference and modding use.</p>
-      <p><b>Capture tool</b> &mdash; <b>BF6_SFX</b>, an in-game Portal harness that reads the SDK asset list and records each sound. It ships in this repo so anyone can reproduce the set.</p>
+      <p><b>Sounds</b> &mdash; all audio is from <b>Battlefield&nbsp;6</b> / Portal (&copy; EA &amp; DICE), decoded or captured for reference and modding use.</p>
+      <p><b>Game audio</b> &mdash; lossless decoded assets from the BF6 Modding SDK audio export; all authored variants supplied by that export are included.</p>
+      <p><b>Capture tool</b> &mdash; <b>BF6_SFX</b>, the in-game Portal harness used for the original recordings and behaviour checks. It ships in this repo for auditioning and recording SFX and PlayVO lines.</p>
       <p><b>Built by</b> &mdash; TabbedScamper.</p>
       <p><b>Thanks</b> &mdash; the <b>Battlefield Portal Hub</b> community for the SDK research and testing this relies on (sound behaviour, announcer-VO quirks, attenuation notes).</p>
       <p class="about-note">Fonts are Battlefield brand typefaces, used for presentation only.</p>
@@ -107,7 +108,7 @@
       <button id="recorderClose" class="about-close" aria-label="Close">&times;</button>
     </div>
     <div class="about-body">
-      <p><b>BF6_SFX</b> is the in-game Portal experience used to capture everything on this site. It reads the SDK asset list at runtime and gives you an on-screen menu to audition and record every <code>SFX_</code> sound and announcer <code>PlayVO</code> line. Grab it and play with the exact menu the library was built with.</p>
+      <p><b>BF6_SFX</b> is the in-game Portal experience used for the original recordings, including the announcer lines and the SFX still marked <b>recorded</b>. It reads the SDK asset list at runtime and gives you an on-screen menu to audition and record every <code>SFX_</code> sound and announcer <code>PlayVO</code> line.</p>
       <p style="text-align:center;margin:18px 0">
         <a class="dl-cta" href="BF6_SFX.json" download="BF6_SFX.json">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -268,6 +269,6 @@
 <script src="config.js"></script>
 <script src="https://unpkg.com/wavesurfer.js@7"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="app.js?v=19"></script>
+<script src="app.js?v=20"></script>
 </body>
 </html>
